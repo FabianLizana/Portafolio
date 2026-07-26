@@ -1,0 +1,62 @@
+---
+import { Globe, Bot, Cog, GraduationCap, MessageCircle, Check } from 'lucide-astro';
+import { site } from '../data/site';
+
+const servicios = [
+  {
+    icon: Globe,
+    title: 'Páginas Web',
+    description: 'Sitios modernos con Astro, Tailwind y buen diseño. Desde landing pages hasta tiendas online. Rápidos, responsive, pensados para convertir visitantes en clientes.',
+    features: ['Landing pages y portafolios', 'Tiendas online básicas', 'Hosting y dominio incluidos', 'Optimización SEO'],
+  },
+  {
+    icon: Bot,
+    title: 'Chatbots Inteligentes',
+    description: 'Asistentes automatizados para WhatsApp y web que atienden a tus clientes 24/7. Responden preguntas, toman pedidos y agendan citas sin intervención humana.',
+    features: ['Chatbots para WhatsApp', 'Integración con tu web', 'Respuestas automáticas', 'Escalables sin límite'],
+  },
+  {
+    icon: Cog,
+    title: 'Automatización',
+    description: 'Procesos repetitivos que ya no deberías hacer tú. Automatizo tareas, flujos de trabajo, notificaciones y reportes para que te enfoques en lo que importa.',
+    features: ['Automatización de tareas', 'Flujos de trabajo sin código', 'Notificaciones y alertas', 'Integración con APIs'],
+  },
+  {
+    icon: GraduationCap,
+    title: 'Educación en IA',
+    description: 'Talleres y mentorías prácticas para equipos y personas que quieren entender y aplicar inteligencia artificial en su día a día laboral. Sin teoría innecesaria.',
+    features: ['Talleres prácticos para equipos', 'Introducción a IA generativa', 'Automatización con IA', 'Casos reales de negocio'],
+  },
+];
+---
+
+<section class="services-section" id="servicios" aria-labelledby="services-title">
+  <div class="shell">
+    <div class="section-heading reveal">
+      <p class="eyebrow">Lo que hago</p>
+      <div>
+        <h2 id="services-title">Servicios<br /><em>que de verdad funcionan.</em></h2>
+        <p>Cada servicio está pensado para negocios que necesitan resultados medibles, no promesas vacías.</p>
+      </div>
+    </div>
+    <div class="services-grid">
+      {servicios.map((svc, index) => (
+        <article class="service-card reveal" style={`--delay: ${index * 100}ms`}>
+          <div class="service-icon-wrap">
+            <svc.icon size={24} strokeWidth={1.5} />
+          </div>
+          <h3 class="service-title">{svc.title}</h3>
+          <p class="service-desc">{svc.description}</p>
+          <ul class="service-features" aria-label={`Características de ${svc.title}`}>
+            {svc.features.map((feat) => (
+              <li><Check size={14} strokeWidth={2.5} /> {feat}</li>
+            ))}
+          </ul>
+          <a class="service-cta" href={`https://wa.me/${site.whatsapp}?text=${encodeURIComponent(`Hola Fabian, me interesa tu servicio de ${svc.title}.`)}`} target="_blank" rel="noopener noreferrer">
+            Consultar <MessageCircle size={15} strokeWidth={1.8} />
+          </a>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

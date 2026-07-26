@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="es-CL">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b0a0d">
+<meta name="color-scheme" content="dark">
+<meta name="description" content="Carta completa de Saber De Sabor · rolls clásicos, especiales de la casa, nigiri, sashimi, vegetarianos, aperitivos, combos, bebidas y postres. Precios en CLP. Pedí por WhatsApp al +56 9 7337 1304.">
+<meta property="og:title" content="Nuestra Carta · Saber De Sabor">
+<meta property="og:description" content="Rolls frescos hechos a mano en Peñaflor. Armado a mano todos los días.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_CL">
+<title>Nuestra Carta · Saber De Sabor</title>
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230b0a0d'/%3E%3Ctext x='50%25' y='54%25' text-anchor='middle' font-family='system-ui,Arial' font-weight='900' font-size='28' fill='%23FFC93C'%3ESD%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&family=Caveat:wght@500;700&family=JetBrains+Mono:wght@500;700&display=swap">
+<link rel="stylesheet" href="shared.css">
+<script src="app.js" defer></script>
+</head>
+<body>
+<a href="#main" class="skip-link">Saltar al contenido</a>
+
+<header class="nav" role="banner">
+  <div class="nav__inner">
+    <a href="index.html" class="brand" aria-label="Saber De Sabor, ir al inicio">
+      <span class="brand__mark" aria-hidden="true">SD</span>
+      <span class="brand__name">Saber De <span>Sabor</span><small>Sushi · Peñaflor</small></span>
+    </a>
+    <nav class="nav__links" aria-label="Navegación principal">
+      <a href="index.html">Inicio</a>
+      <a href="menu.html">Menú</a>
+      <a href="contacto.html">Contacto</a>
+    </nav>
+    <div class="nav__cta">
+      <a class="btn btn--wa" href="https://wa.me/56973371304?text=Hola%2C%20quiero%20hacer%20un%20pedido">Pedir por WhatsApp</a>
+    </div>
+    <button class="nav__toggle" aria-expanded="false" aria-controls="menu-movil" aria-label="Abrir menú" data-nav-toggle>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+  <div id="menu-movil" class="mobile-menu" data-mobile-menu>
+    <a href="index.html">Inicio</a>
+    <a href="menu.html">Menú</a>
+    <a href="contacto.html">Contacto</a>
+    <a href="https://wa.me/56973371304?text=Hola%2C%20quiero%20hacer%20un%20pedido" class="btn btn--wa" style="margin-top:8px;width:fit-content">Pedir por WhatsApp</a>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- Encabezado de la carta -->
+  <section class="menu-hero" aria-labelledby="carta-title">
+    <div class="wrap">
+      <p class="reveal" style="margin-bottom:var(--s-2)">
+        <span class="roman" aria-hidden="true">N° 01 · Peñaflor</span>
+      </p>
+      <h1 id="carta-title" class="reveal" data-delay="60">Nuestra Carta</h1>
+      <p class="reveal" data-delay="120">Armamos todo a mano, todos los días. Elegí una categoría para descubrir los platos. Los precios son en pesos chilenos y pueden variar según la temporada.</p>
+    </div>
+  </section>
+
+  <!-- Hoja de carta con tabs -->
+  <section class="wrap" aria-label="Categorías de la carta">
+    <div class="carta reveal" data-tabs>
+      <!-- Encabezado decorativo -->
+      <div class="carta__head" aria-hidden="true">
+        <span class="carta__rule"></span>
+        <span class="carta__rule"></span>
+      </div>
+
+      <!-- Tabs · marcadores sobre la hoja -->
+      <div class="tabs" role="tablist" aria-label="Categorías de la carta">
+        <button role="tab" id="t-rolls"    aria-controls="p-rolls"    aria-selected="true"  class="tab" tabindex="0">Rolls Clásicos</button>
+        <button role="tab" id="t-casa"     aria-controls="p-casa"     aria-selected="false" class="tab" tabindex="-1">Especiales de la Casa</button>
+        <button role="tab" id="t-nigiri"   aria-controls="p-nigiri"   aria-selected="false" class="tab" tabindex="-1">Nigiri & Sashimi</button>
+        <button role="tab" id="t-veggie"  aria-controls="p-veggie"   aria-selected="false" class="tab" tabindex="-1">Vegetarianos</button>
+        <button role="tab" id="t-bocas"   aria-controls="p-bocas"   aria-selected="false" class="tab" tabindex="-1">Aperitivos y Bocadillos</button>
+        <button role="tab" id="t-combos"  aria-controls="p-combos"   aria-selected="false" class="tab" tabindex="-1">Combos</button>
+        <button role="tab" id="t-bebidas" aria-controls="p-bebidas"  aria-selected="false" class="tab" tabindex="-1">Bebidas</button>
+        <button role="tab" id="t-postres" aria-controls="p-postres"  aria-selected="false" class="tab" tabindex="-1">Postres</button>
+      </div>
+
+      <!-- Panel: Rolls Clásicos -->
+      <div role="tabpanel" id="p-rolls" aria-labelledby="t-rolls" class="leaf is-active">
+        <div class="leaf__face">
+          <h2 class="panel-title" aria-label="Rolls Clásicos, 8 a 10 piezas">Rolls Clásicos <span>8–10 piezas</span></h2>
+          <article class="dish">
+            <div class="dish__img"><img src="mrii22gr-463441249_2845327192309272_7736308246185977727_n.jpg" alt="California Roll" loading="lazy"></div>
+            <div class="dish__body">
+              <h3 class="dish__name">California Roll <span class="pieces">8 pz</span></h3>
+              <p class="dish__desc">Kanikama, palta y pepino. El que nunca falla.</p>
+            </div>
+            <div class="dish__price"><span class="currency">$</span>4.500</div>
+          </article>
+          <article class="dish">
+            <div class="dish__img"><img src="mrii22h0-463441559_2845327182309273_3074177726523628836_n.jpg" alt="Salmón Roll" loading="lazy"></div>
+            <div class="dish__body">
+              <h3 class="dish__name">Salmón Roll <span class="pieces">8 pz</span></h3>
+              <p class="dish__desc">Salmón fresco, queso crema y cebollín. Suavecito.</p>
+            </div>
+            <div class="dish__price"><span class="currency">$</span>5.500</div>
+          </article>
+          <article class="dish">
+            <div class="dish__img"><img src="mrii22h7-463477022_2845327195642605_8163135955085002409_n.jpg" alt="Ebi Roll" loading="lazy"></div>
+            <div class="dish__body">
+              <h3 class="dish__name">Ebi Roll <span class="pieces">8 pz</span></h3>
+              <p class="dish__desc">Camarón furai, palta y panko crocante.</p>
+            </div>
+            <div class="dish__price"><span class="currency">$</span>5.900</div>
+          </article>
+        </div>
+      </div>
+
+      <!-- Panel: Especiales de la Casa -->
+      <div role="tabpanel" id="p-casa" aria-labelledby="t-casa" class="leaf" hidden>
+        <div class="leaf__face">
+          <h2 class="panel-title">Especiales de la Casa</h2>
+          <article class="dish">
+            <div class="dish__img"><img src="mrii22hi-463603064_2845327185642606_1145898549566183296_n.jpg" alt="Dragon Roll" loading="lazy"></div>
+            <div class="dish__body">
+              <h3 class="dish__name">Dragon Roll <span class="pieces">8 pz</span></h3>
+              <p class="dish__desc">Camarón tempura, palta laminada y salsa unagi. El dragón del local.</p>
+            </div>
+            <div class="dish__price"><span class="currency">$</span>7.900</div>
+          </article>
+          <article class="dish">
+            <div class="dish__img"><img src="mrii22hp-463626169_2845327295642595_575059481287354684_n.jpg" alt="Volcán Peñaflor" loading="lazy"></div>
+            <div class="dish__body">
+              <h3 class="dish__name">Volcán Peñaflor <span class="pieces">8 pz</span> <span class="badge badge--reco">Recomendado</span></h3>
+              <p class="dish__desc">Salmón flambeado, queso crema, cebollín crocante y salsa acevichada. Sale caliente.</p>
+            </div>
+            <div class="dish__price"><span class="currency">$</span>8.500</div>
+          </article>
+          <article class="dish">
+            <div class="dish__img"><img src="mrii22hv-463627360_2845327312309260_5047908826320781423_n.jpg" alt="Rainbow Roll" loading="lazy"></div>
+            <div class="dish__body">
+              <h3 class="dish__name">Rainbow Roll <span class="pieces">8 pz</span></h3>
+              <p class="dish__desc">Surtido de pescados frescos sobre un roll California.</p>
+            </div>
+            <div class="dish__price"><span class="currency">$</span>8.900</div>
+          </article>
+        </div>
+      </div>
+
+      <!-- Panel: Nigiri & Sashimi -->
+      <div role="tabpanel" id="p-nigiri" aria-labelledby="t-nigiri" class="leaf" hidden>
+        <div class="leaf__face">
+          <h2 class="panel-title">Nigiri & Sashimi</h2>
+          <article class="dish">
+            <div class="dish__img"><img src="mrii22i2-463708433_2845327168975941_7366968237302627212_n.jpg" alt="Nigiri de Salmón" loading="lazy"></div>
+            <div class="dish__body">
+              <h3 class="dish__name">Nigiri de Salmón <span class="pieces">2 pz</span></h3>
+              <p class="dish__desc">Arroz prensado a mano con lámina de salmón fresco.</p>
+            </div>
+            <div class="dish__price"><span class="currency">$</span>2.500</div>
+          </article>
+          <article class="dish">
+            <div class="dish__img"><img src="mrii22id-505835277_3088393378002651_652058492661916053_n.jpg" alt="Sashimi Mixto" loading="lazy"></div>
+            <div class="dish__body">
+              <h3 class="dish__name">Sashimi Mixto <span class="pieces">10 láminas</span></h3>
+              <p class="dish__desc">Salmón, atún y blanco del día. Para los que gustan del pescado solo.</p>
+            </div>
+            <div class="dish__price"><span class="currency">$</span>9.500</div>
+          </article>
+        </div>
+      </div>
+
+      <!-- Panel: Vegetarianos -->
+      <div role="tabpanel" id="p-veggie" aria-labelledby="t-veggie" class="leaf" hidden>
+        <div class="leaf__face">
+          <h2 class="panel-title">Vegetarianos</h2>
+          <article class="dish">
+            <div class="dish__img"><img src="mrii22fe-01.jpg" alt="Roll Palta-Queso" loading="lazy"></div>
+            <div class="dish__body">
+              <h3 class="dish__name">Roll Palta-Queso <span class="pieces">8 pz</span></h3>
+              <p class="dish__desc">Palta y queso crema. Cremosito y simple.</p>
+            </div>
+            <div class="dish__price"><span class="currency">$</span>4.000</div>
+          </article>
+          <article class="dish">
+            <div class="dish__img"><img src="mrii22ft-02.jpg" alt="Roll Vegetariano Crocante" loading="lazy"></div>
+            <div class="dish__body">
+              <h3 class="dish__name">Roll Vegetariano Crocante <span class="pieces">8 pz</span></h3>
+              <p class="dish__desc">Verduritas rebozadas en panko. Crujiente y liviano.</p>
+            </div>
+            <div class="dish__price"><span class="currency">$</span>4.500</div>
+          </article>
+        </div>
+      </div>
+
+      <!-- Panel: Aperitivos y Bocadillos -->
+      <div role="tabpanel" id="p-bocas" aria-labelledby="t-bocas" class="leaf" hidden>
+        <div class="leaf__face">
+          <h2 class="panel-title">Aperitivos y Bocadillos</h2>
+          <article class="dish">
+            <div class="dish__img"><img src="mrii22g3-03.jpg" alt="Gyozas" loading="lazy"></div>
+            <div class="dish__body">
+              <h3 class="dish__name">Gyozas <span class="pieces">5 uds</span></h3>
+              <p class="dish__desc">Empanaditas japonesas al vapor y sartén. Salsa de soya aparte.</p>
+            </div>
+            <div class="dish__price"><span class="currency">$</span>3.500</div>
+          </article>
+          <article class="dish">
+            <div class="dish__img"><img src="mrii22gl-04.jpg" alt="Tempura de Camarón" loading="lazy"></div>
+            <div class="dish__body">
+              <h3 class="dish__name">Tempura de Camarón <span class="pieces">6 uds</span></h3>
+              <p class="dish__desc">Camarones rebozados en tempura. Crujiente por fuera, jugosos por dentro.</p>
+            </div>
+            <div class="dish__price"><span class="currency">$</span>4.900</div>
+          </article>
+          <article class="dish">
+            <div class="dish__img"><img src="mrii22fe-01.jpg" alt="Edamame" loading="lazy"></div>
+            <div class="dish__body">
+              <h3 class="dish__name">Edamame <span class="pieces">tazón</span></h3>
+              <p class="dish__desc">Habas de soya al vapor con sal de mar. Para picar sin culpa.</p>
+            </div>
+            <div class="dish__price"><span class="currency">$</span>2.500</div>
+          </article>
+        </div>
+      </div>
+
+      <!-- Panel: Combos -->
+      <div role="tabpanel" id="p-combos" aria-labelledby="t-combos" class="leaf" hidden>
+        <div class="leaf__face">
+          <h2 class="panel-title">Combos</h2>
+          <article class="dish">
+            <div class="dish__img"><img src="mrii22ft-02.jpg" alt="Combo Individual" loading="lazy"></div>
+            <div class="dish__body">
+              <h3 class="dish__name">Combo Individual <span class="pieces">15 pz + bebida</span> <span class="badge badge--promo">Promo</span></h3>
+              <p class="dish__desc">15 piezas a elección entre rolls clásicos y especiales, más una bebida en lata.</p>
+            </div>
+            <div class="dish__price"><span class="currency">$</span>8.900</div>
+          </article>
+          <article class="dish">
+            <div class="dish__img"><img src="mrii22g3-03.jpg" alt="Combo Familiar" loading="lazy"></div>
+            <div class="dish__body">
+              <h3 class="dish__name">Combo Familiar <span class="pieces">40 pz + 2 bebidas</span> <span class="badge badge--new">Más pedido</span></h3>
+              <p class="dish__desc">40 piezas para compartir: California, Salmón, Ebi y más, con dos bebidas.</p>
+            </div>
+            <div class="dish__price"><span class="currency">$</span>19.900</div>
+          </article>
+        </div>
+      </div>
+
+      <!-- Panel: Bebidas -->
+      <div role="tabpanel" id="p-bebidas" aria-labelledby="t-bebidas" class="leaf" hidden>
+        <div class="leaf__face">
+          <h2 class="panel-title">Bebidas</h2>
+          <article class="dish">
+            <div class="dish__img"><img src="mrii22gl-04.jpg" alt="Bebidas en lata" loading="lazy"></div>
+            <div class="dish__body">
+              <h3 class="dish__name">Bebidas en lata</h3>
+              <p class="dish__desc">Surtido: cola, naranja, lima-limón y Sprite. Pedí la que gustes.</p>
+            </div>
+            <div class="dish__price"><span class="currency">$</span>1.500</div>
+          </article>
+          <article class="dish">
+            <div class="dish__img"><img src="mrii22fe-01.jpg" alt="Té Verde" loading="lazy"></div>
+            <div class="dish__body">
+              <h3 class="dish__name">Té Verde</h3>
+              <p class="dish__desc">Té verde japonés caliente. Va bien con cualquier roll.</p>
+            </div>
+            <div class="dish__price"><span class="currency">$</span>1.000</div>
+          </article>
+        </div>
+      </div>
+
+      <!-- Panel: Postres -->
+      <div role="tabpanel" id="p-postres" aria-labelledby="t-postres" class="leaf" hidden>
+        <div class="leaf__face">
+          <h2 class="panel-title">Postres</h2>
+          <article class="dish">
+            <div class="dish__img"><img src="mrii22ft-02.jpg" alt="Cheesecake de Maracuyá" loading="lazy"></div>
+            <div class="dish__body">
+              <h3 class="dish__name">Cheesecake de Maracuyá</h3>
+              <p class="dish__desc">Base crocante, crema suave y coulis de maracuyá ácido.</p>
+            </div>
+            <div class="dish__price"><span class="currency">$</span>3.500</div>
+          </article>
+          <article class="dish">
+            <div class="dish__img"><img src="mrii22g3-03.jpg" alt="Mochi Helado" loading="lazy"></div>
+            <div class="dish__body">
+              <h3 class="dish__name">Mochi Helado <span class="pieces">2 uds</span></h3>
+              <p class="dish__desc">Dos mochis rellenos de helado. Sabores del día.</p>
+            </div>
+            <div class="dish__price"><span class="currency">$</span>3.000</div>
+          </article>
+        </div>
+      </div>
+
+      <!-- Pie de la hoja -->
+      <p class="carta__foot">Los precios incluyen IVA. Combos Individual y Familiar ya incluyen bebida. Si tenés alergia o intolerancia, avisános por WhatsApp.</p>
+    </div>
+
+    <!-- Sentinel para el sticky CTA -->
+    <div data-cta-sentinel aria-hidden="true" style="height:1px"></div>
+  </section>
+
+</main>
+
+<!-- CTA flotante (aparece al hacer scroll fuera del hero) -->
+<a class="sticky-cta" href="https://wa.me/56973371304?text=Hola%2C%20acabo%20de%20ver%20la%20carta%20y%20quiero%20pedir" rel="noopener" aria-label="Pedir por WhatsApp">
+  <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M20.52 3.48A11.94 11.94 0 0 0 12 0C5.37 0 0 5.37 0 12a11.9 11.9 0 0 0 1.6 6L0 24l6.2-1.6A12 12 0 0 0 12 24c6.63 0 12-5.37 12-12 0-3.2-1.3-6.1-3.48-8.52ZM12 22a10 10 0 0 1-5.1-1.4l-.4-.2-3.7 1 1-3.6-.2-.4A10 10 0 1 1 22 12a10 10 0 0 1-10 10Z"/></svg>
+  Pedir por WhatsApp
+</a>
+
+<!-- Footer -->
+<footer class="footer" role="contentinfo">
+  <div class="wrap">
+    <div class="footer__grid">
+      <div class="footer__brand">
+        <span class="brand" style="margin-bottom:14px"><span class="brand__mark" aria-hidden="true">SD</span><span class="brand__name">Saber De <span>Sabor</span></span></span>
+        <p>Un sushi bar chico, hecho a mano, abierto en Peñaflor para gente que prefiere la comida rica por encima de las modas de las redes.</p>
+      </div>
+      <div>
+        <h4>Navegación</h4>
+        <ul style="list-style:none;padding:0;display:grid;gap:8px">
+          <li><a href="index.html">Inicio</a></li>
+          <li><a href="menu.html">Menú completo</a></li>
+          <li><a href="contacto.html">Contacto y horarios</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contacto</h4>
+        <address style="font-style:normal">
+          <p>Malloquito 1985, Local B<br>Peñaflor, RM</p>
+          <p><a href="https://wa.me/56973371304" rel="noopener">+56 9 7337 1304</a></p>
+        </address>
+      </div>
+      <div>
+        <h4>Seguinos</h4>
+        <ul class="socials" aria-label="Redes sociales">
+          <li><a href="https://instagram.com/saberde.sabor" aria-label="Instagram" rel="noopener" target="_blank"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></a></li>
+          <li><a href="https://tiktok.com/@saberde.sabor" aria-label="TikTok" rel="noopener" target="_blank"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16 3v3.2a4 4 0 0 0 3 3.8v3.2a7 7 0 0 1-3-.7v4.5a6 6 0 1 1-6-6v3.2a3 3 0 1 0 3 3V3h3Z"/></svg></a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <p>© <span data-year>2026</span> Saber De Sabor · Peñaflor, Chile</p>
+      <p>Construido con cariño por gente que come sushi todos los viernes.</p>
+    </div>
+  </div>
+</footer>
+
+<noscript>
+  <p style="background:#FFC93C;color:#1a1208;padding:12px;text-align:center;font-weight:700">
+    Para pedir, escribinos por WhatsApp al +56 9 7337 1304. La carta completa funciona mejor con JavaScript activado.
+  </p>
+</noscript>
+
+</body>
+</html>

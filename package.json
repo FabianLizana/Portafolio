@@ -1,0 +1,27 @@
+{
+  "name": "nuevo-portfolio",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "sync:sushi": "node scripts/sync-sushi-demo.mjs",
+    "dev": "npm run sync:sushi && astro dev",
+    "build": "npm run sync:sushi && astro check && astro build",
+    "check": "astro check",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "@fontsource-variable/manrope": "^5.2.8",
+    "@fontsource-variable/sora": "^5.3.0",
+    "@fontsource-variable/space-grotesk": "^5.2.8",
+    "@tailwindcss/vite": "^4.3.2",
+    "astro": "^7.0.9",
+    "astro-og-canvas": "^0.13.0",
+    "lucide-astro": "^0.468.0",
+    "tailwindcss": "^4.3.2"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.4",
+    "typescript": "^5.7.2"
+  }
+}

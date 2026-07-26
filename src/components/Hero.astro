@@ -1,0 +1,30 @@
+---
+import { ArrowDownRight, MessageCircle } from 'lucide-astro';
+import { site } from '../data/site';
+---
+
+<section class="hero" id="inicio" aria-labelledby="hero-title">
+  <div class="hero-mesh" aria-hidden="true"></div>
+  <div class="hero-grid" aria-hidden="true"></div>
+  <div class="hero-photo-wrap" aria-hidden="true">
+    <img class="hero-photo" src="/foto-hero.jpg" alt="" />
+  </div>
+  <div class="hero-content shell">
+    <p class="eyebrow reveal">Disponible para colaborar <span></span> Chile / LATAM</p>
+    <h1 id="hero-title" class="hero-title">
+      <span class="reveal reveal-delay-1">Webs que venden.</span>
+      <span class="reveal reveal-delay-2 accent-word">Bots que atienden.</span>
+      <span class="reveal reveal-delay-3">IA que transforma.</span>
+    </h1>
+    <p class="hero-copy reveal reveal-delay-4">
+      Soy Fabian, construyo soluciones digitales para negocios que quieren resultados reales — no solo diseño bonito.
+      <br><br>
+      <strong class="hero-tagline">Páginas web · Automatización · Chatbots · Educación IA</strong>
+    </p>
+    <div class="hero-actions reveal reveal-delay-4">
+      <a class="button button-primary" href="#servicios">Ver servicios <ArrowDownRight size={18} strokeWidth={1.8} /></a>
+      <a class="text-link" href={`https://wa.me/${site.whatsapp}?text=${encodeURIComponent('Hola Fabian, vi tu portafolio y me gustaría conversar sobre un proyecto.')}`} target="_blank" rel="noopener noreferrer">Conversemos por WhatsApp <MessageCircle size={17} strokeWidth={1.8} /></a>
+    </div>
+  </div>
+  <p class="hero-index" aria-hidden="true">01 <span>/</span> 03</p>
+</section>
