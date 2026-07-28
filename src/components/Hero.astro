@@ -1,5 +1,5 @@
 ---
-import { ArrowDownRight, MessageCircle } from 'lucide-astro';
+import { ArrowDownRight, MessageCircle, Mail } from 'lucide-astro';
 import { site } from '../data/site';
 ---
 
@@ -22,8 +22,9 @@ import { site } from '../data/site';
       <strong class="hero-tagline">Páginas web · Automatización · Chatbots · Educación IA</strong>
     </p>
     <div class="hero-actions reveal reveal-delay-4">
-      <a class="button button-primary" href="#servicios">Ver servicios <ArrowDownRight size={18} strokeWidth={1.8} /></a>
-      <a class="text-link" href={`https://wa.me/${site.whatsapp}?text=${encodeURIComponent('Hola Fabian, vi tu portafolio y me gustaría conversar sobre un proyecto.')}`} target="_blank" rel="noopener noreferrer">Conversemos por WhatsApp <MessageCircle size={17} strokeWidth={1.8} /></a>
+      <a class="button button-primary" href={`mailto:${site.email}?subject=${encodeURIComponent('Hola Fabian, vi tu portafolio y me gustaría conversar sobre un proyecto')}`}>Escríbeme un correo <Mail size={18} strokeWidth={1.8} /></a>
+      <a class="text-link" href={`https://wa.me/${site.whatsapp}?text=${encodeURIComponent('Hola Fabian, vi tu portafolio y me gustaría conversar sobre un proyecto.')}`} target="_blank" rel="noopener noreferrer">o por WhatsApp <MessageCircle size={17} strokeWidth={1.8} /></a>
+      <a class="text-link" href="#servicios">Ver servicios <ArrowDownRight size={17} strokeWidth={1.8} /></a>
     </div>
   </div>
   <p class="hero-index" aria-hidden="true">01 <span>/</span> 03</p>

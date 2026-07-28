@@ -1,5 +1,5 @@
 ---
-import { Menu, X, ArrowUpRight, MessageCircle } from 'lucide-astro';
+import { Menu, X, ArrowUpRight, MessageCircle, Mail } from 'lucide-astro';
 import '../styles/global.css';
 import { site } from '../data/site';
 
@@ -36,6 +36,7 @@ const canonical = new URL(Astro.url.pathname, site.url).toString();
           <a href="#inicio">Inicio</a>
           <a href="#servicios">Servicios</a>
           <a href="#paginas-web">Proyectos</a>
+          <a class="nav-mail" href={`mailto:${site.email}`}>Correo <Mail size={14} /></a>
           <a href={`https://wa.me/${site.whatsapp}?text=${encodeURIComponent('Hola Fabian, vi tu portafolio y me gustaría conversar sobre un proyecto.')}`} target="_blank" rel="noopener noreferrer">WhatsApp <MessageCircle size={14} /></a>
         </nav>
         <button class="menu-toggle" type="button" aria-label="Abrir menú" aria-expanded="false" data-menu-toggle><Menu class="menu-icon" size={22} /><X class="close-icon" size={22} /></button>
@@ -44,13 +45,14 @@ const canonical = new URL(Astro.url.pathname, site.url).toString();
         <a href="#inicio">Inicio</a>
         <a href="#servicios">Servicios</a>
         <a href="#paginas-web">Proyectos</a>
+        <a href={`mailto:${site.email}`}>Correo</a>
         <a href={`https://wa.me/${site.whatsapp}?text=${encodeURIComponent('Hola Fabian, vi tu portafolio y me gustaría conversar sobre un proyecto.')}`} target="_blank" rel="noopener noreferrer">WhatsApp</a>
       </nav>
     </header>
     <main><slot /></main>
     <footer class="site-footer">
       <div class="shell footer-inner">
-        <p>¿Tienes un proyecto en mente? <a href={`https://wa.me/${site.whatsapp}?text=${encodeURIComponent('Hola Fabian, vi tu portafolio y quiero hacer una consulta.')}`} target="_blank" rel="noopener noreferrer">Hablemos por WhatsApp</a></p>
+        <p>¿Tienes un proyecto en mente? <a href={`mailto:${site.email}?subject=${encodeURIComponent('Hola Fabian, vi tu portafolio y quiero hacer una consulta')}`}>Escríbeme un correo</a> · o <a href={`https://wa.me/${site.whatsapp}?text=${encodeURIComponent('Hola Fabian, vi tu portafolio y quiero hacer una consulta.')}`} target="_blank" rel="noopener noreferrer">hablemos por WhatsApp</a></p>
         <div><a href={site.social.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a><a href={`mailto:${site.email}`}>Correo</a></div>
         <a href="#inicio" aria-label="Volver al inicio">Volver arriba <ArrowUpRight size={15} /></a>
       </div>

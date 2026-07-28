@@ -1,5 +1,5 @@
 ---
-import { Globe, Bot, Cog, GraduationCap, MessageCircle, Check } from 'lucide-astro';
+import { Globe, Bot, Cog, GraduationCap, MessageCircle, Mail, Check } from 'lucide-astro';
 import { site } from '../data/site';
 
 const servicios = [
@@ -52,9 +52,14 @@ const servicios = [
               <li><Check size={14} strokeWidth={2.5} /> {feat}</li>
             ))}
           </ul>
-          <a class="service-cta" href={`https://wa.me/${site.whatsapp}?text=${encodeURIComponent(`Hola Fabian, me interesa tu servicio de ${svc.title}.`)}`} target="_blank" rel="noopener noreferrer">
-            Consultar <MessageCircle size={15} strokeWidth={1.8} />
-          </a>
+          <div class="service-cta-wrap">
+            <a class="service-cta" href={`mailto:${site.email}?subject=${encodeURIComponent(`Hola Fabian, me interesa tu servicio de ${svc.title}.`)}`}>
+              Consultar <Mail size={15} strokeWidth={1.8} />
+            </a>
+            <a class="service-cta-alt" href={`https://wa.me/${site.whatsapp}?text=${encodeURIComponent(`Hola Fabian, me interesa tu servicio de ${svc.title}.`)}`} target="_blank" rel="noopener noreferrer">
+              o WhatsApp <MessageCircle size={15} strokeWidth={1.8} />
+            </a>
+          </div>
         </article>
       ))}
     </div>
