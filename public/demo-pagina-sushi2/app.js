@@ -59,25 +59,6 @@ if(toggle && drawer){
   });
 }
 
-/* Lottie delivery · el web component se reproduce solo con autoplay.
-   Aquí solo esperamos a que esté definido para hidratar el atributo de
-   accesibilidad y desconectar el observer; nada más. */
-const player = document.querySelector('[data-lottie]');
-if(player && 'IntersectionObserver' in window){
-  const io = new IntersectionObserver((entries)=>{
-    for(const e of entries){
-      if(!e.isIntersecting) continue;
-      io.disconnect();
-      customElements.whenDefined('dotlottie-player').then(()=>{
-        const el = player; // ya está, sólo hidratamos a11y
-        if(!el.hasAttribute('aria-hidden')) el.setAttribute('aria-hidden','false');
-      }).catch(()=>{ /* el navegador ignora el custom element si falla */ });
-      break;
-    }
-  },{rootMargin:'200px'});
-  io.observe(player);
-}
-
 /* Tabs de la carta · navegación por teclado + ARIA */
 const tabsRoot = document.querySelector('[data-tabs]');
 if(tabsRoot){

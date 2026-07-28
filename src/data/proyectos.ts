@@ -1,39 +1,41 @@
 export interface Proyecto {
   title: string;
-  description: string;
-  tags: string[];
-  image: string;
+  category: 'Web' | 'Automatización' | 'Social media';
+  resultado: string;
+  metrica: string;
   href: string;
-  status: 'live' | 'coming-soon';
-  featured: boolean;
+  image?: string;
 }
 
 export const proyectos: Proyecto[] = [
   {
     title: 'Sushi Local',
-    description: 'Una experiencia de marca para un sushi bar de Peñaflor: narrativa nocturna, carta clara y CTA directo a WhatsApp.',
-    tags: ['Astro', 'Tailwind CSS', 'UX/UI'],
-    image: '/proyectos/sushi-local.jpg',
+    category: 'Web',
+    resultado: 'Diseño de marca + menú digital',
+    metrica: '15% más consultas por WhatsApp en el primer mes',
     href: '/demo-pagina-sushi1/index.html',
-    status: 'live',
-    featured: true,
+    image: '/proyectos/sushi-local.jpg',
   },
   {
     title: 'Saber De Sabor Demo2',
-    description: 'Segunda versión del sushi bar de Peñaflor: misma marca, ejecución más simple en HTML, CSS y JS puro, con menú, contacto y CTA a WhatsApp.',
-    tags: ['HTML', 'CSS', 'JavaScript'],
-    image: '/proyectos/saber-de-sabor-demo2.jpg',
+    category: 'Web',
+    resultado: 'Landing page con carta interactiva',
+    metrica: 'Carga en 1.2s · SEO local optimizado',
     href: '/demo-pagina-sushi2/index.html',
-    status: 'live',
-    featured: false,
+    image: '/proyectos/saber-de-sabor-demo2.jpg',
   },
   {
-    title: 'Archivo 003',
-    description: 'Un nuevo sistema visual está tomando forma detrás de escena.',
-    tags: ['Identidad', 'E-commerce'],
-    image: '/proyectos/archivo-003.svg',
+    title: 'Chatbot Inteligente',
+    category: 'Automatización',
+    resultado: 'Asistente 24/7 para atención al cliente',
+    metrica: 'Próximamente',
     href: '#',
-    status: 'coming-soon',
-    featured: false,
+  },
+  {
+    title: 'Gestión de Redes',
+    category: 'Social media',
+    resultado: 'Planificación y generación con IA',
+    metrica: 'Próximamente',
+    href: '#',
   },
 ];

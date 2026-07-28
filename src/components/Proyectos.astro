@@ -1,0 +1,383 @@
+---
+import { proyectos } from '../data/proyectos';
+const categorias = ['Todos', ...new Set(proyectos.map((p) => p.category))];
+---
+
+<section class="proyectos-section" id="paginas-web" aria-labelledby="proyectos-title">
+  <div class="shell">
+    <div class="section-heading reveal">
+      <p class="eyebrow">Portafolio</p>
+      <div>
+        <h2 id="proyectos-title">Proyectos<br /><em>que entregan resultados.</em></h2>
+        <p>Casos reales y conceptos en desarrollo. Cada card cuenta un resultado concreto.</p>
+      </div>
+    </div>
+
+    <nav class="filtros reveal" aria-label="Filtrar proyectos por categoría">
+      {categorias.map((cat) => (
+        <button class="filtro-btn" class:list={{ 'is-active': cat === 'Todos' }} data-filter={cat === 'Todos' ? 'all' : cat} type="button">{cat}</button>
+      ))}
+    </nav>
+
+    <div class="proyectos-grid reveal" data-proyectos-grid>
+      {proyectos.map((p) => (
+        <a
+          class="proyecto-card"
+          href={p.href}
+          data-category={p.category}
+          target={p.href === '#' ? undefined : '_blank'}
+          rel={p.href === '#' ? undefined : 'noopener noreferrer'}
+          tabindex="0"
+        >
+          <div class="card-front" style={p.image ? `background-image: url(${p.image})` : undefined}>
+            <div class="card-front-overlay" aria-hidden="true"></div>
+            <span class="card-category">{p.category}</span>
+            <span class="card-title">{p.title}</span>
+          </div>
+          <div class="card-back" class:list={[`cat-${p.category.toLowerCase().replace(/\s+/g, '-')}`, { 'is-placeholder': p.href === '#' }]}>
+            {p.category === 'Automatización' ? (
+              <div class="diagram-flow">
+                <div class="flow-row">
+                  <div class="flow-box box-lead">Lead<br/>llega</div>
+                  <div class="flow-connector">
+                    <div class="flow-line"></div>
+                    <div class="flow-dot" style="--i: 0; --dot-color: #52f3de"></div>
+                  </div>
+                  <div class="flow-box box-ia">IA<br/>clasifica</div>
+                  <div class="flow-connector">
+                    <div class="flow-line"></div>
+                    <div class="flow-dot" style="--i: 1; --dot-color: #4cd964"></div>
+                  </div>
+                  <div class="flow-box box-wa">WhatsApp</div>
+                  <div class="flow-connector">
+                    <div class="flow-line"></div>
+                    <div class="flow-dot" style="--i: 2; --dot-color: #c5fa67"></div>
+                  </div>
+                  <div class="flow-box box-agenda">Agenda</div>
+                </div>
+              </div>
+            ) : (
+              <>
+                <span class="card-back-label">Resultado</span>
+                <span class="card-back-text">{p.resultado}</span>
+                <span class="card-back-metric">{p.metrica}</span>
+              </>
+            )}
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .proyectos-section {
+    position: relative;
+    padding: 100px 0 110px;
+    background: linear-gradient(170deg, #0c0e12 0%, var(--ink) 72%);
+    border-top: 1px solid var(--line);
+  }
+
+  .filtros {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-bottom: 2.2rem;
+  }
+
+  .filtro-btn {
+    padding: 0.45rem 1rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--muted);
+    background: transparent;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    cursor: pointer;
+    transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+  }
+
+  .filtro-btn:hover {
+    color: var(--paper);
+    border-color: rgba(255, 255, 255, 0.25);
+  }
+
+  .filtro-btn.is-active {
+    color: #07100f;
+    background: var(--cyan);
+    border-color: var(--cyan);
+  }
+
+  .proyectos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1rem;
+  }
+
+  .proyecto-card {
+    position: relative;
+    height: 200px;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    cursor: pointer;
+    display: block;
+    background: rgba(255, 255, 255, 0.028);
+    transition: border-color 0.32s ease, transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.4s ease;
+  }
+
+  .proyecto-card:hover,
+  .proyecto-card:focus-visible {
+    transform: translateY(-4px);
+    border-color: rgba(82, 243, 222, 0.4);
+    box-shadow: 0 18px 50px rgba(0, 0, 0, 0.25);
+    outline: none;
+  }
+
+  .card-front,
+  .card-back {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1.2rem;
+    text-align: center;
+    transition: opacity 0.35s ease, transform 0.35s ease;
+  }
+
+  .card-front {
+    opacity: 1;
+    transform: translateY(0);
+    z-index: 1;
+    background-size: cover;
+    background-position: center;
+  }
+
+  .card-front-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(9, 10, 13, 0.55) 0%, rgba(9, 10, 13, 0.82) 100%);
+    z-index: 0;
+  }
+
+  .card-front > *:not(.card-front-overlay) {
+    position: relative;
+    z-index: 1;
+  }
+
+  .proyecto-card:hover .card-front,
+  .proyecto-card:focus-visible .card-front {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+
+  .card-category {
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.4rem;
+  }
+
+  .card-title {
+    font-family: 'Sora Variable', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--paper);
+    line-height: 1.2;
+  }
+
+  .card-back {
+    opacity: 0;
+    transform: translateY(12px);
+    z-index: 2;
+    color: var(--paper);
+  }
+
+  .proyecto-card:hover .card-back,
+  .proyecto-card:focus-visible .card-back {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .cat-web {
+    background: linear-gradient(145deg, #0f2640, #162d4a);
+  }
+
+  .cat-automatizacion {
+    background: linear-gradient(145deg, #0f2a1a, #163d24);
+  }
+
+  .cat-social-media {
+    background: linear-gradient(145deg, #1f1038, #2d164a);
+  }
+
+  .card-back-label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.5);
+    margin-bottom: 0.5rem;
+  }
+
+  .card-back-text {
+    font-family: 'Sora Variable', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    line-height: 1.25;
+    margin-bottom: 0.5rem;
+  }
+
+  .card-back-metric {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.3;
+  }
+
+  .is-placeholder .card-back-label,
+  .is-placeholder .card-back-text,
+  .is-placeholder .card-back-metric {
+    opacity: 0.5;
+  }
+
+  /* ── Diagrama de flujo (Automatización) ── */
+  .diagram-flow {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+  }
+
+  .flow-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    gap: 0;
+  }
+
+  .flow-box {
+    flex: 1 1 0%;
+    min-width: 0;
+    padding: 5px 3px;
+    border: 1px solid;
+    border-radius: 6px;
+    font-size: 9px;
+    font-weight: 600;
+    line-height: 1.2;
+    text-align: center;
+    letter-spacing: 0.01em;
+    background: rgba(255, 255, 255, 0.04);
+  }
+
+  .box-lead { border-color: rgba(197, 162, 103, 0.5); color: #d4a857; }
+  .box-ia { border-color: rgba(82, 243, 222, 0.5); color: var(--cyan); }
+  .box-wa { border-color: rgba(76, 217, 100, 0.5); color: #4cd964; }
+  .box-agenda { border-color: rgba(197, 250, 103, 0.5); color: var(--lime); }
+
+  .flow-connector {
+    flex: 0 0 14px;
+    height: 2px;
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .flow-line {
+    width: 100%;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 1px;
+  }
+
+  .flow-dot {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 6px;
+    height: 6px;
+    margin-top: -3px;
+    border-radius: 50%;
+    background: var(--dot-color, var(--cyan));
+    offset-path: path('M 0,0 L 14,0');
+    offset-distance: 0%;
+    animation: flowTravel 2s ease-in-out infinite;
+    animation-play-state: paused;
+    animation-delay: calc(var(--i) * 2s);
+  }
+
+  .proyecto-card:hover .flow-dot,
+  .proyecto-card:focus-visible .flow-dot {
+    animation-play-state: running;
+  }
+
+  @keyframes flowTravel {
+    0% { offset-distance: 0%; opacity: 0; }
+    12% { offset-distance: 0%; opacity: 1; }
+    45% { offset-distance: 45%; opacity: 1; }
+    55% { offset-distance: 55%; opacity: 1; }
+    88% { offset-distance: 100%; opacity: 1; }
+    100% { offset-distance: 100%; opacity: 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .flow-dot {
+      animation: none;
+      display: none;
+    }
+  }
+
+  @media (min-width: 700px) {
+    .proyectos-section {
+      padding: 140px 0;
+    }
+
+    .proyectos-grid {
+      gap: 1.25rem;
+    }
+
+    .filtros {
+      margin-bottom: 2.8rem;
+    }
+  }
+
+  @media (min-width: 900px) {
+    .proyectos-grid {
+      gap: 1.5rem;
+    }
+  }
+</style>
+
+<script>
+  const grid = document.querySelector('[data-proyectos-grid]');
+  const btns = document.querySelectorAll<HTMLButtonElement>('.filtro-btn');
+
+  if (grid && btns.length > 0) {
+    const cards = grid.querySelectorAll<HTMLElement>('.proyecto-card');
+
+    btns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        btns.forEach((b) => b.classList.remove('is-active'));
+        btn.classList.add('is-active');
+
+        const filter = btn.getAttribute('data-filter');
+
+        cards.forEach((card) => {
+          if (filter === 'all' || card.getAttribute('data-category') === filter) {
+            card.style.display = 'block';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      });
+    });
+  }
+</script>
