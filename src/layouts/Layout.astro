@@ -16,6 +16,8 @@ const canonical = new URL(Astro.url.pathname, site.url).toString();
     <meta name="theme-color" content="#090a0d" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="canonical" href={canonical} />
+    <link rel="preload" href="/foto-hero.webp" as="image" fetchpriority="high" type="image/webp" />
+    <link rel="preload" href="/foto-hero-opt.jpg" as="image" fetchpriority="high" type="image/jpeg" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />

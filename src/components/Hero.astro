@@ -7,7 +7,11 @@ import { site } from '../data/site';
   <div class="hero-mesh" aria-hidden="true"></div>
   <div class="hero-grid" aria-hidden="true"></div>
   <div class="hero-photo-wrap" aria-hidden="true">
-    <img class="hero-photo" src="/foto-hero.jpg" alt="" />
+    <picture>
+      <source srcset="/foto-hero-600.webp 600w, /foto-hero.webp 1200w" sizes="(min-width: 900px) 61vw, 106vw" type="image/webp" />
+      <source srcset="/foto-hero-opt.jpg" type="image/jpeg" />
+      <img class="hero-photo" src="/foto-hero-opt.jpg" alt="" width="1196" height="896" fetchpriority="high" decoding="async" />
+    </picture>
   </div>
   <div class="hero-content shell">
     <p class="eyebrow reveal">Disponible para colaborar <span></span> Chile / LATAM</p>
