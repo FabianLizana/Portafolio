@@ -22,5 +22,3 @@ Thumbs.db
 .vscode/
 .idea/
 
-# Claude Code (config local del agente)
-.claude/

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Contacto y taller en Barcelona | EMBERWOOD</title>
+  <meta name="description" content="Escríbenos, visita el taller de Emberwood en Gràcia o resuelve tus dudas sobre envíos, recargas y pedidos al por mayor.">
+  <link rel="canonical" href="https://emberwood.example/contacto.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Contacto y taller en Barcelona | EMBERWOOD">
+  <meta property="og:description" content="Atención personal, horarios del taller de Gràcia y preguntas frecuentes sobre velas, envíos y recargas.">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Saltar al contenido</a>
+
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="index.html">Ember<span>wood</span></a>
+      <nav class="nav-desktop" aria-label="Principal">
+        <a class="nav-link" href="index.html">Inicio</a>
+        <a class="nav-link" href="tienda.html">Tienda</a>
+        <a class="nav-link" href="index.html#colecciones">Colecciones</a>
+        <a class="nav-link is-active" href="contacto.html">Contacto</a>
+      </nav>
+      <div class="header-actions">
+        <button class="cart-button" type="button" data-cart-open aria-label="Abrir carrito de compras">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true">
+            <path d="M6 8h12l-1 12H7L6 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/>
+          </svg>
+          <span class="cart-word">Carrito</span>
+          <span class="cart-count" data-cart-count>0</span>
+        </button>
+        <button class="burger" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="nav-mobile">
+          <span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="nav-mobile" id="nav-mobile">
+    <nav aria-label="Menú móvil">
+      <a class="m-link" href="index.html">Inicio</a>
+      <a class="m-link" href="tienda.html">Tienda</a>
+      <a class="m-link" href="contacto.html">Contacto</a>
+    </nav>
+    <p class="label">Hecho a mano en pequeños lotes · Barcelona</p>
+  </div>
+
+  <main id="main">
+    <section class="wrap page-head">
+      <span class="index-num">Contacto</span>
+      <h1 class="display-l">Hablemos<br><span class="italic amber">en voz baja</span></h1>
+      <p class="lead">Respondemos personalmente cada mensaje en un plazo de 24 a 48 horas laborables.</p>
+    </section>
+
+    <section class="wrap contact-grid" style="padding-bottom:var(--space-section)">
+      <!-- Formulario -->
+      <div class="reveal">
+        <form id="contact-form" novalidate>
+          <div class="field">
+            <label for="nombre">Nombre</label>
+            <input type="text" id="nombre" name="nombre" maxlength="100" autocomplete="name" placeholder="Tu nombre">
+            <span class="field-error" role="alert"></span>
+          </div>
+          <div class="field">
+            <label for="email">Correo electrónico</label>
+            <input type="email" id="email" name="email" maxlength="255" autocomplete="email" placeholder="tu@correo.com">
+            <span class="field-error" role="alert"></span>
+          </div>
+          <div class="field">
+            <label for="asunto">Motivo</label>
+            <select id="asunto" name="asunto">
+              <option value="">Selecciona una opción</option>
+              <option value="pedido">Estado de un pedido</option>
+              <option value="mayorista">Venta al por mayor</option>
+              <option value="personalizado">Fragancia personalizada</option>
+              <option value="prensa">Prensa y colaboraciones</option>
+              <option value="otro">Otro</option>
+            </select>
+            <span class="field-error" role="alert"></span>
+          </div>
+          <div class="field">
+            <label for="mensaje">Mensaje</label>
+            <textarea id="mensaje" name="mensaje" maxlength="1000" placeholder="Cuéntanos en qué podemos ayudarte"></textarea>
+            <span class="field-error" role="alert"></span>
+          </div>
+          <button class="btn" type="submit">Enviar mensaje <span class="arrow">&#8594;</span></button>
+          <div class="form-status" id="form-status" role="status" aria-live="polite"></div>
+        </form>
+      </div>
+
+      <!-- Información y mapa -->
+      <aside class="reveal" style="--delay:.12s">
+        <div class="info-block">
+          <span class="index-num">Taller y tienda</span>
+          <h3>Carrer de Verdi 42</h3>
+          <p>08012 Gràcia, Barcelona</p>
+        </div>
+        <div class="info-block">
+          <span class="index-num">Horarios</span>
+          <ul style="margin-top:0.75rem">
+            <li><span>Lunes a viernes</span><span>10:00 – 20:00</span></li>
+            <li><span>Sábado</span><span>11:00 – 15:00</span></li>
+            <li><span>Domingo</span><span>Cerrado</span></li>
+          </ul>
+        </div>
+        <div class="info-block">
+          <span class="index-num">Directo</span>
+          <ul style="margin-top:0.75rem">
+            <li><a class="link-underline" href="mailto:hola@emberwood.studio" style="text-transform:none;letter-spacing:0.02em">hola@emberwood.studio</a></li>
+            <li><a class="link-underline" href="tel:+34930000000" style="text-transform:none;letter-spacing:0.02em">+34 930 000 000</a></li>
+          </ul>
+        </div>
+        <div class="map" style="margin-top:2rem" role="img" aria-label="Mapa esquemático del taller en Carrer de Verdi 42, Gràcia, Barcelona">
+          <span class="map-pin"></span>
+          <span class="map-label">Verdi 42 · Gràcia</span>
+        </div>
+      </aside>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section why" id="faq" style="padding-block:clamp(3.5rem,7vw,6rem)">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <div>
+            <span class="index-num">FAQ</span>
+            <h2 class="display-l" style="margin-top:0.75rem">Preguntas frecuentes</h2>
+          </div>
+        </div>
+
+        <div class="reveal">
+          <div class="faq-item">
+            <button class="faq-q" type="button" aria-expanded="false">¿Cuánto dura una vela Emberwood? <span class="plus" aria-hidden="true"></span></button>
+            <div class="faq-a"><p>El formato de 220 g ofrece unas 55-60 horas de combustión y el de 400 g supera las 95 horas. La primera vez, deja que la cera se funda hasta los bordes: evita el efecto túnel y alarga la vida de la vela.</p></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q" type="button" aria-expanded="false">¿Hacéis envíos internacionales? <span class="plus" aria-hidden="true"></span></button>
+            <div class="faq-a"><p>Enviamos a toda la Unión Europea y Reino Unido en 2-5 días laborables. Los envíos peninsulares son gratuitos a partir de 60 € y salen del taller en 48 horas.</p></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q" type="button" aria-expanded="false">¿Puedo recargar mi recipiente? <span class="plus" aria-hidden="true"></span></button>
+            <div class="faq-a"><p>Sí. Vendemos recargas de aceite y bloques de cera para todos los formatos. Si traes el recipiente vacío al taller, aplicamos un 25% de descuento permanente en cada recarga.</p></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q" type="button" aria-expanded="false">¿Las fragancias son aptas para personas alérgicas? <span class="plus" aria-hidden="true"></span></button>
+            <div class="faq-a"><p>Trabajamos sin ftalatos ni colorantes y declaramos todos los alérgenos IFRA en la etiqueta y en la ficha de cada producto. Si tienes dudas concretas, escríbenos y te enviamos la ficha técnica completa.</p></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q" type="button" aria-expanded="false">¿Trabajáis con hoteles y restaurantes? <span class="plus" aria-hidden="true"></span></button>
+            <div class="faq-a"><p>Sí, desarrollamos fragancias exclusivas para espacios a partir de 150 unidades, incluyendo etiquetado propio. Selecciona “Venta al por mayor” en el formulario y te enviamos el dossier.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="footer-grid">
+        <div>
+          <p class="footer-brand">Emberwood</p>
+          <p>Velas de cera de soya y fragancias de hogar elaboradas a mano en Barcelona desde 2019.</p>
+        </div>
+        <div>
+          <h4>Tienda</h4>
+          <ul>
+            <li><a href="tienda.html?coleccion=amaderados">Amaderados</a></li>
+            <li><a href="tienda.html?coleccion=verdes">Verdes</a></li>
+            <li><a href="tienda.html?coleccion=ambar">Ámbar</a></li>
+            <li><a href="tienda.html?coleccion=especiados">Especiados</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Casa</h4>
+          <ul>
+            <li><a href="index.html#historia">Filosofía</a></li>
+            <li><a href="contacto.html">Contacto</a></li>
+            <li><a href="contacto.html#faq">Preguntas frecuentes</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Contacto</h4>
+          <ul>
+            <li><a href="mailto:hola@emberwood.studio">hola@emberwood.studio</a></li>
+            <li><a href="tel:+34930000000">+34 930 000 000</a></li>
+            <li><a href="contacto.html">Carrer de Verdi 42, Barcelona</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© <span data-year>2026</span> Emberwood Studio</span>
+        <span>Hecho a mano · Envíos a toda Europa</span>
+      </div>
+    </div>
+  </footer>
+
+  <div class="cart-overlay" id="cart-overlay"></div>
+  <aside class="cart-drawer" id="cart-drawer" aria-hidden="true" aria-label="Carrito de compras">
+    <div class="cart-head">
+      <h2>Tu carrito</h2>
+      <button class="icon-btn" type="button" data-cart-close aria-label="Cerrar carrito">
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M6 6l12 12M18 6 6 18"/></svg>
+      </button>
+    </div>
+    <div class="cart-body" id="cart-body"></div>
+    <div class="cart-foot" id="cart-foot" hidden></div>
+  </aside>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="js/cart.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

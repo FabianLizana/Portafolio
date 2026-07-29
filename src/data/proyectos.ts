@@ -25,6 +25,14 @@ export const proyectos: Proyecto[] = [
     image: '/proyectos/saber-de-sabor-demo2.jpg',
   },
   {
+    title: 'Landing Page Premium',
+    category: 'Web',
+    resultado: 'Marca + tienda online completa',
+    metrica: 'Catálogo + carrito · Diseño oscuro premium · 3 páginas',
+    href: '/emberwood/index.html',
+    image: '/emberwood/img/hero.jpg',
+  },
+  {
     title: 'Chatbot Inteligente',
     category: 'Automatización',
     resultado: 'Asistente 24/7 para atención al cliente',
