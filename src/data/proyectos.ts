@@ -5,6 +5,7 @@ export interface Proyecto {
   metrica: string;
   href: string;
   image?: string;
+  lottie?: string;
 }
 
 export const proyectos: Proyecto[] = [
@@ -14,7 +15,7 @@ export const proyectos: Proyecto[] = [
     resultado: 'Diseño de marca + menú digital',
     metrica: '15% más consultas por WhatsApp en el primer mes',
     href: '/demo-pagina-sushi1/index.html',
-    image: '/proyectos/sushi-local.jpg',
+    image: '/proyectos/sushi-local-card.webp',
   },
   {
     title: 'Saber De Sabor Demo2',
@@ -30,7 +31,7 @@ export const proyectos: Proyecto[] = [
     resultado: 'Marca + tienda online completa',
     metrica: 'Catálogo + carrito · Diseño oscuro premium · 3 páginas',
     href: '/emberwood/index.html',
-    image: '/emberwood/img/hero.jpg',
+    image: '/emberwood/img/hero-card.webp',
   },
   {
     title: 'Chatbot Inteligente',
@@ -38,6 +39,7 @@ export const proyectos: Proyecto[] = [
     resultado: 'Asistente 24/7 para atención al cliente',
     metrica: 'Próximamente',
     href: '#',
+    lottie: '/animaciones/cute-robot-flying.lottie',
   },
   {
     title: 'Gestión de Redes',
@@ -45,5 +47,6 @@ export const proyectos: Proyecto[] = [
     resultado: 'Planificación y generación con IA',
     metrica: 'Próximamente',
     href: '#',
+    image: '/proyectos/gestion-redes-card.svg',
   },
 ];

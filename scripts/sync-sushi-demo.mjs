@@ -30,7 +30,7 @@ const staging = resolve(projectRoot, '.sushi-staging');
 rmSync(staging, { recursive: true, force: true });
 cpSync(source, staging, { recursive: true });
 
-const Q = ['"', '"'];
+const Q = ['"', "'"];
 
 const rewriteHtml = (dir) => {
   let rewritten = 0;

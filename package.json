@@ -14,9 +14,11 @@
     "@fontsource-variable/manrope": "^5.2.8",
     "@fontsource-variable/sora": "^5.3.0",
     "@fontsource-variable/space-grotesk": "^5.2.8",
+    "@lottiefiles/dotlottie-web": "^0.78.2",
     "@tailwindcss/vite": "^4.3.2",
     "astro": "^7.0.9",
     "astro-og-canvas": "^0.13.0",
+    "gsap": "^3.15.0",
     "lucide-astro": "^0.468.0",
     "tailwindcss": "^4.3.2"
   },

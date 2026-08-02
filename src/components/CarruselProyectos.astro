@@ -1,0 +1,1000 @@
+---
+import { proyectos } from '../data/proyectos';
+import { ExternalLink, Lock } from 'lucide-astro';
+
+const categorias = ['Todos', ...new Set(proyectos.map((p) => p.category))];
+const proximos = proyectos.filter((p) => p.href === '#');
+
+---
+
+<section class="proyectos-section" id="paginas-web" aria-labelledby="proyectos-title">
+  <div class="shell">
+    <div class="section-heading reveal">
+      <p class="eyebrow">Portafolio</p>
+      <div>
+        <h2 id="proyectos-title">Proyectos<br /><em>que entregan resultados.</em></h2>
+        <p>Casos reales y conceptos en desarrollo. Cada card cuenta un resultado concreto.</p>
+      </div>
+    </div>
+
+    <nav class="filtros reveal" aria-label="Filtrar proyectos por categoría" data-filtros>
+      {categorias.map((cat, i) => (
+        <button
+          class="filtro-btn"
+          class:list={{ 'is-active': i === 0 }}
+          data-filter={cat === 'Todos' ? 'all' : cat}
+          type="button"
+        >{cat}</button>
+      ))}
+    </nav>
+
+    <div class="fan-wrap reveal" data-fan-wrap>
+      <div class="fan-layout" data-fan-layout>
+        {proyectos.map((p, index) => (
+          <a
+            class="fan-card"
+            class:list={[`cat-${p.category.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s+/g, '-')}`, { 'is-wip': p.href === '#' }]}
+            href={p.href === '#' ? undefined : p.href}
+            target={p.href === '#' ? undefined : '_blank'}
+            rel={p.href === '#' ? undefined : 'noopener noreferrer'}
+            data-category={p.category}
+            data-card-index={index}
+            aria-label={`${p.title} — ${p.resultado}`}
+            tabindex="0"
+          >
+            <div class="fan-card-inner">
+              <div class="fan-card-face fan-card-front">
+                <div class="fan-card-media">
+                  {p.lottie ? (
+                    <div class="fan-card-lottie" data-lottie={p.lottie} aria-hidden="true"></div>
+                  ) : p.image ? (
+                    <img
+                      src={p.image}
+                      alt=""
+                      loading="lazy"
+                      decoding="async"
+                      draggable="false"
+                    />
+                  ) : (
+                    <div class="fan-card-visual" aria-hidden="true"></div>
+                  )}
+                </div>
+                {p.category === 'Automatización' && (
+                  <div class="fan-card-flow" aria-hidden="true">
+                    <div class="flow-row">
+                      <div class="flow-box box-lead">Lead<br/>llega</div>
+                      <div class="flow-connector">
+                        <div class="flow-line"></div>
+                        <div class="flow-dot" style="--i: 0; --dot-color: #52f3de"></div>
+                      </div>
+                      <div class="flow-box box-ia">IA<br/>clasifica</div>
+                      <div class="flow-connector">
+                        <div class="flow-line"></div>
+                        <div class="flow-dot" style="--i: 1; --dot-color: #4cd964"></div>
+                      </div>
+                      <div class="flow-box box-wa">WhatsApp</div>
+                      <div class="flow-connector">
+                        <div class="flow-line"></div>
+                        <div class="flow-dot" style="--i: 2; --dot-color: #c5fa67"></div>
+                      </div>
+                      <div class="flow-box box-agenda">Agenda</div>
+                    </div>
+                    <span class="card-back-metric">{p.metrica}</span>
+                  </div>
+                )}
+                <div class="fan-card-overlay" aria-hidden="true">
+                  <span class="fan-card-cat">{p.category}</span>
+                  <span class="fan-card-title">{p.title}</span>
+                </div>
+              </div>
+              <div class="fan-card-face fan-card-back">
+                {p.category === 'Automatización' ? (
+                  <div class="diagram-flow" aria-hidden="true">
+                    <div class="flow-row">
+                      <div class="flow-box box-lead">Lead<br/>llega</div>
+                      <div class="flow-connector">
+                        <div class="flow-line"></div>
+                        <div class="flow-dot" style="--i: 0; --dot-color: #52f3de"></div>
+                      </div>
+                      <div class="flow-box box-ia">IA<br/>clasifica</div>
+                      <div class="flow-connector">
+                        <div class="flow-line"></div>
+                        <div class="flow-dot" style="--i: 1; --dot-color: #4cd964"></div>
+                      </div>
+                      <div class="flow-box box-wa">WhatsApp</div>
+                      <div class="flow-connector">
+                        <div class="flow-line"></div>
+                        <div class="flow-dot" style="--i: 2; --dot-color: #c5fa67"></div>
+                      </div>
+                      <div class="flow-box box-agenda">Agenda</div>
+                    </div>
+                  </div>
+                ) : (
+                  <>
+                    <span class="card-back-label">Resultado</span>
+                    <span class="card-back-text">{p.resultado}</span>
+                  </>
+                )}
+                <span class="card-back-metric">{p.metrica}</span>
+                {p.category !== 'Automatización' && (
+                  <span class="card-back-cta">
+                    {p.href === '#' ? (
+                      <><Lock size={13} strokeWidth={2.2} /> Próximamente</>
+                    ) : (
+                      <><ExternalLink size={13} strokeWidth={2.2} /> Ver proyecto</>
+                    )}
+                  </span>
+                )}
+              </div>
+            </div>
+          </a>
+        ))}
+      </div>
+
+      <div class="fan-controls" data-fan-controls aria-hidden="true">
+        <button class="fan-arrow" data-cycle="left" type="button" aria-label="Anterior">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6" /></svg>
+        </button>
+        <div class="fan-dots" data-fan-dots></div>
+        <button class="fan-arrow" data-cycle="right" type="button" aria-label="Siguiente">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6" /></svg>
+        </button>
+      </div>
+    </div>
+
+    {proximos.length > 0 && (
+      <div class="proximos" data-proximos>
+        <p class="proximos-label">En desarrollo</p>
+        <ul class="proximos-list">
+          {proximos.map((p) => (
+            <li class="proximos-item">
+              <span class="proximos-tag">{p.category}</span>
+              <span class="proximos-title">{p.title}</span>
+              <span class="proximos-desc">{p.resultado}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    )}
+  </div>
+</section>
+
+<style>
+  .proyectos-section {
+    position: relative;
+    padding: 100px 0 120px;
+    background: linear-gradient(170deg, #0c0e12 0%, var(--ink) 72%);
+    border-top: 1px solid var(--line);
+    overflow: clip;
+  }
+
+  .section-heading { display: grid; gap: 1.2rem; margin-bottom: 2.6rem; }
+  .section-heading h2 {
+    max-width: 720px; margin: 0;
+    font-family: 'Sora Variable', sans-serif;
+    font-weight: 500;
+    font-size: clamp(2.5rem, 7.4vw, 6rem);
+    line-height: .9; letter-spacing: -.02em;
+  }
+  .section-heading h2 em { font-style: normal; color: #6d7478; }
+  .section-heading > div > p {
+    max-width: 415px; margin: 1rem 0 0;
+    color: var(--muted); font-size: .9rem; line-height: 1.65;
+  }
+
+  /* ── Filtros ── */
+  .filtros {
+    display: flex; flex-wrap: wrap; gap: .6rem;
+    margin-bottom: 2.4rem;
+  }
+  .filtro-btn {
+    padding: .45rem 1rem;
+    font-size: .78rem; font-weight: 600;
+    color: var(--muted);
+    background: transparent;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    cursor: pointer;
+    transition: background .25s ease, color .25s ease, border-color .25s ease, opacity .3s ease;
+    opacity: 1;
+  }
+  .filtro-btn:hover { color: var(--paper); border-color: rgba(255,255,255,.25); }
+  .filtro-btn.is-active {
+    color: #07100f; background: var(--cyan); border-color: var(--cyan);
+  }
+  .filtro-btn.is-dimmed { opacity: .32; }
+
+  /* ── Fan layout ── */
+  .fan-wrap {
+    position: relative;
+    display: flex; flex-direction: column; align-items: center;
+    padding-top: 1rem;
+  }
+  .fan-layout {
+    position: relative;
+    display: flex; justify-content: center; align-items: center;
+    width: 100%;
+    height: clamp(22rem, 38vw, 30rem);
+    perspective: 1200px;
+  }
+
+  .fan-card {
+    position: absolute;
+    width: clamp(180px, 28vw, 300px);
+    aspect-ratio: .62;
+    border-radius: 14px;
+    border: 1px solid var(--line);
+    background: var(--panel);
+    overflow: hidden;
+    cursor: pointer;
+    will-change: transform, opacity;
+    transform-origin: center center;
+    backface-visibility: hidden;
+    transition: border-color .32s ease;
+    text-decoration: none;
+    color: inherit;
+  }
+  .fan-card:focus-visible { outline: 2px solid var(--cyan); outline-offset: 4px; }
+
+  .fan-card-inner {
+    position: relative; width: 100%; height: 100%;
+    transform-style: preserve-3d;
+    transition: transform .55s cubic-bezier(.2,.8,.2,1);
+  }
+  .fan-card:hover .fan-card-inner,
+  .fan-card:focus-visible .fan-card-inner { transform: rotateY(180deg); }
+
+  /* ── Automatización: sin flip — el robot sube y revela el diagrama ── */
+  .cat-automatizacion:hover .fan-card-inner,
+  .cat-automatizacion:focus-visible .fan-card-inner { transform: none; }
+
+  .fan-card-lottie { transition: transform .45s cubic-bezier(.2,.8,.2,1); }
+  .cat-automatizacion:hover .fan-card-lottie,
+  .cat-automatizacion:focus-visible .fan-card-lottie {
+    transform: translateY(-28px) scale(0.9259);
+  }
+
+  .fan-card-flow {
+    position: absolute; left: .9rem; right: .9rem; bottom: 3.1rem;
+    display: flex; flex-direction: column; align-items: center; gap: .5rem;
+    opacity: 0; transform: translateY(12px);
+    transition: opacity .35s ease, transform .45s cubic-bezier(.2,.8,.2,1);
+    pointer-events: none; z-index: 2;
+  }
+  .cat-automatizacion:hover .fan-card-flow,
+  .cat-automatizacion:focus-visible .fan-card-flow { opacity: 1; transform: translateY(0); }
+  .cat-automatizacion:hover .fan-card-overlay,
+  .cat-automatizacion:focus-visible .fan-card-overlay { opacity: 0; }
+  .fan-card-overlay { transition: opacity .3s ease; }
+
+  .fan-card-face {
+    position: absolute; inset: 0;
+    backface-visibility: hidden;
+    overflow: hidden;
+    border-radius: inherit;
+    display: flex; flex-direction: column;
+  }
+
+  .fan-card-front::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(160deg, #151a20, #0c0e12);
+  }
+  .fan-card-media {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .fan-card-media img {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    filter: saturate(.9) contrast(1.03);
+  }
+  .fan-card-lottie {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    background: radial-gradient(130% 130% at 50% 25%, #12331f 0%, #0a1a10 62%, #07100d 100%);
+  }
+  .fan-card-lottie :global(canvas) {
+    width: 175px;
+    height: 175px;
+    max-width: 70%;
+    max-height: 70%;
+    object-fit: contain;
+  }
+  /* Contrarresta el scale(1.08) del hover de la card → el robot mantiene su tamaño */
+  .fan-card:hover .fan-card-lottie,
+  .fan-card:focus-visible .fan-card-lottie {
+    transform: scale(0.9259);
+  }
+  .fan-card-front::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(180deg, transparent 38%, rgba(9,10,13,.78) 100%);
+    pointer-events: none;
+    z-index: 1;
+  }
+  .fan-card-overlay {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column;
+    justify-content: flex-end; align-items: flex-start;
+    gap: .25rem; padding: 1rem;
+    text-align: left;
+    z-index: 2;
+  }
+
+  .fan-card-visual {
+    width: 100%; height: 100%;
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
+    gap: .5rem; padding: 1.2rem; text-align: center;
+  }
+  .fan-card-cat {
+    font-size: .58rem; font-weight: 700;
+    letter-spacing: .12em; text-transform: uppercase;
+    color: var(--cyan);
+  }
+  .fan-card-title {
+    font-family: 'Sora Variable', sans-serif;
+    font-size: .98rem; font-weight: 600; letter-spacing: -.01em;
+    color: var(--paper); line-height: 1.18;
+  }
+
+  .fan-card-back {
+    transform: rotateY(180deg);
+    justify-content: center; align-items: center;
+    padding: 1.4rem 1.2rem; text-align: center;
+  }
+  .cat-web .fan-card-back { background: linear-gradient(145deg, #0f2640, #162d4a); }
+  .cat-automatizacion .fan-card-back { background: linear-gradient(145deg, #0f2a1a, #163d24); }
+  .cat-social-media .fan-card-back { background: linear-gradient(145deg, #1f1038, #2d164a); }
+
+  .card-back-label {
+    font-size: .62rem; font-weight: 700;
+    letter-spacing: .12em; text-transform: uppercase;
+    color: rgba(255,255,255,.5);
+    margin-bottom: .55rem;
+  }
+  .card-back-text {
+    font-family: 'Sora Variable', sans-serif;
+    font-size: .92rem; font-weight: 600; line-height: 1.25;
+    color: var(--paper); margin-bottom: .55rem;
+  }
+  .card-back-metric {
+    font-size: .72rem; font-weight: 500;
+    color: rgba(255,255,255,.7); line-height: 1.3;
+    max-width: 90%;
+  }
+  .card-back-cta {
+    display: inline-flex; align-items: center; gap: .3rem;
+    margin-top: .9rem;
+    font-size: .66rem; font-weight: 750;
+    color: var(--lime); letter-spacing: .04em;
+  }
+  .card-back-cta svg { color: var(--lime); }
+  .is-wip .card-back-cta { color: var(--muted); }
+  .is-wip .card-back-cta svg { color: var(--muted); }
+
+  /* ── Diagrama de flujo (Automatización) ── */
+  .diagram-flow {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: .5rem;
+    margin-bottom: .7rem;
+  }
+  .flow-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+  .flow-box {
+    flex: 1 1 0%;
+    min-width: 0;
+    padding: 4px 2px;
+    border: 1px solid;
+    border-radius: 6px;
+    font-size: 8px;
+    font-weight: 600;
+    line-height: 1.2;
+    text-align: center;
+    letter-spacing: .01em;
+    background: rgba(255,255,255,.04);
+  }
+  .box-lead { border-color: rgba(197,162,103,.5); color: #d4a857; }
+  .box-ia { border-color: rgba(82,243,222,.5); color: var(--cyan); }
+  .box-wa { border-color: rgba(76,217,100,.5); color: #4cd964; }
+  .box-agenda { border-color: rgba(197,250,103,.5); color: var(--lime); }
+  .flow-connector {
+    flex: 0 0 14px;
+    height: 2px;
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  .flow-line {
+    width: 100%;
+    height: 1px;
+    background: rgba(255,255,255,.15);
+    border-radius: 1px;
+  }
+  .flow-dot {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 6px;
+    height: 6px;
+    margin-top: -3px;
+    border-radius: 50%;
+    background: var(--dot-color, var(--cyan));
+    offset-path: path('M 0,0 L 14,0');
+    offset-distance: 0%;
+    animation: flowTravel 2s ease-in-out infinite;
+    animation-play-state: paused;
+    animation-delay: calc(var(--i) * 2s);
+  }
+  .fan-card:hover .flow-dot,
+  .fan-card:focus-visible .flow-dot { animation-play-state: running; }
+
+  @keyframes flowTravel {
+    0% { offset-distance: 0%; opacity: 0; }
+    12% { offset-distance: 0%; opacity: 1; }
+    45% { offset-distance: 45%; opacity: 1; }
+    55% { offset-distance: 55%; opacity: 1; }
+    88% { offset-distance: 100%; opacity: 1; }
+    100% { offset-distance: 100%; opacity: 0; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .flow-dot { animation: none; display: none; }
+  }
+
+  .fan-card[data-visible="true"]:hover { border-color: rgba(82,243,222,.45); }
+
+  /* ── Controls ── */
+  .fan-controls {
+    display: flex; align-items: center; gap: 1rem;
+    margin-top: 1.4rem;
+    z-index: 30;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .4s ease;
+  }
+  .fan-controls.is-enabled { opacity: 1; pointer-events: auto; }
+
+  .fan-arrow {
+    display: grid; place-items: center;
+    width: 42px; height: 42px;
+    border-radius: 50%;
+    border: 1px solid var(--line);
+    background: rgba(255,255,255,.04);
+    color: #c4c8cc;
+    cursor: pointer; flex-shrink: 0;
+    transition: border-color .25s ease, color .25s ease, background .25s ease;
+  }
+  .fan-arrow svg { width: 16px; height: 16px; }
+  .fan-arrow:hover {
+    border-color: rgba(82,243,222,.5);
+    color: var(--cyan);
+    background: rgba(82,243,222,.08);
+  }
+  .fan-arrow:disabled { opacity: .35; cursor: not-allowed; }
+
+  .fan-dots { display: flex; align-items: center; gap: .7rem; }
+  .fan-dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: rgba(255,255,255,.18);
+    cursor: pointer; padding: 0; border: none;
+    transform-origin: center center;
+    transition: transform .3s cubic-bezier(.2,.8,.2,1), background .3s ease, box-shadow .3s ease;
+  }
+  .fan-dot.is-active {
+    transform: scaleX(2.6);
+    border-radius: 999px;
+    background: var(--cyan);
+    box-shadow: 0 0 12px rgba(82,243,222,.4);
+  }
+
+  /* ── Próximos ── */
+  .proximos {
+    margin-top: 3.5rem;
+    padding-top: 2rem;
+    border-top: 1px dashed rgba(255,255,255,.1);
+  }
+  .proximos-label {
+    margin: 0 0 1rem;
+    color: var(--muted);
+    font-size: .7rem; font-weight: 700;
+    letter-spacing: .14em; text-transform: uppercase;
+  }
+  .proximos-list {
+    list-style: none; padding: 0; margin: 0;
+    display: grid; grid-template-columns: 1fr;
+    gap: .8rem;
+  }
+  .proximos-item {
+    display: grid; grid-template-columns: auto 1fr;
+    gap: .25rem .9rem; align-items: center;
+    padding: 1rem 1.1rem;
+    border: 1px solid var(--line);
+    background: rgba(255,255,255,.02);
+  }
+  .proximos-tag {
+    grid-row: 1 / 3;
+    padding: .35rem .6rem;
+    font-size: .6rem; font-weight: 700;
+    letter-spacing: .08em; text-transform: uppercase;
+    color: var(--lime);
+    border: 1px solid rgba(197,250,103,.3);
+    align-self: start;
+  }
+  .proximos-title {
+    font-family: 'Sora Variable', sans-serif;
+    font-size: .95rem; font-weight: 600;
+    color: var(--paper);
+  }
+  .proximos-desc {
+    font-size: .76rem; color: var(--muted);
+  }
+
+  @media (min-width: 700px) {
+    .proyectos-section { padding: 140px 0 150px; }
+    .section-heading { grid-template-columns: 1fr 2.1fr; gap: 2rem; margin-bottom: 4rem; }
+    .section-heading > .eyebrow { align-self: start; padding-top: .6rem; }
+    .filtros { margin-bottom: 2.8rem; }
+    .fan-layout { height: clamp(26rem, 32vw, 34rem); }
+    .proximos-list { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+  }
+
+  @media (min-width: 900px) {
+    .fan-layout { height: clamp(28rem, 30vw, 36rem); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .fan-card { transition: none; }
+    .fan-card-inner { transition: none; }
+  }
+</style>
+
+<script>
+  import gsap from 'gsap';
+  import { DotLottie } from '@lottiefiles/dotlottie-web';
+
+  type Side = 'left' | 'right';
+
+  function mountLottie(el: HTMLElement, reduced: boolean) {
+    const src = el.dataset.lottie;
+    if (!src || el.dataset.lottieReady) return;
+    el.dataset.lottieReady = '1';
+    const canvas = document.createElement('canvas');
+    el.appendChild(canvas);
+    new DotLottie({
+      canvas,
+      src,
+      loop: true,
+      loopCount: 0,
+      autoplay: !reduced,
+      layout: { fit: 'contain', align: [0.5, 0.5] },
+      renderConfig: { autoResize: true, freezeOnOffscreen: true },
+    });
+  }
+
+  function initLotties() {
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const els = Array.from(document.querySelectorAll<HTMLElement>('[data-lottie]'));
+    if (!els.length) return;
+    // El WASM del reproductor (~600 KB) solo se descarga cuando la card
+    // está cerca del viewport — no al cargar la página.
+    if (typeof IntersectionObserver === 'undefined') {
+      els.forEach((el) => mountLottie(el, reduced));
+      return;
+    }
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          mountLottie(entry.target as HTMLElement, reduced);
+          io.unobserve(entry.target);
+        }
+      });
+    }, { rootMargin: '400px 0px' });
+    els.forEach((el) => io.observe(el));
+  }
+
+  const MAX_VISIBLE = 7;
+  const HALF = 3;
+
+  const FAN_POSITIONS = [
+    { rot: -21, scale: 0.7756, x: -30, y: 7.3, zIndex: 1 },
+    { rot: -14, scale: 0.8498, x: -22, y: 4.0, zIndex: 2 },
+    { rot: -7,  scale: 0.9346, x: -11, y: 1.3, zIndex: 3 },
+    { rot: 0,   scale: 1.0,    x: 0,   y: 0.0, zIndex: 10 },
+    { rot: 7,   scale: 0.9346, x: 11,  y: 1.3, zIndex: 3 },
+    { rot: 14,  scale: 0.8498, x: 22,  y: 4.0, zIndex: 2 },
+    { rot: 21,  scale: 0.7756, x: 30,  y: 7.3, zIndex: 1 },
+  ];
+
+  function getResponsiveMultiplier(width: number) {
+    if (width < 480) return 0.28;
+    if (width < 640) return 0.38;
+    if (width < 768) return 0.5;
+    if (width < 1024) return 0.75;
+    return 1.0;
+  }
+
+  function getHeightMultiplier(width: number, height: number) {
+    let idealPx: number;
+    if (width < 480) idealPx = 22 * 16;
+    else if (width < 640) idealPx = 26 * 16;
+    else if (width < 768) idealPx = 28 * 16;
+    else if (width < 1024) idealPx = 34 * 16;
+    else idealPx = 38 * 16;
+    const available = height * 0.7;
+    return available >= idealPx ? 1 : available / idealPx;
+  }
+
+  function getSlotConfig(totalCards: number, slot: number) {
+    if (totalCards >= MAX_VISIBLE) return FAN_POSITIONS[slot];
+    const center = totalCards >> 1;
+    const distance = totalCards > 1 ? (slot - center) / center : 0;
+    const absDistance = Math.abs(distance);
+    return {
+      rot: distance * 21,
+      scale: 1.0 - 0.2244 * absDistance * absDistance,
+      x: distance * 30,
+      y: absDistance * absDistance * 7.3,
+      zIndex: 10 - Math.abs(slot - center),
+    };
+  }
+
+  function initFan() {
+    const layout = document.querySelector<HTMLElement>('[data-fan-layout]');
+    const wrap = document.querySelector<HTMLElement>('[data-fan-wrap]');
+    const controls = document.querySelector<HTMLElement>('[data-fan-controls]');
+    const dotsContainer = document.querySelector<HTMLElement>('[data-fan-dots]');
+    const filterBtns = document.querySelectorAll<HTMLButtonElement>('.filtro-btn');
+    const arrows = document.querySelectorAll<HTMLButtonElement>('[data-cycle]');
+    const proximos = document.querySelector<HTMLElement>('[data-proximos]');
+
+    if (!layout || !wrap || !controls || !dotsContainer) return;
+    const layoutEl: HTMLElement = layout;
+    const controlsEl: HTMLElement = controls;
+    const dotsEl: HTMLElement = dotsContainer;
+
+    const allCards = Array.from(layout.querySelectorAll<HTMLElement>('.fan-card'));
+    if (!allCards.length) return;
+
+    const prefersReduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    let activeFilter = 'all';
+    let cards = [...allCards];
+    let totalCards = cards.length;
+    let needsPagination = totalCards > MAX_VISIBLE;
+    let centerIndex = needsPagination ? HALF : totalCards >> 1;
+    let isAnimating = false;
+    let hasEntered = false;
+    let direction: Side | null = null;
+    let prevVisible = new Set<number>();
+    let activeSlot: number | null = null;
+    let leaveTimer: number | null = null;
+
+    function getVisibleMap(center: number) {
+      const map = new Map<number, number>();
+      if (!needsPagination) {
+        cards.forEach((_, i) => map.set(i, i));
+        return map;
+      }
+      for (let slot = 0; slot < MAX_VISIBLE; slot++) {
+        map.set(((center + slot - HALF) % totalCards + totalCards) % totalCards, slot);
+      }
+      return map;
+    }
+
+    function buildDots() {
+      dotsEl.innerHTML = '';
+      if (!needsPagination) return;
+      cards.forEach((_, i) => {
+        const dot = document.createElement('button');
+        dot.type = 'button';
+        dot.className = 'fan-dot';
+        dot.setAttribute('aria-label', `Ir al proyecto ${i + 1}`);
+        dot.dataset.index = String(i);
+        dot.addEventListener('click', () => jumpTo(i));
+        dotsEl.appendChild(dot);
+      });
+    }
+
+    function refreshDots() {
+      const dots = dotsEl.querySelectorAll<HTMLButtonElement>('.fan-dot');
+      dots.forEach((d) => d.classList.toggle('is-active', Number(d.dataset.index) === centerIndex));
+    }
+
+    function refreshPagination() {
+      controlsEl.classList.toggle('is-enabled', needsPagination);
+      arrows.forEach((a) => {
+        const btn = a;
+        (btn as HTMLButtonElement).disabled = !needsPagination;
+      });
+      buildDots();
+      refreshDots();
+    }
+
+    function cycle(dir: Side) {
+      if (isAnimating || !needsPagination) return;
+      isAnimating = true;
+      direction = dir;
+      centerIndex = dir === 'right'
+        ? (centerIndex + 1) % totalCards
+        : (centerIndex - 1 + totalCards) % totalCards;
+      update();
+      refreshDots();
+    }
+
+    function jumpTo(index: number) {
+      if (isAnimating || !needsPagination || index === centerIndex) return;
+      isAnimating = true;
+      direction = index > centerIndex ? 'right' : 'left';
+      centerIndex = index;
+      update();
+      refreshDots();
+    }
+
+    function config(slot: number) {
+      return getSlotConfig(needsPagination ? MAX_VISIBLE : totalCards, slot);
+    }
+
+    function update() {
+      if (!cards.length) return;
+      const visibleMap = getVisibleMap(centerIndex);
+      const previouslyVisible = prevVisible;
+      const isFirstMount = !hasEntered;
+      const multiplier = getResponsiveMultiplier(window.innerWidth);
+      const hMult = getHeightMultiplier(window.innerWidth, window.innerHeight);
+      const reduced = prefersReduced;
+
+      if (isFirstMount) isAnimating = true;
+
+      let completed = 0;
+      const visibleCount = visibleMap.size;
+      const onDone = () => {
+        if (++completed >= visibleCount) {
+          isAnimating = false;
+          if (isFirstMount) hasEntered = true;
+        }
+      };
+
+      cards.forEach((card, cardIndex) => {
+        const slot = visibleMap.get(cardIndex);
+        const wasVisible = previouslyVisible.has(cardIndex);
+        card.dataset.visible = slot !== undefined ? 'true' : 'false';
+
+        if (slot !== undefined) {
+          const { x, y, rot, scale, zIndex } = config(slot);
+          const target = {
+            x: `${x * multiplier}rem`,
+            y: `${y * hMult}rem`,
+            rotation: rot,
+            scale,
+            opacity: 1,
+            zIndex,
+          };
+
+          if (isFirstMount) {
+            gsap.set(card, { x: 0, y: `${12 * hMult}rem`, rotation: 0, scale: 0.5, opacity: 0 });
+            if (reduced) {
+              gsap.set(card, target);
+              onDone();
+            } else {
+              gsap.to(card, { ...target, duration: 1.2, ease: 'elastic.out(1.05,.78)', delay: 0.2 + slot * 0.06, onComplete: onDone });
+            }
+          } else if (!wasVisible) {
+            const enterX = direction === 'right' ? 40 : -40;
+            gsap.set(card, { x: `${enterX}rem`, y: `${y * hMult}rem`, rotation: direction === 'right' ? 30 : -30, scale: 0.5, opacity: 0 });
+            if (reduced) {
+              gsap.set(card, target);
+              onDone();
+            } else {
+              gsap.to(card, { ...target, duration: 0.6, ease: 'power2.out', onComplete: onDone });
+            }
+          } else {
+            if (reduced) {
+              gsap.set(card, target);
+              onDone();
+            } else {
+              gsap.to(card, { ...target, duration: 0.5, ease: 'power2.out', onComplete: onDone });
+            }
+          }
+        } else if (wasVisible) {
+          const exitX = direction === 'right' ? -40 : 40;
+          gsap.to(card, {
+            x: `${exitX}rem`, opacity: 0, scale: 0.5,
+            rotation: direction === 'right' ? -30 : 30,
+            duration: reduced ? 0 : 0.4, ease: 'power2.in', zIndex: 0,
+          });
+        } else if (isFirstMount) {
+          gsap.set(card, { opacity: 0, scale: 0.3, x: 0, y: 0, zIndex: 0 });
+        }
+      });
+
+      prevVisible = new Set(visibleMap.keys());
+      attachHover();
+    }
+
+    function attachHover() {
+      const visibleEntries: { el: HTMLElement; slot: number }[] = [];
+      cards.forEach((el, i) => {
+        const slot = el.dataset.visible === 'true' ? getVisibleMap(centerIndex).get(i) : undefined;
+        if (slot !== undefined) visibleEntries.push({ el, slot });
+      });
+      visibleEntries.sort((a, b) => a.slot - b.slot);
+
+      const onEnter = (idx: number) => () => {
+        if (isAnimating || prefersReduced) return;
+        if (leaveTimer) { clearTimeout(leaveTimer); leaveTimer = null; }
+        if (activeSlot !== idx) { activeSlot = idx; updateHoverLayout(idx); }
+      };
+      const onLeave = () => {
+        if (isAnimating || prefersReduced) return;
+        if (leaveTimer) clearTimeout(leaveTimer);
+        leaveTimer = window.setTimeout(() => { activeSlot = null; updateHoverLayout(null); }, 50);
+      };
+
+      const handlers: { el: HTMLElement; fn: () => void }[] = [];
+      visibleEntries.forEach(({ el, slot }) => {
+        const fn = onEnter(slot);
+        el.addEventListener('mouseenter', fn);
+        handlers.push({ el, fn });
+      });
+      layoutEl.addEventListener('mouseleave', onLeave);
+
+      const cleanup = () => {
+        handlers.forEach(({ el, fn }) => el.removeEventListener('mouseenter', fn));
+        layoutEl.removeEventListener('mouseleave', onLeave);
+        if (leaveTimer) clearTimeout(leaveTimer);
+      };
+
+      pendingCleanup.forEach((c) => c());
+      pendingCleanup.length = 0;
+      pendingCleanup.push(cleanup);
+    }
+
+    const pendingCleanup: Array<() => void> = [];
+
+    function updateHoverLayout(hoveredSlot: number | null) {
+      const mult = getResponsiveMultiplier(window.innerWidth);
+      const hM = getHeightMultiplier(window.innerWidth, window.innerHeight);
+      const visibleMap = getVisibleMap(centerIndex);
+      const entries: { el: HTMLElement; slot: number }[] = [];
+      cards.forEach((el, i) => {
+        const slot = visibleMap.get(i);
+        if (slot !== undefined) entries.push({ el, slot });
+      });
+      entries.sort((a, b) => a.slot - b.slot);
+      const centerSlot = entries.length >> 1;
+
+      entries.forEach(({ el, slot }) => {
+        const base = config(slot);
+        let targetX = base.x * mult;
+        let targetY = base.y * hM;
+        let targetRot = base.rot;
+        let targetScale = base.scale;
+        let delay = 0;
+
+        if (hoveredSlot !== null) {
+          const distance = Math.abs(slot - hoveredSlot);
+          delay = distance * 0.02;
+          if (slot === hoveredSlot) {
+            targetY -= 2.5 * hM;
+            targetScale *= 1.08;
+          } else {
+            const normalized = centerSlot > 0 ? (slot - centerSlot) / centerSlot : 0;
+            const pushStrength = 8 * (1 - Math.abs(normalized)) * (1 + 0.2 * Math.max(0, 3 - distance));
+            if (slot < hoveredSlot) {
+              targetX -= pushStrength * mult;
+              targetRot -= 3 / (distance + 1);
+            } else {
+              targetX += pushStrength * mult;
+              targetRot += 3 / (distance + 1);
+            }
+            if (slot === entries.length - 1 && hoveredSlot < centerSlot) targetY -= 1 * hM;
+            if (slot === 0 && hoveredSlot > centerSlot) targetY -= 1 * hM;
+          }
+        } else {
+          delay = Math.abs(slot - centerSlot) * 0.02;
+        }
+
+        gsap.to(el, {
+          x: `${targetX}rem`, y: `${targetY}rem`,
+          rotation: targetRot, scale: targetScale,
+          duration: 0.5, delay, ease: 'elastic.out(1,.75)',
+          overwrite: 'auto',
+        });
+        gsap.set(el, { zIndex: base.zIndex });
+      });
+    }
+
+    function applyFilter(filter: string) {
+      activeFilter = filter;
+      // Limpiar primero: clearProps:'all' borra TODOS los estilos inline,
+      // incluido display:none — por eso va ANTES de ocultar las cards.
+      gsap.set(allCards, { clearProps: 'all' });
+      allCards.forEach((card) => {
+        const cat = card.dataset.category;
+        const show = filter === 'all' || cat === filter;
+        card.style.display = show ? '' : 'none';
+      });
+      cards = allCards.filter((c) => c.style.display !== 'none');
+      totalCards = cards.length;
+      needsPagination = totalCards > MAX_VISIBLE;
+      centerIndex = needsPagination ? HALF : Math.min(centerIndex, Math.max(0, totalCards - 1));
+      if (!needsPagination) centerIndex = totalCards >> 1;
+      prevVisible = new Set();
+      hasEntered = false;
+      isAnimating = false;
+      cards.forEach((c) => { c.dataset.visible = 'false'; gsap.set(c, { opacity: 0 }); });
+
+      filterBtns.forEach((b) => {
+        const bFilter = b.dataset.filter!;
+        b.classList.toggle('is-active', bFilter === (filter === 'all' ? 'all' : filter));
+        b.classList.toggle('is-dimmed', false);
+      });
+
+      if (proximos) proximos.style.display = '';
+      refreshPagination();
+      update();
+    }
+
+    filterBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const f = btn.dataset.filter!;
+        if (f === activeFilter) return;
+        applyFilter(f);
+      });
+    });
+
+    arrows.forEach((a) => a.addEventListener('click', () => cycle(a.dataset.cycle as Side)));
+
+    let resizeTimer: number | null = null;
+    window.addEventListener('resize', () => {
+      if (resizeTimer) clearTimeout(resizeTimer);
+      resizeTimer = window.setTimeout(() => {
+        if (!isAnimating) {
+          totalCards = cards.length;
+          needsPagination = totalCards > MAX_VISIBLE;
+          update();
+        }
+      }, 150);
+    });
+
+    // keyboard
+    wrap.addEventListener('keydown', (e: KeyboardEvent) => {
+      if (!needsPagination) return;
+      if (e.key === 'ArrowLeft') { e.preventDefault(); cycle('left'); }
+      if (e.key === 'ArrowRight') { e.preventDefault(); cycle('right'); }
+    });
+
+    refreshPagination();
+
+    // bootstrap once visible
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          update();
+          io.disconnect();
+        }
+      });
+    }, { threshold: 0.25 });
+    io.observe(layoutEl);
+
+    if (prefersReduced) {
+      gsap.set(allCards, { opacity: 0 });
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => { initLotties(); initFan(); }, { once: true });
+  } else {
+    initLotties();
+    initFan();
+  }
+</script>
