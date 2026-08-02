@@ -22,3 +22,8 @@ Thumbs.db
 .vscode/
 .idea/
 
+# QA / testing local
+qa-*.py
+qa-*.png
+qa-*.txt
+
