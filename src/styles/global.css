@@ -69,8 +69,6 @@ img { display: block; max-width: 100%; }
 .text-link { display: inline-flex; gap: .35rem; align-items: center; padding: .6rem 0; font-size: .8rem; color: #d1d5d4; border-bottom: 1px solid rgba(255,255,255,.38); }
 .text-link svg { transition: transform .2s ease; }
 .text-link:hover svg { transform: translate(2px, -2px); }
-.hero-index { position: absolute; right: 20px; bottom: 22px; margin: 0; font-family: 'Sora Variable', sans-serif; font-size: .72rem; letter-spacing: .09em; color: rgba(255,255,255,.55); writing-mode: vertical-rl; }
-.hero-index span { color: var(--cyan); margin: .3rem 0; }
 
 /* ── Services ── */
 .services-section { position: relative; padding: 110px 0 120px; background: linear-gradient(190deg, #0b0e13 0%, var(--ink) 55%); border-bottom: 1px solid var(--line); }
@@ -148,7 +146,6 @@ img { display: block; max-width: 100%; }
   .hero-photo-wrap { right: -13vw; width: min(860px, 68vw); height: 92%; }
   .hero-title { font-size: clamp(4.5rem, 9vw, 7rem); }
   .hero-copy { font-size: 1rem; }
-  .hero-index { right: 32px; bottom: 32px; }
   .services-grid { grid-template-columns: repeat(2, 1fr); gap: 1.2rem; }
   .section-heading { grid-template-columns: 1fr 2.1fr; gap: 2rem; margin-bottom: 4rem; }
   .section-heading > .eyebrow { align-self: start; padding-top: .6rem; }
