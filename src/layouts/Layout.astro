@@ -87,5 +87,9 @@ const canonical = new URL(Astro.url.pathname, site.url).toString();
         window.addEventListener('pointermove', (event) => { dot.style.transform = `translate3d(${event.clientX}px, ${event.clientY}px, 0)`; });
       }
     </script>
-  </body>
+  <script>
+  import { initScramble } from '../scripts/scramble';
+  initScramble('[data-scramble]');
+</script>
+</body>
 </html>
