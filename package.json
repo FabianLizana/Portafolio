@@ -6,7 +6,7 @@
   "scripts": {
     "sync:sushi": "node scripts/sync-sushi-demo.mjs",
     "dev": "npm run sync:sushi && astro dev",
-    "build": "npm run sync:sushi && astro check && astro build",
+    "build": "npm run sync:sushi && astro check && astro build && node scripts/prefix-base.mjs",
     "check": "astro check",
     "preview": "astro preview"
   },
