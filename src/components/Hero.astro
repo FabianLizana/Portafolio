@@ -31,4 +31,38 @@ import { site } from '../data/site';
       <a class="text-link" href="#servicios">Ver servicios <ArrowDownRight size={17} strokeWidth={1.8} /></a>
     </div>
   </div>
+  <script is:inline>
+    (() => {
+      const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%&*+<>?/';
+      const titles = [...document.querySelectorAll('#hero-title > span')];
+      const original = titles.map((el) => el.textContent);
+
+      const scramble = (el, text, duration) => {
+        const start = performance.now();
+        const tick = (now) => {
+          const progress = Math.min((now - start) / duration, 1);
+          const fixed = Math.floor(progress * text.length);
+          let out = '';
+          for (let i = 0; i < text.length; i++) {
+            if (text[i] === ' ') {
+              out += ' ';
+            } else {
+              out += i < fixed ? text[i] : CHARS[Math.floor(Math.random() * CHARS.length)];
+            }
+          }
+          el.textContent = out;
+          if (progress < 1) {
+            requestAnimationFrame(tick);
+          } else {
+            el.textContent = text;
+          }
+        };
+        requestAnimationFrame(tick);
+      };
+
+      titles.forEach((el, i) => {
+        setTimeout(() => scramble(el, original[i], 950 + i * 250), 650 + i * 150);
+      });
+    })();
+  </script>
 </section>

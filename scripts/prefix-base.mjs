@@ -6,13 +6,10 @@ const BASE = '/Portafolio/';
 
 const TEXT_EXT = new Set(['.html', '.css', '.js', '.mjs', '.json', '.svg', '.webmanifest', '.xml', '.txt']);
 
-const ABS_ROOT = /((?:src|href|action|poster|data-src|data-lottie|content)\s*=\s*["']|\burl\(\s*["']?|\bfetch\(\s*["']?)(\/[^"')]+?)\s*["')]/g;
-
 function isRootRelative(path) {
   if (!path.startsWith('/')) return false;
   if (path.startsWith('//')) return false;
   if (path.startsWith(BASE)) return false;
-  if (/^(?:\/Portafolio\/)/.test(path)) return false;
   return true;
 }
 
@@ -21,12 +18,37 @@ function rewritePath(path) {
   return BASE + path.replace(/^\//, '');
 }
 
+const ATTR_URL = /((?:src|href|poster|action|data-src|data-lottie|content)\s*=\s*["'])(\/[^"')\s>]+)(["')])/g;
+
+function rewriteAttr(_match, attr, path, suffix) {
+  return attr + rewritePath(path) + suffix;
+}
+
+const SRCSET_URL = /([^"')\s,>]+)/g;
+
+const CSS_URL = /\burl\(\s*(?:(["'])([^"')]+)\1|([^"')]+))\s*\)/g;
+
+function rewriteCssUrl(_match, g1, g2, g3) {
+  const url = g2 ?? g3;
+  const q = g1 ?? '';
+  return `url(${q}${rewritePath(url)}${q})`;
+}
+
 function processFile(file) {
   const text = readFileSync(file, 'utf8');
-  const out = text.replace(ABS_ROOT, (match, prefix, path) => {
-    const rewritten = rewritePath(path);
-    return prefix + rewritten;
-  });
+  let out = text
+    .replace(/((?:src|href|poster|action|data-src|data-lottie|content)\s*=\s*["'])(\/[^"')\s>]+)(["')])/g, rewriteAttr)
+    .replace(/\b(srcset|imagesrcset)\s*=\s*(["'])([^"']*)(["'])/g, (_m, attrName, q1, list, q2) => {
+      const rewritten = list.replace(SRCSET_URL, (mm) => {
+        const trimmed = mm.trim();
+        const rewrittenPath = rewritePath(trimmed);
+        const spacesBefore = mm.length - mm.trimStart().length;
+        const spacesAfter = mm.length - mm.trimEnd().length;
+        return ' '.repeat(spacesBefore) + rewrittenPath + ' '.repeat(spacesAfter);
+      });
+      return `${attrName}=${q1}${rewritten}${q2}`;
+    })
+    .replace(CSS_URL, rewriteCssUrl);
   if (out !== text) {
     writeFileSync(file, out, 'utf8');
   }
@@ -53,7 +75,7 @@ if (process.argv.includes('--dry-run')) {
       if (stats.isDirectory()) walkDry(full);
       else if (TEXT_EXT.has(extname(full).toLowerCase())) {
         const text = readFileSync(full, 'utf8');
-        const matches = text.match(ABS_ROOT);
+        const matches = text.match(ATTR_URL);
         if (matches) { count += matches.length; console.log(full); }
       }
     }
