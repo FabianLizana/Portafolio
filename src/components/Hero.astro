@@ -33,9 +33,12 @@ import { site } from '../data/site';
   </div>
   <script is:inline>
     (() => {
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
       const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%&*+<>?/';
       const titles = [...document.querySelectorAll('#hero-title > span')];
       const original = titles.map((el) => el.textContent);
+      let playing = false;
 
       const scramble = (el, text, duration) => {
         const start = performance.now();
@@ -60,9 +63,24 @@ import { site } from '../data/site';
         requestAnimationFrame(tick);
       };
 
-      titles.forEach((el, i) => {
-        setTimeout(() => scramble(el, original[i], 950 + i * 250), 650 + i * 150);
-      });
+      const play = () => {
+        if (playing) return;
+        playing = true;
+        titles.forEach((el, i) => {
+          setTimeout(() => scramble(el, original[i], 2100 + i * 350), 900 + i * 500);
+        });
+        const total = 900 + titles.length * 500 + 2100 + (titles.length - 1) * 350;
+        setTimeout(() => { playing = false; }, total + 300);
+      };
+
+      play();
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) play();
+        });
+      }, { threshold: 0.5 });
+      observer.observe(document.querySelector('#hero-title'));
     })();
   </script>
 </section>
