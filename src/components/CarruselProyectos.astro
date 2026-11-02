@@ -556,6 +556,35 @@ const proximos = proyectos.filter((p) => p.href === '#');
     .fan-card { transition: none; }
     .fan-card-inner { transition: none; }
   }
+
+  /* ── Mobile: carrusel horizontal sin solapamiento ── */
+  @media (max-width: 767px) {
+    .fan-layout {
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      justify-content: flex-start;
+      padding-left: 1rem;
+      padding-right: 1rem;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+    .fan-layout::-webkit-scrollbar { display: none; }
+    .fan-card {
+      position: relative !important;
+      width: 82vw !important;
+      max-width: 320px;
+      transform: none !important;
+      opacity: 1 !important;
+      z-index: auto !important;
+      scroll-snap-align: center;
+      margin: 0 0.4rem 0 0;
+    }
+    .fan-card-inner { transform: none !important; transition: none !important; }
+    .fan-card[data-visible="false"] { display: none !important; }
+    .fan-controls { opacity: 1 !important; pointer-events: auto !important; visibility: visible !important; margin-top: 1rem; }
+    .fan-arrow { width: 44px; height: 44px; }
+    .fan-arrow svg { width: 18px; height: 18px; }
+  }
 </style>
 
 <script>
@@ -606,13 +635,13 @@ const proximos = proyectos.filter((p) => p.href === '#');
   const HALF = 3;
 
   const FAN_POSITIONS = [
-    { rot: -21, scale: 0.7756, x: -30, y: 7.3, zIndex: 1 },
-    { rot: -14, scale: 0.8498, x: -22, y: 4.0, zIndex: 2 },
-    { rot: -7,  scale: 0.9346, x: -11, y: 1.3, zIndex: 3 },
-    { rot: 0,   scale: 1.0,    x: 0,   y: 0.0, zIndex: 10 },
-    { rot: 7,   scale: 0.9346, x: 11,  y: 1.3, zIndex: 3 },
-    { rot: 14,  scale: 0.8498, x: 22,  y: 4.0, zIndex: 2 },
-    { rot: 21,  scale: 0.7756, x: 30,  y: 7.3, zIndex: 1 },
+    { rot: -21, scale: 0.7756, x: -30, y: 7.3, zIndex: 1, z: -6 },
+    { rot: -14, scale: 0.8498, x: -22, y: 4.0, zIndex: 2, z: -4 },
+    { rot: -7,  scale: 0.9346, x: -11, y: 1.3, zIndex: 3, z: -2 },
+    { rot: 0,   scale: 1.0,    x: 0,   y: 0.0, zIndex: 10, z: 0 },
+    { rot: 7,   scale: 0.9346, x: 11,  y: 1.3, zIndex: 3, z: -2 },
+    { rot: 14,  scale: 0.8498, x: 22,  y: 4.0, zIndex: 2, z: -4 },
+    { rot: 21,  scale: 0.7756, x: 30,  y: 7.3, zIndex: 1, z: -6 },
   ];
 
   function getResponsiveMultiplier(width: number) {
@@ -644,6 +673,7 @@ const proximos = proyectos.filter((p) => p.href === '#');
       scale: 1.0 - 0.2244 * absDistance * absDistance,
       x: distance * 30,
       y: absDistance * absDistance * 7.3,
+      z: -absDistance * 3,
       zIndex: 10 - Math.abs(slot - center),
     };
   }
@@ -666,6 +696,7 @@ const proximos = proyectos.filter((p) => p.href === '#');
     if (!allCards.length) return;
 
     const prefersReduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const isMobile = window.innerWidth < 768;
 
     let activeFilter = 'all';
     let cards = [...allCards];
@@ -722,6 +753,11 @@ const proximos = proyectos.filter((p) => p.href === '#');
     }
 
     function cycle(dir: Side) {
+      if (isMobile) {
+        const scrollBy = dir === 'right' ? layoutEl.clientWidth * 0.85 : -layoutEl.clientWidth * 0.85;
+        layoutEl.scrollBy({ left: scrollBy, behavior: 'smooth' });
+        return;
+      }
       if (isAnimating || !needsPagination) return;
       isAnimating = true;
       direction = dir;
@@ -733,6 +769,11 @@ const proximos = proyectos.filter((p) => p.href === '#');
     }
 
     function jumpTo(index: number) {
+      if (isMobile) {
+        const card = cards[index];
+        if (card) card.scrollIntoView({ behavior: 'smooth', inline: 'center' });
+        return;
+      }
       if (isAnimating || !needsPagination || index === centerIndex) return;
       isAnimating = true;
       direction = index > centerIndex ? 'right' : 'left';
@@ -747,6 +788,14 @@ const proximos = proyectos.filter((p) => p.href === '#');
 
     function update() {
       if (!cards.length) return;
+      if (isMobile) {
+        prevVisible = new Set();
+        cards.forEach((card) => {
+          card.dataset.visible = 'true';
+        });
+        attachHover();
+        return;
+      }
       const visibleMap = getVisibleMap(centerIndex);
       const previouslyVisible = prevVisible;
       const isFirstMount = !hasEntered;
@@ -771,10 +820,11 @@ const proximos = proyectos.filter((p) => p.href === '#');
         card.dataset.visible = slot !== undefined ? 'true' : 'false';
 
         if (slot !== undefined) {
-          const { x, y, rot, scale, zIndex } = config(slot);
+          const { x, y, rot, scale, zIndex, z } = config(slot);
           const target = {
             x: `${x * multiplier}rem`,
             y: `${y * hMult}rem`,
+            z: `${z * multiplier}rem`,
             rotation: rot,
             scale,
             opacity: 1,
@@ -823,6 +873,7 @@ const proximos = proyectos.filter((p) => p.href === '#');
     }
 
     function attachHover() {
+      if (isMobile) return;
       const visibleEntries: { el: HTMLElement; slot: number }[] = [];
       cards.forEach((el, i) => {
         const slot = el.dataset.visible === 'true' ? getVisibleMap(centerIndex).get(i) : undefined;
@@ -917,9 +968,11 @@ const proximos = proyectos.filter((p) => p.href === '#');
 
     function applyFilter(filter: string) {
       activeFilter = filter;
-      // Limpiar primero: clearProps:'all' borra TODOS los estilos inline,
-      // incluido display:none — por eso va ANTES de ocultar las cards.
-      gsap.set(allCards, { clearProps: 'all' });
+      if (!isMobile) {
+        // Limpiar primero: clearProps:'all' borra TODOS los estilos inline,
+        // incluido display:none — por eso va ANTES de ocultar las cards.
+        gsap.set(allCards, { clearProps: 'all' });
+      }
       allCards.forEach((card) => {
         const cat = card.dataset.category;
         const show = filter === 'all' || cat === filter;
@@ -928,12 +981,16 @@ const proximos = proyectos.filter((p) => p.href === '#');
       cards = allCards.filter((c) => c.style.display !== 'none');
       totalCards = cards.length;
       needsPagination = totalCards > MAX_VISIBLE;
-      centerIndex = needsPagination ? HALF : Math.min(centerIndex, Math.max(0, totalCards - 1));
-      if (!needsPagination) centerIndex = totalCards >> 1;
-      prevVisible = new Set();
-      hasEntered = false;
-      isAnimating = false;
-      cards.forEach((c) => { c.dataset.visible = 'false'; gsap.set(c, { opacity: 0 }); });
+      if (!isMobile) {
+        centerIndex = needsPagination ? HALF : Math.min(centerIndex, Math.max(0, totalCards - 1));
+        if (!needsPagination) centerIndex = totalCards >> 1;
+        prevVisible = new Set();
+        hasEntered = false;
+        isAnimating = false;
+        cards.forEach((c) => { c.dataset.visible = 'false'; gsap.set(c, { opacity: 0 }); });
+      } else {
+        cards.forEach((c) => { c.dataset.visible = 'true'; });
+      }
 
       filterBtns.forEach((b) => {
         const bFilter = b.dataset.filter!;
