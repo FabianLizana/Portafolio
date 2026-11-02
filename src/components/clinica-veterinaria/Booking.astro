@@ -1,0 +1,241 @@
+---
+import { CalendarCheck, CheckCircle2, MessageCircle } from "@lucide/astro";
+import SectionHead from "./SectionHead.astro";
+import Field from "./Field.astro";
+import { SERVICES } from "@/config/content";
+
+const field =
+  "w-full rounded-xl border border-input bg-background px-4 py-3 text-sm outline-none transition focus:border-sage focus:ring-2 focus:ring-ring/30";
+const times = ["Mañana (09:00 – 12:00)", "Mediodía (12:00 – 15:00)", "Tarde (15:00 – 19:00)"];
+---
+
+<section id="agendar" class="bg-secondary py-24">
+  <div class="mx-auto max-w-4xl px-5">
+    <SectionHead
+      eyebrow="Agendar"
+      title="Solicita una hora"
+      text="Completa tus datos y te contactaremos para confirmar la disponibilidad."
+    />
+    <div class="reveal rounded-[2rem] bg-card p-6 shadow-soft md:p-10">
+      <form id="booking-form" novalidate class="grid gap-5 md:grid-cols-2">
+        <Field k="tutor" label="Nombre del tutor *">
+          <input id="tutor" class={field} autocomplete="name" />
+        </Field>
+        <Field k="phone" label="Teléfono de contacto *">
+          <input
+            id="phone"
+            type="tel"
+            class={field}
+            placeholder="+56 9 ..."
+            autocomplete="tel"
+          />
+        </Field>
+        <Field k="pet" label="Nombre de la mascota *">
+          <input id="pet" class={field} />
+        </Field>
+        <Field k="type" label="Tipo de mascota *">
+          <select id="type" class={field}>
+            <option value="">Selecciona…</option>
+            <option>Perro</option>
+            <option>Gato</option>
+            <option>Otro</option>
+          </select>
+        </Field>
+        <Field k="service" label="Servicio solicitado *">
+          <select id="service" class={field}>
+            <option value="">Selecciona…</option>
+            {SERVICES.map((s) => <option>{s.name}</option>)}
+          </select>
+        </Field>
+        <Field k="date" label="Fecha preferida *">
+          <input id="date" type="date" class={field} />
+        </Field>
+        <Field k="time" label="Horario preferido *">
+          <select id="time" class={field}>
+            <option value="">Selecciona…</option>
+            {times.map((t) => <option>{t}</option>)}
+          </select>
+        </Field>
+        <div class="md:col-span-2">
+          <Field k="notes" label="Motivo de la consulta o comentarios">
+            <textarea id="notes" rows={4} class={field}></textarea>
+          </Field>
+        </div>
+        <div
+          class="flex flex-col gap-3 md:col-span-2 md:flex-row md:items-center md:justify-between"
+        >
+          <p class="text-xs text-muted-foreground">
+            La hora no queda confirmada automáticamente; la clínica confirmará la disponibilidad.
+          </p>
+          <button
+            type="submit"
+            class="inline-flex items-center justify-center gap-2 rounded-full bg-primary px-7 py-3 text-sm font-semibold text-primary-foreground shadow-soft transition hover:-translate-y-0.5 hover:bg-forest"
+          >
+            <CalendarCheck class="size-4" aria-hidden="true" />Enviar solicitud
+          </button>
+        </div>
+      </form>
+
+      <div id="booking-summary" class="hidden" aria-live="polite">
+        <div class="flex items-center gap-3 text-primary">
+          <CheckCircle2 class="size-7 text-sage" aria-hidden="true" />
+          <h3 class="text-2xl font-medium">Resumen de tu solicitud</h3>
+        </div>
+        <dl class="mt-6 grid gap-x-8 gap-y-3 text-sm sm:grid-cols-2">
+          <div class="border-b border-border pb-2">
+            <dt class="text-muted-foreground">Tutor</dt>
+            <dd id="sum-tutor" class="font-medium"></dd>
+          </div>
+          <div class="border-b border-border pb-2">
+            <dt class="text-muted-foreground">Teléfono</dt>
+            <dd id="sum-phone" class="font-medium"></dd>
+          </div>
+          <div class="border-b border-border pb-2">
+            <dt class="text-muted-foreground">Mascota</dt>
+            <dd id="sum-pet" class="font-medium"></dd>
+          </div>
+          <div class="border-b border-border pb-2">
+            <dt class="text-muted-foreground">Servicio</dt>
+            <dd id="sum-service" class="font-medium"></dd>
+          </div>
+          <div class="border-b border-border pb-2">
+            <dt class="text-muted-foreground">Fecha preferida</dt>
+            <dd id="sum-date" class="font-medium"></dd>
+          </div>
+          <div class="border-b border-border pb-2">
+            <dt class="text-muted-foreground">Horario preferido</dt>
+            <dd id="sum-time" class="font-medium"></dd>
+          </div>
+          <div id="sum-notes-row" class="hidden border-b border-border pb-2">
+            <dt class="text-muted-foreground">Comentarios</dt>
+            <dd id="sum-notes" class="font-medium"></dd>
+          </div>
+        </dl>
+        <p class="mt-6 rounded-xl bg-warn p-4 text-sm text-warn-foreground">
+          Tu hora <strong>aún no está confirmada</strong>. La clínica debe confirmar la
+          disponibilidad. Para enviar la solicitud, continúa por WhatsApp.
+        </p>
+        <div class="mt-6 flex flex-wrap gap-3">
+          <a
+            id="summary-whatsapp"
+            href="#"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center justify-center gap-2 rounded-full bg-whatsapp px-6 py-3 text-sm font-semibold text-primary-foreground transition-all duration-300 hover:-translate-y-0.5 hover:brightness-95"
+          >
+            <MessageCircle class="size-4" aria-hidden="true" />Continuar por WhatsApp
+          </a>
+          <button
+            id="new-request"
+            type="button"
+            class="rounded-full border border-primary/25 px-6 py-3 text-sm font-semibold text-primary hover:bg-primary/5"
+          >
+            Nueva solicitud
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { waLink } from "@/config/clinic";
+
+  const form = document.getElementById("booking-form") as HTMLFormElement | null;
+  const summary = document.getElementById("booking-summary");
+  const newRequest = document.getElementById("new-request");
+  const fields = ["tutor", "phone", "pet", "type", "service", "date", "time", "notes"] as const;
+
+  const value = (id: string) =>
+    (document.getElementById(id) as HTMLInputElement | HTMLSelectElement | null)?.value ?? "";
+
+  const showError = (key: string, message: string) => {
+    const input = document.getElementById(key);
+    const error = document.getElementById(`${key}-err`);
+
+    if (input) {
+      input.setAttribute("aria-invalid", message ? "true" : "false");
+      if (message) input.setAttribute("aria-describedby", `${key}-err`);
+      else input.removeAttribute("aria-describedby");
+    }
+
+    if (error) {
+      error.textContent = message;
+      error.classList.toggle("hidden", !message);
+    }
+  };
+
+  const setText = (id: string, text: string) => {
+    const element = document.getElementById(id);
+    if (element) element.textContent = text;
+  };
+
+  if (form && summary) {
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      const data = {
+        tutor: value("tutor"),
+        phone: value("phone"),
+        pet: value("pet"),
+        type: value("type"),
+        service: value("service"),
+        date: value("date"),
+        time: value("time"),
+        notes: value("notes"),
+      };
+
+      const errors: Record<string, string> = {};
+
+      if (data.tutor.trim().length < 2) errors.tutor = "Ingresa tu nombre.";
+      if (!/^[+\d\s()-]{8,}$/.test(data.phone.trim()))
+        errors.phone = "Ingresa un teléfono válido (ej. +56 9 1234 5678).";
+      if (!data.pet.trim()) errors.pet = "Ingresa el nombre de tu mascota.";
+      if (!data.type) errors.type = "Selecciona el tipo de mascota.";
+      if (!data.service) errors.service = "Selecciona un servicio.";
+      if (!data.date) errors.date = "Elige una fecha preferida.";
+      if (!data.time) errors.time = "Elige un horario preferido.";
+
+      fields.forEach((key) => showError(key, errors[key] ?? ""));
+
+      if (Object.keys(errors).length > 0) return;
+
+      const message = [
+        "Hola, quisiera consultar por una hora para mi mascota.",
+        `Tutor: ${data.tutor}`,
+        `Teléfono: ${data.phone}`,
+        `Mascota: ${data.pet} (${data.type})`,
+        `Servicio: ${data.service}`,
+        `Fecha preferida: ${data.date} – ${data.time}`,
+        ...(data.notes ? [`Comentarios: ${data.notes}`] : []),
+      ].join("\n");
+
+      setText("sum-tutor", data.tutor);
+      setText("sum-phone", data.phone);
+      setText("sum-pet", `${data.pet} (${data.type})`);
+      setText("sum-service", data.service);
+      setText("sum-date", data.date);
+      setText("sum-time", data.time);
+      setText("sum-notes", data.notes);
+
+      const notesRow = document.getElementById("sum-notes-row");
+      if (notesRow) notesRow.classList.toggle("hidden", !data.notes);
+
+      const whatsapp = document.getElementById("summary-whatsapp") as HTMLAnchorElement | null;
+      if (whatsapp) whatsapp.href = waLink(message);
+
+      form.classList.add("hidden");
+      summary.classList.remove("hidden");
+    });
+  }
+
+  if (form && summary && newRequest) {
+    newRequest.addEventListener("click", () => {
+      form.reset();
+      fields.forEach((key) => showError(key, ""));
+      summary.classList.add("hidden");
+      form.classList.remove("hidden");
+      (document.getElementById("tutor") as HTMLInputElement | null)?.focus();
+    });
+  }
+</script>

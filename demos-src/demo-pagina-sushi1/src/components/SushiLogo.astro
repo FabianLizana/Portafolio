@@ -1,0 +1,18 @@
+---
+interface Props {
+  class?: string;
+}
+const { class: cls = 'w-9 h-9' } = Astro.props;
+---
+
+<svg viewBox="0 0 40 40" class={`sushi-logo ${cls}`} xmlns="http://www.w3.org/2000/svg">
+  <circle cx="20" cy="20" r="18" fill="#1a2e1a" />
+  <circle cx="20" cy="20" r="15.5" fill="#f8f5ee" />
+  <circle cx="15" cy="15" r="0.9" fill="#ddd6c4" />
+  <circle cx="25" cy="15" r="0.9" fill="#ddd6c4" />
+  <circle cx="15" cy="25" r="0.9" fill="#ddd6c4" />
+  <circle cx="25" cy="25" r="0.9" fill="#ddd6c4" />
+  <circle cx="20" cy="20" r="8.5" fill="#FF5A4E" />
+  <ellipse cx="17" cy="18" rx="2.5" ry="1.8" fill="#FF8B5A" />
+  <circle cx="23" cy="22" r="1.8" fill="#B8E835" />
+</svg>

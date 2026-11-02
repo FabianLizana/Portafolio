@@ -1,0 +1,52 @@
+---
+import { Heart, Quote, ShieldCheck, Users } from "@lucide/astro";
+import SectionHead from "./SectionHead.astro";
+import { REVIEWS } from "@/config/content";
+
+const values = [
+  { icon: Heart, title: "Trato cercano", text: "Escuchamos a cada familia." },
+  { icon: Users, title: "Atención personalizada", text: "Cada paciente es único." },
+  { icon: ShieldCheck, title: "Cuidado preventivo", text: "Prevenir es cuidar." },
+];
+---
+
+<section class="py-24">
+  <div class="mx-auto max-w-7xl px-5">
+    <SectionHead eyebrow="Testimonios" title="Familias que confían en nosotros" />
+    <div class="grid gap-6 md:grid-cols-3">
+      {
+        REVIEWS.map((r) => (
+          <figure class="reveal relative rounded-3xl border border-border bg-card p-8 transition hover:shadow-soft">
+            <span class="absolute right-6 top-6 rounded-full bg-secondary px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+              Demo
+            </span>
+            <Quote class="size-8 text-sage" aria-hidden="true" />
+            <blockquote class="mt-4 font-display text-lg text-primary">“{r.text}”</blockquote>
+            <figcaption class="mt-6 text-sm">
+              <span class="font-semibold">{r.name}</span>{" "}
+              <span class="text-muted-foreground">· {r.pet}</span>
+            </figcaption>
+          </figure>
+        ))
+      }
+    </div>
+    <div class="reveal mt-12 grid gap-4 rounded-3xl bg-sage-soft p-6 sm:grid-cols-3">
+      {
+        values.map(({ icon: Icon, title, text }) => (
+          <div class="flex items-center gap-3">
+            <span class="grid size-11 place-items-center rounded-full bg-card text-primary">
+              <Icon class="size-5" aria-hidden="true" />
+            </span>
+            <div>
+              <p class="font-semibold text-primary">{title}</p>
+              <p class="text-sm text-muted-foreground">{text}</p>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+    <p class="mt-6 text-center text-xs text-muted-foreground">
+      Testimonios ficticios con fines demostrativos.
+    </p>
+  </div>
+</section>

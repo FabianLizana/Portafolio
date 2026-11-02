@@ -15,7 +15,7 @@ import { site } from '../data/site';
   </div>
   <div class="hero-content shell">
     <p class="eyebrow reveal">Disponible para colaborar <span></span> Chile / LATAM</p>
-    <h1 id="hero-title" class="hero-title">
+    <h1 id="hero-title" class="hero-title" data-scramble>
       <span class="reveal reveal-delay-1">Webs que venden.</span>
       <span class="reveal reveal-delay-2 accent-word">Bots que atienden.</span>
       <span class="reveal reveal-delay-3">IA que transforma.</span>
@@ -31,56 +31,4 @@ import { site } from '../data/site';
       <a class="text-link" href="#servicios">Ver servicios <ArrowDownRight size={17} strokeWidth={1.8} /></a>
     </div>
   </div>
-  <script is:inline>
-    (() => {
-      if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-      const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%&*+<>?/';
-      const titles = [...document.querySelectorAll('#hero-title > span')];
-      const original = titles.map((el) => el.textContent);
-      let playing = false;
-
-      const scramble = (el, text, duration) => {
-        const start = performance.now();
-        const tick = (now) => {
-          const progress = Math.min((now - start) / duration, 1);
-          const fixed = Math.floor(progress * text.length);
-          let out = '';
-          for (let i = 0; i < text.length; i++) {
-            if (text[i] === ' ') {
-              out += ' ';
-            } else {
-              out += i < fixed ? text[i] : CHARS[Math.floor(Math.random() * CHARS.length)];
-            }
-          }
-          el.textContent = out;
-          if (progress < 1) {
-            requestAnimationFrame(tick);
-          } else {
-            el.textContent = text;
-          }
-        };
-        requestAnimationFrame(tick);
-      };
-
-      const play = () => {
-        if (playing) return;
-        playing = true;
-        titles.forEach((el, i) => {
-          setTimeout(() => scramble(el, original[i], 2100 + i * 350), 900 + i * 500);
-        });
-        const total = 900 + titles.length * 500 + 2100 + (titles.length - 1) * 350;
-        setTimeout(() => { playing = false; }, total + 300);
-      };
-
-      play();
-
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) play();
-        });
-      }, { threshold: 0.5 });
-      observer.observe(document.querySelector('#hero-title'));
-    })();
-  </script>
 </section>

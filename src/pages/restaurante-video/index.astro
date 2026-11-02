@@ -1,0 +1,19 @@
+---
+import BaseLayoutRestaurante from '../../layouts/BaseLayoutRestaurante.astro';
+import Hero from '../../components/restaurante-video/Hero.astro';
+import ScrollFilm from '../../components/restaurante-video/ScrollFilm.astro';
+import ImageFeature from '../../components/restaurante-video/ImageFeature.astro';
+import Footer from '../../components/restaurante-video/Footer.astro';
+---
+
+<BaseLayoutRestaurante
+  title="NOBU · Alta cocina japonesa"
+  description="Experiencia gastronómica japonesa en un entorno de luz baja, cedro y tradición. Desplázate para recorrer el restaurante."
+>
+  <main>
+    <Hero />
+    <ScrollFilm />
+    <ImageFeature />
+  </main>
+  <Footer />
+</BaseLayoutRestaurante>

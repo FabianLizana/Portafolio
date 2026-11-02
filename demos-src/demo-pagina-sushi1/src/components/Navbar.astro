@@ -1,0 +1,64 @@
+---
+import SushiLogo from './SushiLogo.astro';
+
+interface Props {
+  current?: 'inicio' | 'menu' | 'contacto';
+}
+const { current = 'inicio' } = Astro.props;
+
+const links = [
+  { route: 'inicio', href: '/', label: 'Inicio' },
+  { route: 'menu', href: '/menu', label: 'Menú' },
+  { route: 'contacto', href: '/contacto', label: 'Contacto' },
+];
+---
+
+<nav class="navbar fixed top-0 left-0 right-0 z-50">
+  <div class="max-w-7xl mx-auto px-5 md:px-8 py-4 flex items-center justify-between">
+    <a href="/" class="flex items-center gap-2.5 group">
+      <div class="w-10 h-10 rounded-xl bg-bg2 border border-white/10 flex items-center justify-center overflow-hidden">
+        <SushiLogo />
+      </div>
+      <div class="leading-none">
+        <div class="font-display font-600 text-lg">Saber De Sabor</div>
+        <div class="text-[10px] uppercase tracking-[0.2em] text-neutral-500">Sushi · Peñaflor</div>
+      </div>
+    </a>
+
+    <div class="hidden md:flex items-center gap-9">
+      {links.map((l) => (
+        <a href={l.href} class={`nav-link font-display font-500 text-[15px] ${current === l.route ? 'active' : ''}`}>
+          {l.label}
+        </a>
+      ))}
+      <a
+        href="https://wa.me/56973341304"
+        target="_blank"
+        class="btn-coral px-5 py-2.5 rounded-full text-sm font-display font-600 flex items-center gap-2"
+      >
+        <i class="fa-brands fa-whatsapp text-base"></i> Pedir ahora
+      </a>
+    </div>
+
+    <button id="mobile-toggle" class="md:hidden text-2xl text-white" aria-label="Abrir menú">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+  </div>
+
+  <div id="mobile-menu" class="mobile-menu md:hidden absolute top-full left-0 right-0 bg-bg1/95 backdrop-blur-xl border-b border-white/5 px-5 py-6">
+    <div class="flex flex-col gap-4">
+      {links.map((l) => (
+        <a href={l.href} class={`font-display font-500 text-xl py-2 mobile-link ${current === l.route ? 'text-coral' : ''}`}>
+          {l.label}
+        </a>
+      ))}
+      <a
+        href="https://wa.me/56973341304"
+        target="_blank"
+        class="btn-wsp px-5 py-3 rounded-full text-center font-display font-600 flex items-center justify-center gap-2 mt-2"
+      >
+        <i class="fa-brands fa-whatsapp text-lg"></i> Pedir por WhatsApp
+      </a>
+    </div>
+  </div>
+</nav>

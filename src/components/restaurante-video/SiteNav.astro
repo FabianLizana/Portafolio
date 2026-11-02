@@ -1,0 +1,246 @@
+---
+/**
+ * SiteNav: barra de navegación entre secciones, fija arriba y siempre visible.
+ * Translúcida al inicio; al hacer scroll pasa a ink/90 + blur (legibilidad
+ * sobre el vídeo). Subrayado de latón con scaleX en hover/foco y estado
+ * activo persistente (IntersectionObserver en secciones de página; progreso
+ * de scroll dentro del film para las escenas).
+ * Los enlaces de escena saltan al inicio del tramo de vídeo de la escena:
+ *   scrollY = filmTop + p_escena × (filmHeight − viewport)
+ * (entrada p=0 · barra p=0.38 · omakase p=0.63, apenas pasada su marca);
+ * el autoavance lleva entonces el tramo hasta su corte con el texto legible.
+ */
+---
+
+<header class="site-nav" data-scrolled="false">
+  <nav class="site-nav__inner" aria-label="Secciones del sitio">
+    <a href="#inicio" class="site-nav__brand">NOBU</a>
+    <ul class="site-nav__list">
+      <li><a class="site-nav__link" data-nav="inicio" href="#inicio">Inicio</a></li>
+      <li><a class="site-nav__link" data-nav="entrada" data-film-p="0" href="#entrada">La entrada</a></li>
+      <li><a class="site-nav__link" data-nav="barra" data-film-p="0.38" href="#barra">La barra</a></li>
+      <li><a class="site-nav__link" data-nav="omakase" data-film-p="0.63" href="#omakase">El omakase</a></li>
+      <li><a class="site-nav__link" data-nav="comedor" href="#comedor">El comedor</a></li>
+      <li><a class="site-nav__link" data-nav="reservas" href="#reservas">Reservas</a></li>
+    </ul>
+  </nav>
+</header>
+
+<style>
+  .site-nav {
+    position: fixed;
+    inset-inline: 0;
+    top: 0;
+    z-index: 50;
+    background: rgb(11 10 8 / 0.55);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border-bottom: 1px solid transparent;
+    transition:
+      background-color 0.3s ease,
+      border-color 0.3s ease;
+  }
+
+  .site-nav[data-scrolled='true'] {
+    background: rgb(11 10 8 / 0.9);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom-color: rgb(201 162 39 / 0.22);
+  }
+
+  .site-nav__inner {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    height: 3.25rem;
+    max-width: 80rem;
+    margin-inline: auto;
+    padding-inline: 1rem;
+  }
+
+  .site-nav__brand {
+    flex: none;
+    font-family: var(--font-display);
+    font-size: 0.8rem;
+    letter-spacing: 0.35em;
+    color: var(--color-cream);
+    text-decoration: none;
+  }
+
+  .site-nav__list {
+    display: flex;
+    /* Empuja los enlaces a la derecha; si no caben, desbordan al final
+       (scroll horizontal accesible) y no por el inicio. */
+    margin-inline-start: auto;
+    gap: 0.15rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .site-nav__list::-webkit-scrollbar {
+    display: none;
+  }
+
+  .site-nav__link {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+    padding: 0.75rem 0.55rem;
+    font-size: 0.7rem;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    white-space: nowrap;
+    color: rgb(242 233 218 / 0.85);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .site-nav__link::after {
+    content: '';
+    position: absolute;
+    left: 0.55rem;
+    right: 0.55rem;
+    bottom: 0.55rem;
+    height: 1px;
+    background: var(--color-brass);
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .site-nav__link:hover,
+  .site-nav__link:focus-visible {
+    color: var(--color-cream);
+  }
+
+  .site-nav__link:hover::after,
+  .site-nav__link:focus-visible::after,
+  .site-nav__link[aria-current='true']::after {
+    transform: scaleX(1);
+  }
+
+  .site-nav__link[aria-current='true'] {
+    color: var(--color-cream);
+  }
+
+  @media (min-width: 768px) {
+    .site-nav__inner {
+      height: 3.5rem;
+      padding-inline: 3rem;
+    }
+
+    .site-nav__link {
+      padding-inline: 0.7rem;
+      font-size: 0.75rem;
+      letter-spacing: 0.24em;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .site-nav,
+    .site-nav__link::after {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  const header = document.querySelector<HTMLElement>('.site-nav');
+  const links = Array.from(document.querySelectorAll<HTMLAnchorElement>('.site-nav__link'));
+  const list = document.querySelector<HTMLElement>('.site-nav__list');
+  const film = document.querySelector<HTMLElement>('.film');
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  const clamp01 = (v: number) => Math.min(1, Math.max(0, v));
+
+  let lastActive: string | null = null;
+  function setActive(id: string) {
+    if (id === lastActive) return;
+    lastActive = id;
+    let active: HTMLAnchorElement | undefined;
+    links.forEach((l) => {
+      if (l.dataset.nav === id) {
+        l.setAttribute('aria-current', 'true');
+        active = l;
+      } else l.removeAttribute('aria-current');
+    });
+    // En pantallas estrechas la lista desborda: centra el enlace activo
+    // para que el estado siempre se vea (solo desplaza la barra, no la página).
+    if (active && list && list.scrollWidth > list.clientWidth) {
+      const left = Math.max(0, active.offsetLeft - (list.clientWidth - active.clientWidth) / 2);
+      list.scrollTo({ left, behavior: reducedMotion.matches ? 'auto' : 'smooth' });
+    }
+  }
+
+  /** Escena activa dentro del film, según el progreso de scroll. */
+  function filmSceneId(): string | null {
+    if (!film) return null;
+    const rect = film.getBoundingClientRect();
+    const vh = window.innerHeight;
+    if (rect.top > vh * 0.35 || rect.bottom < vh * 0.65) return null;
+    const total = film.offsetHeight - vh;
+    const p = total > 0 ? clamp01(-rect.top / total) : 0;
+    // Cortes reales del vídeo: 6.0s y 10.0s de 16s → 0.375 / 0.625.
+    // Cada sección posee [inicio, corte]: clavado EN el corte sigue siendo
+    // la sección anterior (coincide con sceneStop del film).
+    if (p <= 0.375) return 'entrada';
+    if (p <= 0.625) return 'barra';
+    return 'omakase';
+  }
+
+  let ticking = false;
+  function update() {
+    ticking = false;
+    if (header) header.dataset.scrolled = window.scrollY > 24 ? 'true' : 'false';
+    const scene = filmSceneId();
+    if (scene) setActive(scene);
+  }
+  function onScroll() {
+    if (!ticking) {
+      ticking = true;
+      requestAnimationFrame(update);
+    }
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll, { passive: true });
+  update();
+
+  /** Secciones de página fuera del film: estado activo por visibilidad. */
+  const pageSections: Array<[string, string]> = [
+    ['inicio', '#inicio'],
+    ['comedor', '#comedor'],
+    ['reservas', '#reservas'],
+  ];
+  const observer = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        if (!entry.isIntersecting || filmSceneId()) continue;
+        const match = pageSections.find(([, sel]) => entry.target.matches(sel));
+        if (match) setActive(match[0]);
+      }
+    },
+    { rootMargin: '-45% 0px -45% 0px', threshold: 0 },
+  );
+  pageSections.forEach(([, sel]) => {
+    const el = document.querySelector(sel);
+    if (el) observer.observe(el);
+  });
+
+  /** Salto exacto a las escenas del film (los demás usan ancla + scroll-margin). */
+  links.forEach((link) => {
+    const raw = link.dataset.filmP;
+    if (raw === undefined || !film) return;
+    link.addEventListener('click', (event) => {
+      event.preventDefault();
+      const p = parseFloat(raw);
+      const total = film.offsetHeight - window.innerHeight;
+      const top = film.getBoundingClientRect().top + window.scrollY + p * total;
+      window.scrollTo({ top, behavior: reducedMotion.matches ? 'auto' : 'smooth' });
+      history.replaceState(null, '', link.getAttribute('href') ?? '');
+    });
+  });
+</script>

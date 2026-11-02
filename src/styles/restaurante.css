@@ -1,0 +1,112 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-ink: #0b0a08;
+  --color-coal: #12100d;
+  --color-brass: #c9a227;
+  --color-brass-light: #d9b45b;
+  --color-cream: #f2e9da;
+  --color-lacquer: #8e2c1e;
+
+  --font-display: 'Marcellus', ui-serif, Georgia, serif;
+  --font-body: 'Zen Kaku Gothic New', ui-sans-serif, system-ui, sans-serif;
+}
+
+html {
+  background-color: var(--color-ink);
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--color-cream);
+  background-color: var(--color-ink);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+::selection {
+  background-color: var(--color-brass);
+  color: var(--color-ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-brass-light);
+  outline-offset: 3px;
+}
+
+section[id],
+footer[id],
+article[id] {
+  scroll-margin-top: 4.5rem;
+}
+
+.scroll-hint__line {
+  animation: scroll-hint-pulse 2.2s ease-in-out infinite;
+  transform-origin: top;
+}
+
+@keyframes scroll-hint-pulse {
+  0%,
+  100% {
+    transform: scaleY(0.35);
+    opacity: 0.4;
+  }
+  50% {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .film {
+    height: auto;
+  }
+
+  .film__stage {
+    position: relative;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .film__video {
+    position: relative;
+    height: 56vh;
+  }
+
+  .film__scrim {
+    display: none;
+  }
+
+  .film__scenes {
+    position: relative;
+    inset: auto;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .film__scene {
+    position: relative;
+    inset: auto;
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important;
+    padding-block: 2.5rem;
+    border-top: 1px solid rgb(201 162 39 / 0.25);
+  }
+
+  .film__progress {
+    display: none;
+  }
+
+  .scroll-hint__line {
+    animation: none;
+    opacity: 1;
+    transform: scaleY(1);
+  }
+}

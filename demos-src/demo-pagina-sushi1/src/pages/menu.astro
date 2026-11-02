@@ -1,0 +1,190 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { menuData } from '../data/menu';
+
+const current = 'menu';
+---
+
+<Layout title="Menú — Saber De Sabor" description="Carta completa de rolls, promos, nigiri, aperitivos y postres. Precios en CLP. Delivery en Peñaflor y Malloco." current={current}>
+  <section class="py-20 md:py-28 relative">
+    <div class="absolute top-20 left-1/2 -translate-x-1/2 w-[600px] h-[300px] glow-coral opacity-30 blur-3xl pointer-events:none"></div>
+
+    <div class="max-w-6xl mx-auto px-5 md:px-8 relative">
+      <div class="text-center mb-12" data-reveal>
+        <div class="tag mb-5 mx-auto inline-flex">
+          <span class="w-1.5 h-1.5 rounded-full bg-coral"></span>
+          <span>Carta Completa</span>
+        </div>
+        <h1 class="font-display font-700 text-5xl md:text-7xl leading-[0.9] mb-4">
+          Nuestra <span class="gradient-text">Carta</span>
+        </h1>
+        <p class="text-neutral-400 max-w-xl mx-auto">Cada roll se prepara al momento con ingredientes frescos. Precios en pesos chilenos (CLP).</p>
+      </div>
+
+      <div data-reveal data-reveal-delay="1" class="menu-frame">
+        <div class="menu-inner">
+          <span class="corner corner-tl"></span>
+          <span class="corner corner-tr"></span>
+          <span class="corner corner-bl"></span>
+          <span class="corner corner-br"></span>
+
+          <div class="tabs-scroll overflow-x-auto pb-2 -mx-2 px-2 mb-8">
+            <div class="flex gap-2 md:gap-3 min-w-min md:flex-wrap md:justify-center" id="menu-tabs">
+              {menuData.map(cat => (
+                <button class={`tab-btn ${cat.id === 'carta' ? 'active' : ''}`} data-cat={cat.id}>
+                  {cat.title}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div class="text-center mb-8" id="menu-category-header">
+            <h2 class="font-display font-700 text-3xl md:text-5xl" id="cat-title">Carta</h2>
+            <div class="flex items-center justify-center gap-3 mt-2">
+              <span class="h-px w-12 bg-coral"></span>
+              <span class="text-xs uppercase tracking-[0.3em] text-neutral-500" id="cat-subtitle">Nuestros rolls clásicos</span>
+              <span class="h-px w-12 bg-coral"></span>
+            </div>
+          </div>
+
+          <div id="menu-grid" class="menu-grid grid sm:grid-cols-2 gap-4 md:gap-5" data-menu={JSON.stringify(menuData)}></div>
+
+          <div class="mt-10 pt-6 border-t border-dashed border-white/10 text-center">
+            <p class="text-xs text-neutral-500 max-w-2xl mx-auto">
+              <i class="fa-solid fa-circle-info text-coral mr-1"></i>
+              Despacho a todo Peñaflor y Malloco sin cargo adicional (excepto propinas). Consulta disponibilidad por WhatsApp.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div data-reveal class="mt-12 text-center">
+        <p class="text-neutral-400 mb-5">¿Ya sabes qué vas a pedir?</p>
+        <a href="https://wa.me/56973341304?text=Hola!%20Quiero%20hacer%20un%20pedido" target="_blank" class="btn-wsp inline-flex items-center gap-3 px-8 py-4 rounded-full font-display font-600 text-base">
+          <i class="fa-brands fa-whatsapp text-xl"></i> Pedir por WhatsApp
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // Escape helpers (no-op-safe replacements for the broken .replace)
+    const esc = (s) => String(s)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+
+    let menuData = [];
+    let currentCategory = 'carta';
+    let imgCounter = 0;
+    const menuImages = ['/images/02.jpg', '/images/03.jpg', '/images/04.jpg'];
+
+    function nextImage() {
+      const url = menuImages[imgCounter % menuImages.length];
+      imgCounter++;
+      return url;
+    }
+
+    function renderCategory(catId) {
+      const cat = menuData.find(c => c.id === catId);
+      if (!cat) return;
+
+      const grid = document.getElementById('menu-grid');
+      if (!grid) return;
+      grid.classList.add('flipping');
+
+      setTimeout(() => {
+        const titleEl = document.getElementById('cat-title');
+        const subtitleEl = document.getElementById('cat-subtitle');
+        if (titleEl) titleEl.textContent = cat.title;
+        if (subtitleEl) subtitleEl.textContent = cat.subtitle;
+        imgCounter = 0;
+
+        grid.innerHTML = cat.items.map((item, i) => `
+          <article class="menu-item" data-reveal data-reveal-delay="${(i % 3) + 1}">
+            <div class="menu-item-img">
+              <img src="${item.img || nextImage()}" alt="${esc(item.name)}" loading="lazy" />
+            </div>
+            <div class="flex-1 min-w-0">
+              <div class="flex items-start justify-between gap-2">
+                <h3 class="font-display font-600 text-base md:text-lg leading-tight">${esc(item.name)}</h3>
+                ${item.featured ? '<span class="badge badge-coral text-[9px] py-0.5 px-2 flex-shrink-0">Top</span>' : ''}
+              </div>
+              <p class="text-neutral-500 text-xs md:text-sm mt-1 mb-2 leading-snug">${esc(item.desc)}</p>
+              <div class="flex items-end">
+                <span class="font-display font-700 text-lg md:text-xl text-coral">${esc(item.price)}</span>
+              </div>
+            </div>
+          </article>
+        `).join('');
+
+        grid.classList.remove('flipping');
+        initRevealForGrid();
+      }, 350);
+    }
+
+    function initRevealForGrid() {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('revealed');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+
+      document.querySelectorAll('#menu-grid [data-reveal]:not(.revealed)').forEach(el => {
+        observer.observe(el);
+      });
+
+      requestAnimationFrame(() => {
+        document.querySelectorAll('#menu-grid [data-reveal]').forEach(el => {
+          const rect = el.getBoundingClientRect();
+          if (rect.top < window.innerHeight) {
+            el.classList.add('revealed');
+          }
+        });
+      });
+    }
+
+    function initMenu() {
+      const grid = document.getElementById('menu-grid');
+      if (!grid) return;
+
+      // Leer los datos desde el atributo data-menu (Astro los renderiza como HTML estático)
+      try {
+        menuData = JSON.parse(grid.dataset.menu || '[]');
+      } catch (e) {
+        console.error('No se pudo parsear menuData', e);
+        return;
+      }
+
+      currentCategory = 'carta';
+      imgCounter = 0;
+
+      const tabsContainer = document.getElementById('menu-tabs');
+      if (tabsContainer) {
+        tabsContainer.querySelectorAll('.tab-btn').forEach(btn => {
+          // Limpia listeners previos (en caso de re-init tras View Transition)
+          const newBtn = btn.cloneNode(true);
+          btn.parentNode.replaceChild(newBtn, btn);
+          newBtn.addEventListener('click', () => {
+            const cat = newBtn.dataset.cat;
+            if (cat === currentCategory) return;
+            currentCategory = cat;
+            tabsContainer.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b === newBtn));
+            renderCategory(cat);
+          });
+        });
+      }
+
+      renderCategory('carta');
+    }
+
+    // Iniushio inicial + re-arranque en navegación con View Transitions
+    initMenu();
+    document.addEventListener('astro:after-swap', initMenu);
+  </script>
+</Layout>

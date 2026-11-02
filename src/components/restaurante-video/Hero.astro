@@ -1,0 +1,40 @@
+---
+/**
+ * Hero: fachada nocturna del restaurante. La puerta de entrada al sitio
+ * —literalmente— antes de que el scroll arrastre el vídeo.
+ */
+---
+
+<section id="inicio" class="relative flex h-[100svh] items-center justify-center overflow-hidden" aria-label="Portada">
+  <img
+    src="/img/1web.webp"
+    alt="Fachada iluminada del restaurante NOBU en la noche"
+    class="absolute inset-0 h-full w-full object-cover"
+    fetchpriority="high"
+    decoding="async"
+  />
+  <!-- Scrim para legibilidad del texto (contraste AA sobre imagen cálida) -->
+  <div class="absolute inset-0 bg-gradient-to-b from-ink/70 via-ink/30 to-ink/85"></div>
+
+  <div class="relative z-10 flex w-full flex-col items-center px-6 text-center">
+    <p class="font-body text-[0.65rem] uppercase tracking-[0.6em] text-brass-light sm:text-xs">
+      日本料理
+    </p>
+    <h1
+      class="mt-5 font-display text-[clamp(3.5rem,13vw,9rem)] leading-none tracking-[0.18em] text-cream"
+    >
+      NOBU
+    </h1>
+    <p class="mx-auto mt-6 w-full max-w-md font-body text-sm font-light leading-relaxed text-cream/85 sm:text-base">
+      Alta cocina japonesa. Ocho platos, una sola historia,
+      servidos en el silencio de la noche.
+    </p>
+  </div>
+
+  <div class="absolute bottom-8 left-1/2 z-10 flex -translate-x-1/2 flex-col items-center gap-3">
+    <span class="font-body text-[0.55rem] uppercase tracking-[0.28em] text-cream/60 sm:text-[0.6rem] sm:tracking-[0.45em]">
+      Desplázate para entrar
+    </span>
+    <span class="scroll-hint__line h-12 w-px bg-brass" aria-hidden="true"></span>
+  </div>
+</section>

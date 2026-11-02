@@ -1,0 +1,41 @@
+---
+/**
+ * ImageFeature: sección editorial con la imagen del comedor principal
+ * (5web.webp) y llamada a la reserva — único punto de color laca.
+ */
+---
+
+<section id="comedor" class="relative overflow-hidden bg-coal py-20 md:py-28" aria-label="El comedor">
+  <div class="mx-auto grid max-w-7xl items-center gap-10 px-6 md:grid-cols-12 md:gap-14 md:px-12">
+    <figure class="md:col-span-7">
+      <img
+        src="/img/5web.webp"
+        alt="Comedor principal con barra de sushi iluminada y lámparas de papel"
+        class="h-[46vh] w-full rounded-sm object-cover md:h-[64vh]"
+        loading="lazy"
+        decoding="async"
+      />
+    </figure>
+
+    <div class="md:col-span-5">
+      <p class="font-body text-[0.6rem] uppercase tracking-[0.5em] text-brass-light sm:text-xs">
+        04 · El comedor
+      </p>
+      <h2 class="mt-4 font-display text-[clamp(1.9rem,4.5vw,3.25rem)] leading-tight text-cream">
+        Luz baja, madera y tiempo
+      </h2>
+      <p class="mt-5 max-w-md font-body text-sm font-light leading-relaxed text-cream/80 sm:text-base">
+        Linternas de arroz suspendidas sobre cedro, la vitrina del itamae
+        como un escenario y mesas que no se apresuran. El comedor principal
+        de NOBU está pensado para una cosa: que la noche dure lo que tenga que durar.
+      </p>
+
+      <a
+        href="#reservas"
+        class="mt-9 inline-flex min-h-11 items-center rounded-sm bg-lacquer px-8 py-3 font-body text-xs uppercase tracking-[0.35em] text-cream transition duration-300 hover:bg-lacquer/85 focus-visible:bg-lacquer/85 active:translate-y-px"
+      >
+        Reservar mesa
+      </a>
+    </div>
+  </div>
+</section>

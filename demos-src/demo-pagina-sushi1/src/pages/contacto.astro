@@ -1,0 +1,137 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Contacto — Saber De Sabor" description="Visítanos en Peñaflor, RM. Malloquito 1985, Local B. Horario: Lun–Mar, Jue–Dom 6–11 PM. Pide por WhatsApp." current="contacto">
+  <section class="py-20 md:py-28 relative">
+    <div class="absolute top-20 right-0 w-[500px] h-[400px] glow-lime opacity-20 blur-3xl pointer-events:none"></div>
+
+    <div class="max-w-7xl mx-auto px-5 md:px-8 relative">
+      <div class="text-center mb-14" data-reveal>
+        <div class="tag mb-5 mx-auto inline-flex">
+          <span class="w-1.5 h-1.5 rounded-full bg-lime2"></span>
+          <span>Contacto</span>
+        </div>
+        <h1 class="font-display font-700 text-5xl md:text-7xl leading-[0.9] mb-4">
+          Ven a <span class="text-lime2">visitarnos</span>
+        </h1>
+        <p class="text-neutral-400 max-w-xl mx-auto">Estamos en el corazón de Peñaflor. Pasa a saludar o escríbenos por WhatsApp.</p>
+      </div>
+
+      <div class="grid lg:grid-cols-2 gap-8">
+        <div class="space-y-6">
+          <div data-reveal class="info-card">
+            <div class="flex items-start gap-4">
+              <div class="w-12 h-12 rounded-2xl bg-coral/15 text-coral flex items-center justify-center flex-shrink-0">
+                <i class="fa-solid fa-location-dot text-xl"></i>
+              </div>
+              <div>
+                <h3 class="font-display font-600 text-xl mb-1">Dirección</h3>
+                <p class="text-neutral-300">Malloquito 1985, Local B</p>
+                <p class="text-neutral-400 text-sm">9750000 Peñaflor, Región Metropolitana</p>
+                <a href="https://maps.google.com/?q=Malloquito+1985,+Peñaflor" target="_blank" class="inline-flex items-center gap-2 text-coral text-sm mt-3 hover:gap-3 transition-all">
+                  Cómo llegar <i class="fa-solid fa-arrow-right text-xs"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div data-reveal data-reveal-delay="1" class="info-card">
+            <div class="flex items-start gap-4 mb-4">
+              <div class="w-12 h-12 rounded-2xl bg-lime2/15 text-lime2 flex items-center justify-center flex-shrink-0">
+                <i class="fa-solid fa-clock text-xl"></i>
+              </div>
+              <div>
+                <h3 class="font-display font-600 text-xl">Horario</h3>
+                <p class="text-neutral-500 text-xs">Los horarios pueden variar</p>
+              </div>
+            </div>
+            <div>
+              <div class="hours-row"><span class="text-neutral-300">Lunes</span><span class="font-display font-500">6:00 PM – 11:00 PM</span></div>
+              <div class="hours-row"><span class="text-neutral-300">Martes</span><span class="font-display font-500">6:00 PM – 11:00 PM</span></div>
+              <div class="hours-row"><span class="text-neutral-300">Miércoles</span><span class="hours-closed">Cerrado</span></div>
+              <div class="hours-row"><span class="text-neutral-300">Jueves</span><span class="font-display font-500">6:00 PM – 11:00 PM</span></div>
+              <div class="hours-row"><span class="text-neutral-300">Viernes</span><span class="font-display font-500">6:00 PM – 11:00 PM</span></div>
+              <div class="hours-row"><span class="text-neutral-300">Sábado</span><span class="font-display font-500">6:00 PM – 11:00 PM</span></div>
+              <div class="hours-row"><span class="text-neutral-300">Domingo</span><span class="font-display font-500">6:00 PM – 11:00 PM</span></div>
+            </div>
+          </div>
+
+          <div data-reveal data-reveal-delay="2" class="info-card">
+            <div class="flex items-start gap-4 mb-4">
+              <div class="w-12 h-12 rounded-2xl bg-salmon/15 text-salmon flex items-center justify-center flex-shrink-0">
+                <i class="fa-solid fa-credit-card text-xl"></i>
+              </div>
+              <div><h3 class="font-display font-600 text-xl">Info adicional</h3></div>
+            </div>
+            <div class="space-y-3 text-sm">
+              <div class="flex items-center gap-3 text-neutral-300"><i class="fa-solid fa-credit-card text-salmon w-5"></i><span>Tarjetas crédito y débito</span></div>
+              <div class="flex items-center gap-3 text-neutral-300"><i class="fa-solid fa-mobile-screen text-salmon w-5"></i><span>Pago móvil NFC (transbank)</span></div>
+              <div class="flex items-center gap-3 text-neutral-300"><i class="fa-solid fa-square-parking text-salmon w-5"></i><span>Estacionamiento gratuito en la calle</span></div>
+              <div class="flex items-center gap-3 text-neutral-300"><i class="fa-solid fa-motorcycle text-salmon w-5"></i><span>Despacho sin cargo en Peñaflor y Malloco</span></div>
+            </div>
+          </div>
+
+          <div data-reveal data-reveal-delay="3" class="info-card bg-gradient-to-br from-[#0d3a1f] to-[#082213] border-lime2/30">
+            <div class="flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
+              <div class="w-16 h-16 rounded-2xl bg-lime2/20 flex items-center justify-center flex-shrink-0">
+                <i class="fa-brands fa-whatsapp text-3xl text-lime2"></i>
+              </div>
+              <div class="flex-1">
+                <h3 class="font-display font-600 text-xl mb-1">Pide por WhatsApp</h3>
+                <p class="text-neutral-300 text-sm">+56 9 7334 1304 · Respuesta rápida</p>
+              </div>
+              <a href="https://wa.me/56973341304" target="_blank" class="btn-wsp px-6 py-3 rounded-full font-display font-600 whitespace-nowrap">
+                Escribir ahora
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="space-y-6">
+          <div data-reveal class="rounded-3xl overflow-hidden border border-white/10 h-[360px]">
+            <iframe src="https://www.google.com/maps?q=Malloquito+1985,+Peñaflor,+Región+Metropolitana,+Chile&output=embed" width="100%" height="100%" style="border:0; filter: invert(0.9) hue-rotate(180deg) saturate(0.7);" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Mapa Saber De Sabor" sandbox="allow-scripts allow-same-origin"></iframe>
+          </div>
+
+          <div data-reveal data-reveal-delay="1" class="info-card">
+            <h3 class="font-display font-600 text-xl mb-1">¿Tienes alguna duda?</h3>
+            <p class="text-neutral-500 text-sm mb-5">Déjanos un mensaje y te respondemos por WhatsApp.</p>
+            <form id="contact-form" class="space-y-4">
+              <div>
+                <label class="block text-xs uppercase tracking-wider text-neutral-500 mb-2">Nombre</label>
+                <input type="text" name="name" required class="form-input" placeholder="Tu nombre" />
+              </div>
+              <div>
+                <label class="block text-xs uppercase tracking-wider text-neutral-500 mb-2">Mensaje</label>
+                <textarea name="message" required rows="4" class="form-input resize-none" placeholder="Cuéntanos qué necesitas..."></textarea>
+              </div>
+              <button type="submit" class="btn-coral w-full px-6 py-4 rounded-full font-display font-600 flex items-center justify-center gap-2">
+                <i class="fa-brands fa-whatsapp text-xl"></i> Enviar por WhatsApp
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    function initContactForm() {
+      const form = document.getElementById('contact-form');
+      if (!form) return;
+      const newForm = form.cloneNode(true);
+      form.parentNode.replaceChild(newForm, form);
+      newForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const name = e.target.name.value.trim();
+        const message = e.target.message.value.trim();
+        const text = `Hola Saber De Sabor! Soy ${name}. ${message}`;
+        const url = `https://wa.me/56973341304?text=${encodeURIComponent(text)}`;
+        window.open(url, '_blank');
+      });
+    }
+
+    initContactForm();
+    document.addEventListener('astro:after-swap', initContactForm);
+  </script>
+</Layout>

@@ -1,0 +1,337 @@
+---
+/**
+ * ScrollFilm: el corazón de la web. Dos líneas de tiempo equivalentes (16 s):
+ *   · Escritorio: timeline.webm (VP9, principal) / timeline.mp4 (respaldo) — 1080p30.
+ *   · Móvil:      timeline-720.webm / timeline-720.mp4 — 720p24.
+ * El scroll del usuario scrubbea currentTime mediante rAF + lerp.
+ *
+ * Escenas alineadas a los cortes reales del vídeo (6.0 s y 10.0 s de 16 s):
+ *   1 · La entrada  [0.000 – 0.375]
+ *   2 · La barra    [0.375 – 0.625]
+ *   3 · El omakase  [0.625 – 1.000]
+ *
+ * Autoavance: si el usuario deja de scrollear con el film en pantalla,
+ * el vídeo avanza a 1× y la página le sigue (mapeo inverso scroll↔tiempo),
+ * parándose en el corte exacto que cierra el tramo de la escena actual.
+ * Cualquier gesto (rueda, tecla, toque, clic) lo cancela al instante y
+ * rearma el mecanismo: cada sección abandonada a media viaje se completa
+ * sola hasta su corte — nunca hasta el final del film — y el texto de la
+ * escena queda legible ahí: fin de sección = fin de su vídeo.
+ * Con prefers-reduced-motion no existe: el vídeo se queda en el poster
+ * y las escenas se apilan estáticas.
+ */
+---
+
+<noscript>
+  <style>
+    .film { height: auto; }
+    .film__stage {
+      position: relative;
+      height: auto;
+      display: flex;
+      flex-direction: column;
+    }
+    .film__video { position: relative; height: 56vh; }
+    .film__scrim { display: none; }
+    .film__scenes {
+      position: relative;
+      inset: auto;
+      display: flex;
+      flex-direction: column;
+    }
+    .film__scene {
+      position: relative;
+      inset: auto;
+      opacity: 1 !important;
+      visibility: visible !important;
+      transform: none !important;
+      padding-block: 2.5rem;
+      border-top: 1px solid rgb(201 162 39 / 0.25);
+    }
+    .film__progress { display: none; }
+  </style>
+</noscript>
+
+<section id="recorrido" class="film relative h-[450vh]" aria-label="Recorrido en vídeo por el restaurante">
+  <div class="film__stage sticky top-0 h-[100svh] w-full overflow-hidden bg-ink">
+    <video
+      class="film__video absolute inset-0 h-full w-full object-cover"
+      poster="/video/poster.jpg"
+      muted
+      playsinline
+      preload="auto"
+      aria-hidden="true"
+    >
+      <!-- WebM/VP9 (principal) + MP4/H.264 (respaldo para navegadores sin VP9) -->
+      <source src="/video/timeline.webm" type="video/webm" media="(min-width: 768px)" />
+      <source src="/video/timeline-720.webm" type="video/webm" />
+      <source src="/video/timeline.mp4" type="video/mp4" media="(min-width: 768px)" />
+      <source src="/video/timeline-720.mp4" type="video/mp4" />
+    </video>
+
+    <!-- Scrim inferior: garantiza contraste AA del texto sobre cualquier frame -->
+    <div class="film__scrim absolute inset-0 bg-gradient-to-t from-ink/85 via-transparent to-ink/35"></div>
+
+    <div class="film__scenes absolute inset-0">
+      <article
+        id="entrada"
+        class="film__scene absolute inset-0 flex flex-col justify-end px-6 pb-24 sm:px-12 md:px-20 md:pb-28"
+        data-scene="0"
+      >
+        <p class="font-body text-[0.6rem] uppercase tracking-[0.5em] text-brass-light sm:text-xs">
+          01 · La entrada
+        </p>
+        <h2 class="mt-4 max-w-2xl font-display text-[clamp(2rem,5.5vw,4rem)] leading-tight text-cream">
+          El silencio antes del primer plato
+        </h2>
+        <p class="mt-4 max-w-md font-body text-sm font-light leading-relaxed text-cream/80 sm:text-base">
+          Piedra cálida, un bonsái bajo la luna y la puerta que se abre.
+          Aquí la noche empieza a bajar la voz.
+        </p>
+        <ul
+          class="mt-6 flex flex-wrap gap-x-6 gap-y-2 font-body text-[0.6rem] uppercase tracking-[0.18em] text-cream/70 sm:text-[0.68rem] sm:tracking-[0.26em]"
+          aria-label="Datos de la escena"
+        >
+          <li><span class="text-brass-light">Aforo</span> · 46 comensales</li>
+          <li><span class="text-brass-light">Dos pases</span> · 20:00 y 22:15</li>
+          <li><span class="text-brass-light">Reserva media</span> · 21 días</li>
+        </ul>
+      </article>
+
+      <article
+        id="barra"
+        class="film__scene absolute inset-0 flex flex-col justify-end px-6 pb-24 sm:px-12 md:px-20 md:pb-28"
+        data-scene="1"
+      >
+        <p class="font-body text-[0.6rem] uppercase tracking-[0.5em] text-brass-light sm:text-xs">
+          02 · La barra
+        </p>
+        <h2 class="mt-4 max-w-2xl font-display text-[clamp(2rem,5.5vw,4rem)] leading-tight text-cream">
+          Donde el corte es ceremonia
+        </h2>
+        <p class="mt-4 max-w-md font-body text-sm font-light leading-relaxed text-cream/80 sm:text-base">
+          Linternas de papel, cedro macizo y el itamae al otro lado.
+          Cada pieza llega en el instante exacto en que debe llegar.
+        </p>
+        <ul
+          class="mt-6 flex flex-wrap gap-x-6 gap-y-2 font-body text-[0.6rem] uppercase tracking-[0.18em] text-cream/70 sm:text-[0.68rem] sm:tracking-[0.26em]"
+          aria-label="Datos de la escena"
+        >
+          <li><span class="text-brass-light">10 plazas</span> · solo con reserva previa</li>
+          <li><span class="text-brass-light">Agenda cerrada</span> · 30 días antes</li>
+          <li><span class="text-brass-light">Subasta de pescado</span> · 3 veces por semana</li>
+        </ul>
+      </article>
+
+      <article
+        id="omakase"
+        class="film__scene absolute inset-0 flex flex-col justify-end px-6 pb-24 sm:px-12 md:px-20 md:pb-28"
+        data-scene="2"
+      >
+        <p class="font-body text-[0.6rem] uppercase tracking-[0.5em] text-brass-light sm:text-xs">
+          03 · El omakase
+        </p>
+        <h2 class="mt-4 max-w-2xl font-display text-[clamp(2rem,5.5vw,4rem)] leading-tight text-cream">
+          Déjate en manos del itamae
+        </h2>
+        <p class="mt-4 max-w-md font-body text-sm font-light leading-relaxed text-cream/80 sm:text-base">
+          Ocho pases, jardín de bambú y una copa que nunca se apura.
+          Solo queda sentarse y confiar.
+        </p>
+        <ul
+          class="mt-6 flex flex-wrap gap-x-6 gap-y-2 font-body text-[0.6rem] uppercase tracking-[0.18em] text-cream/70 sm:text-[0.68rem] sm:tracking-[0.26em]"
+          aria-label="Datos de la escena"
+        >
+          <li><span class="text-brass-light">8 pases</span> · unas 2 horas</li>
+          <li><span class="text-brass-light">Menú único</span> · no se elige, se confía</li>
+          <li><span class="text-brass-light">Maridaje de la casa</span> · servicio completo</li>
+        </ul>
+      </article>
+    </div>
+
+    <!-- Línea de progreso del recorrido (detalle de latón) -->
+    <div class="film__progress absolute bottom-0 left-0 h-[2px] w-0 bg-brass" aria-hidden="true"></div>
+  </div>
+</section>
+
+<style>
+  /* Scrim localizado + sombra de tinta: garantiza contraste AA del texto de
+     escena también sobre frames claros (uniformes de los itamae, paredes de
+     piedra iluminadas) sin apagar el resto del vídeo. */
+  .film__scene {
+    opacity: 0;
+    background: radial-gradient(
+      130% 100% at 8% 108%,
+      rgb(11 10 8 / 0.85) 0%,
+      rgb(11 10 8 / 0.38) 52%,
+      transparent 80%
+    );
+    text-shadow:
+      0 1px 3px rgb(11 10 8 / 0.95),
+      0 0 18px rgb(11 10 8 / 0.6);
+  }
+
+  .film__scene:first-child {
+    opacity: 1;
+  }
+</style>
+
+<script>
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const film = document.querySelector<HTMLElement>('.film');
+  const video = document.querySelector<HTMLVideoElement>('.film__video');
+  const progressEl = document.querySelector<HTMLElement>('.film__progress');
+  const scenes = Array.from(document.querySelectorAll<HTMLElement>('.film__scene'));
+
+  if (film && video && !reducedMotion.matches) {
+    // Cortes reales del vídeo: 6.0 s y 10.0 s sobre 16 s → 0.375 / 0.625.
+    const SCENE_RANGES = [
+      { start: 0.0, end: 0.375 },
+      { start: 0.375, end: 0.625 },
+      { start: 0.625, end: 1.0 },
+    ];
+    const EDGE = 0.02; // ventana de cruce de texto entre escenas (≈0.3 s de vídeo)
+    const LERP = 0.18;
+    const ARM_DELAY = 450; // ms de inactividad antes de autoavanzar (soltar ⇒ continúa la sección)
+
+    let duration = 0;
+    let current = 0;
+    let started = false;
+
+    // Autoavance: idle (armado) → auto (1×) → stopped (clavado en el corte).
+    // Cualquier gesto vuelve a idle (rearmado), también desde stopped: cada
+    // sección dejada a media viaje se completa sola hasta su corte.
+    type Mode = 'idle' | 'auto' | 'stopped';
+    let mode: Mode = 'idle';
+    let lastActivity = performance.now();
+    let autoScrollUntil = 0;
+    let stopTime = 0;
+    let lastFrame = performance.now();
+
+    const clamp01 = (v: number) => Math.min(1, Math.max(0, v));
+
+    /** Progreso 0–1 del scroll dentro de la sección film. */
+    function scrollProgress(): number {
+      const rect = film!.getBoundingClientRect();
+      const total = film!.offsetHeight - window.innerHeight;
+      if (total <= 0) return 0;
+      return clamp01(-rect.top / total);
+    }
+
+    /** El stage sticky está anclado: el film ocupa toda la ventana. */
+    function filmEngaged(): boolean {
+      const rect = film!.getBoundingClientRect();
+      return rect.top <= 0 && rect.bottom >= window.innerHeight;
+    }
+
+    /** Fin del tramo de vídeo de la escena actual (tope: 1).
+     *  Un p clavado en un corte cuenta como fin de la escena anterior:
+     *  el autoavance no arranca la sección siguiente por su cuenta. */
+    function sceneStop(p: number): number {
+      let end = SCENE_RANGES[0].end;
+      for (const range of SCENE_RANGES) if (p > range.start + 1e-4) end = range.end;
+      return end;
+    }
+
+    /** Opacidad de una escena: funde al entrar en su rango y permanece
+     *  legible hasta que la siguiente cruza en su corte (ventana EDGE).
+     *  La escena 1 (start 0) nace visible: al entrar en la sección ya se lee.
+     *  La última nunca se apaga: su texto acompaña hasta el final del film. */
+    function sceneOpacity(p: number, i: number): number {
+      const range = SCENE_RANGES[i];
+      const next = SCENE_RANGES[i + 1];
+      if (p < range.start) return 0;
+      if (next && p >= next.start + EDGE) return 0;
+      const fadeIn = range.start === 0 ? 1 : clamp01((p - range.start) / EDGE);
+      const fadeOut = next ? clamp01((next.start + EDGE - p) / EDGE) : 1;
+      return Math.min(fadeIn, fadeOut);
+    }
+
+    // Gestos del usuario: cancelan el autoavance al instante y reprograman el armado.
+    const IGNORED_KEYS = ['Tab', 'Shift', 'Control', 'Alt', 'Meta', 'CapsLock', 'Dead'];
+    function onGesture(event: Event) {
+      if (event.type === 'keydown' && IGNORED_KEYS.includes((event as KeyboardEvent).key)) return;
+      lastActivity = performance.now();
+      mode = 'idle'; // cancela el autoavance en curso y rearma desde cualquier modo
+    }
+    (['wheel', 'touchstart', 'keydown', 'pointerdown'] as const).forEach((type) =>
+      window.addEventListener(type, onGesture, { passive: true }),
+    );
+
+    // Scroll que no proviene del autoavance = nuevo gesto de scroll del usuario.
+    window.addEventListener(
+      'scroll',
+      () => {
+        if (performance.now() < autoScrollUntil) return;
+        lastActivity = performance.now();
+        mode = 'idle'; // scroll real del usuario: rearma también tras una parada
+      },
+      { passive: true },
+    );
+
+    function loop() {
+      const now = performance.now();
+      const dt = Math.min(0.06, (now - lastFrame) / 1000);
+      lastFrame = now;
+
+      // Armar: 450 ms sin actividad, film en pantalla y corte pendiente por delante.
+      if (mode === 'idle' && duration > 0 && filmEngaged() && now - lastActivity >= ARM_DELAY) {
+        const p = current / duration;
+        const stop = sceneStop(p);
+        if (stop - p > 0.006) {
+          stopTime = stop * duration;
+          mode = 'auto';
+        } else {
+          mode = 'stopped'; // ya en el corte: exige un nuevo scroll para rearmarse
+        }
+      }
+
+      if (mode === 'auto') {
+        // Autoavance a 1×: el vídeo scrubbea y la página le sigue (mapeo inverso).
+        current = Math.min(stopTime, current + dt);
+        const rect = film!.getBoundingClientRect();
+        const total = film!.offsetHeight - window.innerHeight;
+        const top = rect.top + window.scrollY + (current / duration) * total;
+        autoScrollUntil = now + 200;
+        window.scrollTo({ top, behavior: 'instant' });
+        if (current >= stopTime - 1e-4) mode = 'stopped';
+      } else {
+        const target = scrollProgress() * duration;
+        current += (target - current) * LERP;
+        if (Math.abs(target - current) < 0.004) current = target;
+      }
+
+      if (duration > 0 && video!.readyState >= 1) {
+        const t = Math.min(duration - 0.04, Math.max(0, current));
+        // Busca solo si el cambio equivale a ~1 frame visible (≈24-30 fps) y no
+        // hay un seek en curso: evita saturar el decoder con 60 seeks/seg (el
+        // "pegado" que obligaba a mover el scroll un poco para que siguiera).
+        if (!video!.seeking && Math.abs(video!.currentTime - t) > 0.04) video!.currentTime = t;
+      }
+
+      const p = duration > 0 ? current / duration : 0;
+      scenes.forEach((el, i) => {
+        const o = sceneOpacity(p, i);
+        el.style.opacity = String(o);
+        el.style.visibility = o < 0.02 ? 'hidden' : 'visible';
+        el.style.transform = `translateY(${(1 - o) * 28}px)`;
+      });
+      if (progressEl) progressEl.style.width = `${(p * 100).toFixed(2)}%`;
+
+      requestAnimationFrame(loop);
+    }
+
+    function start() {
+      if (started) return;
+      started = true;
+      duration = video!.duration || 0;
+      lastFrame = performance.now();
+      // Seek inicial al primer frame para pintar algo antes del primer scroll.
+      video!.currentTime = 0.001;
+      requestAnimationFrame(loop);
+    }
+
+    if (video!.readyState >= 1) start();
+    else video!.addEventListener('loadedmetadata', start, { once: true });
+  }
+</script>

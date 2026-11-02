@@ -1,0 +1,119 @@
+---
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import FloatWsp from '../components/FloatWsp.astro';
+import { ClientRouter } from 'astro:transitions';
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  current?: 'inicio' | 'menu' | 'contacto';
+}
+
+const {
+  title = 'Saber De Sabor — Sushi Bar Casual en Peñaflor',
+  description = 'Sushi bar casual en Peñaflor, RM. Rolls frescos, promos para uno o para compartir. Pide por WhatsApp.',
+  current = 'inicio',
+} = Astro.props;
+
+const year = new Date().getFullYear();
+---
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=DM+Sans:wght@400;500;700&display=swap"
+    rel="stylesheet"
+  />
+  <link
+    rel="stylesheet"
+    href="/fontawesome/css/all.min.css"
+  />
+  <ClientRouter />
+</head>
+<body class="relative">
+  <div class="blob blob-1 glow-coral" style="width:500px; height:500px; top:-150px; left:-150px;"></div>
+  <div class="blob blob-2 glow-lime" style="width:400px; height:400px; top:40%; right:-150px;"></div>
+  <div class="noise"></div>
+
+  <Navbar current={current} />
+
+  <main class="relative z-10 pt-[72px]">
+    <slot />
+  </main>
+
+  <Footer year={year} />
+  <FloatWsp />
+
+  <script>
+    // Scroll reveal global con re-run en navegación con View Transitions
+    let revealObserver: IntersectionObserver | null = null;
+
+    function initReveal() {
+      if (revealObserver) revealObserver.disconnect();
+      revealObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('revealed');
+              revealObserver?.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.1, rootMargin: '0px 0px -60px 0px' }
+      );
+      document.querySelectorAll('[data-reveal]:not(.revealed)').forEach((el) => {
+        revealObserver?.observe(el);
+      });
+    }
+
+    // Navbar shrink on scroll
+    function initNavbar() {
+      const navbar = document.querySelector('.navbar') as HTMLElement | null;
+      if (!navbar) return;
+      const onScroll = () => {
+        if (window.scrollY > 30) {
+          navbar.style.boxShadow = '0 10px 30px -10px rgba(0,0,0,0.5)';
+        } else {
+          navbar.style.boxShadow = '';
+        }
+      };
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+    }
+
+    // Mobile menu toggle
+    function initMobileMenu() {
+      const toggle = document.getElementById('mobile-toggle');
+      const menu = document.getElementById('mobile-menu');
+      if (!toggle || !menu) return;
+      toggle.addEventListener('click', () => {
+        menu.classList.toggle('open');
+        const icon = toggle.querySelector('i');
+        if (icon) {
+          icon.className = menu.classList.contains('open')
+            ? 'fa-solid fa-xmark'
+            : 'fa-solid fa-bars';
+        }
+      });
+    }
+
+    function initAll() {
+      initReveal();
+      initNavbar();
+      initMobileMenu();
+    }
+
+    initAll();
+    document.addEventListener('astro:after-swap', initAll);
+  </script>
+</body>
+</html>

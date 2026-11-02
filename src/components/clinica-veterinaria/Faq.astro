@@ -1,0 +1,31 @@
+---
+import { ChevronDown } from "@lucide/astro";
+import SectionHead from "./SectionHead.astro";
+import { FAQ } from "@/config/content";
+---
+
+<section class="bg-card py-24">
+  <div class="mx-auto max-w-3xl px-5">
+    <SectionHead eyebrow="Preguntas frecuentes" title="Resolvemos tus dudas" />
+    <div class="reveal">
+      {
+        FAQ.map(([question, answer]) => (
+          <details class="faq-item group border-b border-border">
+            <summary
+              class="flex w-full cursor-pointer items-center justify-between py-4 text-left font-display text-lg font-medium tracking-[-0.32px] text-primary transition-all hover:underline"
+            >
+              {question}
+              <ChevronDown
+                class="h-4 w-4 shrink-0 text-muted-foreground transition-transform duration-200"
+                aria-hidden="true"
+              />
+            </summary>
+            <div class="faq-content overflow-hidden pb-4 pt-0 text-base text-muted-foreground">
+              {answer}
+            </div>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>

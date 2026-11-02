@@ -1,0 +1,14 @@
+---
+interface Props {
+  k: string;
+  label: string;
+}
+
+const { k, label } = Astro.props;
+---
+
+<div>
+  <label for={k} class="mb-1.5 block text-sm font-medium text-foreground">{label}</label>
+  <slot />
+  <p id={`${k}-err`} role="alert" class="mt-1 hidden text-xs text-destructive"></p>
+</div>

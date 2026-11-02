@@ -1,6 +1,7 @@
 // @ts-nocheck
 import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
+import path from 'path';
 
 const SITE = 'https://fabianlizana.github.io';
 const BASE = '/Portafolio/';
@@ -13,5 +14,10 @@ export default defineConfig({
   output: 'static',
   vite: {
     plugins: [tailwindcss()],
+    resolve: {
+      alias: {
+        '@': path.resolve('./src'),
+      },
+    },
   },
 });

@@ -1,0 +1,71 @@
+---
+import BaseLayout from "../../layouts/BaseLayoutClinica.astro";
+import Header from "../../components/clinica-veterinaria/Header.astro";
+import Hero from "../../components/clinica-veterinaria/Hero.astro";
+import Services from "../../components/clinica-veterinaria/Services.astro";
+import Team from "../../components/clinica-veterinaria/Team.astro";
+import Hours from "../../components/clinica-veterinaria/Hours.astro";
+import Booking from "../../components/clinica-veterinaria/Booking.astro";
+import Reviews from "../../components/clinica-veterinaria/Reviews.astro";
+import Faq from "../../components/clinica-veterinaria/Faq.astro";
+import Contact from "../../components/clinica-veterinaria/Contact.astro";
+import Footer from "../../components/clinica-veterinaria/Footer.astro";
+import WhatsAppFab from "../../components/clinica-veterinaria/WhatsAppFab.astro";
+
+const TITLE = "VetVida | Clínica Veterinaria en Peñaflor, Chile";
+const DESC =
+  "Clínica veterinaria integral en Peñaflor, Región Metropolitana. Consultas, vacunación, diagnóstico, cirugía, odontología y peluquería para perros y gatos.";
+---
+
+<BaseLayout
+  title={TITLE}
+  description={DESC}
+  keywords="veterinaria Peñaflor, clínica veterinaria Chile, vacunación mascotas Peñaflor"
+>
+  <Header />
+  <main>
+    <Hero />
+    <Services />
+    <Team />
+    <Hours />
+    <Booking />
+    <Reviews />
+    <Faq />
+    <Contact />
+  </main>
+  <Footer />
+  <WhatsAppFab />
+</BaseLayout>
+
+<script>
+  // Reduced motion check
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  // Staggered reveal configuration
+  const staggerDelay = 50;
+  const revealDuration = 400;
+  const elements = document.querySelectorAll(".reveal");
+  // Add reduced-motion class if needed
+  if (reduceMotion) {
+    elements.forEach((element) => element.classList.add("is-visible"));
+  } else {
+    const observed = new Set();
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry, index) => {
+          if (entry.isIntersecting && !observed.has(entry.target)) {
+            observed.add(entry.target);
+            const delay = index * staggerDelay;
+            setTimeout(() => {
+              entry.target.classList.add("is-visible");
+            }, delay);
+            setTimeout(() => {
+              observer.unobserve(entry.target);
+            }, delay + revealDuration);
+          }
+        });
+      },
+      { threshold: 0.1, rootMargin: "0px 0px -50px 0px" }
+    );
+    elements.forEach((element) => observer.observe(element));
+  }
+</script>

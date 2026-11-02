@@ -1,0 +1,84 @@
+---
+import "@/styles/clinica.css";
+import { CLINIC } from "@/config/clinic";
+
+interface Props {
+  title: string;
+  description: string;
+  keywords?: string;
+}
+
+const { title, description, keywords } = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, `https://vetvida.cl`).href;
+const ogImage = "/assets/hero.jpg";
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "VeterinaryCare",
+  name: CLINIC.fullName,
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "Av. Principal 123",
+    addressLocality: "Peñaflor",
+    addressRegion: "Región Metropolitana",
+    addressCountry: "CL",
+  },
+  telephone: CLINIC.phoneDisplay,
+  email: CLINIC.email,
+  url: canonical,
+};
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f7f4ec" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {keywords && <meta name="keywords" content={keywords} />}
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1600" />
+    <meta property="og:image:height" content="1104" />
+    <meta property="og:locale" content="es_CL" />
+    <meta property="og:site_name" content={CLINIC.fullName} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:site" content="@VetVida" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Figtree:wght@400;500;600;700&display=swap"
+    />
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    <noscript>
+      <style is:inline>
+        .reveal {
+          opacity: 1 !important;
+          transform: none !important;
+          transition: none !important;
+        }
+      </style>
+    </noscript>
+  </head>
+  <body class="bg-background text-foreground">
+    <div class="cursor-dot" aria-hidden="true"></div>
+    <slot />
+  </body>
+  <script is:inline>
+    if (matchMedia('(pointer:fine)').matches && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      const dot = document.querySelector('.cursor-dot');
+      window.addEventListener('pointermove', (event) => { dot.style.transform = `translate3d(${event.clientX}px, ${event.clientY}px, 0)`; });
+    }
+  </script>
+</html>

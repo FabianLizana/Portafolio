@@ -1,0 +1,60 @@
+---
+import { AlertTriangle, CheckCircle2, Clock, Phone } from "@lucide/astro";
+import { ATTENTION_TYPES } from "@/config/content";
+import { CLINIC } from "@/config/clinic";
+---
+
+<section id="horarios" class="bg-forest py-24 text-forest-foreground">
+  <div class="mx-auto grid max-w-7xl gap-12 px-5 lg:grid-cols-2">
+    <div class="reveal">
+      <p class="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-sage">
+        Atención y horarios
+      </p>
+      <h2 class="text-4xl font-medium md:text-5xl">Estamos aquí para acompañarte</h2>
+      <ul class="mt-8 space-y-3">
+        {
+          CLINIC.hours.map((h) => (
+            <li class="flex items-center justify-between rounded-2xl bg-forest-foreground/10 px-6 py-4">
+              <span class="flex items-center gap-3">
+                <Clock class="size-4 text-sage" aria-hidden="true" />
+                {h.days}
+              </span>
+              <span class="font-semibold">{h.time}</span>
+            </li>
+          ))
+        }
+      </ul>
+      <p class="mt-3 text-xs text-forest-foreground/60">
+        *Sujeto a confirmación. Horario de ejemplo, ficticio y editable.
+      </p>
+    </div>
+    <div class="reveal">
+      <h3 class="mb-5 text-2xl font-medium">Tipos de atención</h3>
+      <ul class="grid gap-3 sm:grid-cols-2">
+        {
+          ATTENTION_TYPES.map((t) => (
+            <li class="flex items-start gap-2.5 rounded-2xl border border-forest-foreground/15 p-4 text-sm">
+              <CheckCircle2 class="mt-0.5 size-4 shrink-0 text-sage" aria-hidden="true" />
+              {t}
+            </li>
+          ))
+        }
+      </ul>
+      <div role="note" class="mt-6 flex gap-4 rounded-2xl bg-warn p-5 text-warn-foreground">
+        <AlertTriangle class="size-6 shrink-0" aria-hidden="true" />
+        <div>
+          <p class="font-semibold">¿Tu mascota necesita atención urgente?</p>
+          <p class="mt-1 text-sm">
+            Contáctanos para confirmar la disponibilidad y recibir orientación sobre dónde acudir.
+          </p>
+          <a
+            href={`tel:${CLINIC.phoneTel}`}
+            class="mt-3 inline-flex items-center gap-1.5 text-sm font-bold underline underline-offset-4"
+          >
+            <Phone class="size-4" aria-hidden="true" />Llamar ahora
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>EMBERWOOD — Velas de cera de soya y fragancias de hogar</title>
+  <meta name="description" content="Velas artesanales de cera de soya y fragancias de hogar de alta gama. Composiciones cálidas y nocturnas, elaboradas en pequeños lotes.">
+  <meta name="author" content="Emberwood">
+  <link rel="canonical" href="https://emberwood.example/index.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="EMBERWOOD — Velas de cera de soya y fragancias de hogar">
+  <meta property="og:description" content="Fragancias de hogar de alta gama en pequeños lotes: cera de soya, mechas de algodón y perfumería con carácter nocturno.">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Saltar al contenido</a>
+
+  <!-- ================= HEADER ================= -->
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="index.html">Ember<span>wood</span></a>
+
+      <nav class="nav-desktop" aria-label="Principal">
+        <a class="nav-link is-active" href="index.html">Inicio</a>
+        <a class="nav-link" href="tienda.html">Tienda</a>
+        <a class="nav-link" href="index.html#colecciones">Colecciones</a>
+        <a class="nav-link" href="contacto.html">Contacto</a>
+      </nav>
+
+      <div class="header-actions">
+        <button class="cart-button" type="button" data-cart-open aria-label="Abrir carrito de compras">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true">
+            <path d="M6 8h12l-1 12H7L6 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/>
+          </svg>
+          <span class="cart-word">Carrito</span>
+          <span class="cart-count" data-cart-count>0</span>
+        </button>
+        <button class="burger" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="nav-mobile">
+          <span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Menú mobile -->
+  <div class="nav-mobile" id="nav-mobile">
+    <nav aria-label="Menú móvil">
+      <a class="m-link" href="index.html">Inicio</a>
+      <a class="m-link" href="tienda.html">Tienda</a>
+      <a class="m-link" href="contacto.html">Contacto</a>
+    </nav>
+    <p class="label">Hecho a mano en pequeños lotes · Barcelona</p>
+  </div>
+
+  <main id="main">
+    <!-- ================= HERO ================= -->
+    <section class="hero">
+      <div class="hero-media">
+        <img src="img/hero.jpg" alt="Vela encendida sobre una repisa de piedra en penumbra" width="1920" height="1200" fetchpriority="high">
+      </div>
+      <div class="wrap hero-inner">
+        <span class="label">Colección de invierno · MMXXVI</span>
+        <h1 class="display-xl">
+          <span class="line"><span>La luz</span></span>
+          <span class="line"><span class="italic amber">tiene</span></span>
+          <span class="line"><span>aroma</span></span>
+        </h1>
+        <div class="hero-bottom">
+          <div>
+            <p class="lead">Velas de cera de soya y fragancias de hogar elaboradas en pequeños lotes, pensadas para las horas lentas de la noche.</p>
+            <p style="margin-top:1.75rem">
+              <a class="btn" href="tienda.html">Descubrir la colección <span class="arrow">&#8594;</span></a>
+            </p>
+          </div>
+          <div class="hero-meta">
+            <div><strong>100%</strong><span>Cera de soya</span></div>
+            <div><strong>60h</strong><span>De combustión limpia</span></div>
+            <div><strong>12</strong><span>Fragancias en catálogo</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= MARQUEE ================= -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee-track">
+        <span>Cedro del Atlas</span><span>Musgo de roble</span><span>Ámbar gris</span><span>Incienso</span><span>Haba tonka</span><span>Vetiver</span>
+        <span>Cedro del Atlas</span><span>Musgo de roble</span><span>Ámbar gris</span><span>Incienso</span><span>Haba tonka</span><span>Vetiver</span>
+      </div>
+    </div>
+
+    <!-- ================= HISTORIA ================= -->
+    <section class="section" id="historia">
+      <div class="wrap story-grid">
+        <div class="story-media reveal">
+          <img src="img/story.jpg" alt="Vertido artesanal de cera de soya en un recipiente de cerámica" loading="lazy" width="1200" height="1400">
+          <span class="caption label">Taller · Vertido manual</span>
+        </div>
+        <div class="story-text reveal" style="--delay:.12s">
+          <span class="index-num">01 — Filosofía</span>
+          <h2 class="display-l" style="margin-block:1rem 1.75rem">Fuego lento,<br><span class="italic amber">memoria larga</span></h2>
+          <p class="lead">Emberwood nació en un sótano de Gràcia con una olla de cera, una balanza de cocina y la obsesión de reproducir el olor de una casa antigua en octubre.</p>
+          <p class="lead">Trabajamos solo con cera de soya de origen trazable, mechas de algodón sin plomo y concentraciones de fragancia que rozan el límite superior de lo que la cera puede sostener. Cada lote no supera las 180 unidades y se firma a mano.</p>
+          <p class="signature">— Idoia Vera, fundadora</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= COLECCIONES ================= -->
+    <section class="section" id="colecciones" style="padding-top:0">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <div>
+            <span class="index-num">02 — Colecciones</span>
+            <h2 class="display-l" style="margin-top:0.75rem">Cuatro atmósferas</h2>
+          </div>
+          <a class="link-underline amber" href="tienda.html">Ver todo el catálogo</a>
+        </div>
+      </div>
+      <div class="wrap">
+        <div class="collections">
+          <a class="collection reveal" href="tienda.html?coleccion=amaderados">
+            <div class="collection-img"><img src="img/p1.jpg" alt="Vela negra mate de la colección Amaderados" loading="lazy" width="900" height="1100"></div>
+            <span class="index-num">I</span>
+            <h3>Amaderados</h3>
+            <p>Cedro, vetiver y humo seco. La base de la casa.</p>
+            <span class="go">Explorar <span class="arrow">&#8594;</span></span>
+          </a>
+          <a class="collection reveal" style="--delay:.08s" href="tienda.html?coleccion=verdes">
+            <div class="collection-img"><img src="img/p2.jpg" alt="Vela de vidrio verde de la colección Verdes" loading="lazy" width="900" height="1100"></div>
+            <span class="index-num">II</span>
+            <h3>Verdes</h3>
+            <p>Musgo, higuera y tierra después de la lluvia.</p>
+            <span class="go">Explorar <span class="arrow">&#8594;</span></span>
+          </a>
+          <a class="collection reveal" style="--delay:.16s" href="tienda.html?coleccion=ambar">
+            <div class="collection-img"><img src="img/p3.jpg" alt="Difusor de ámbar con varillas de la colección Ámbar" loading="lazy" width="900" height="1100"></div>
+            <span class="index-num">III</span>
+            <h3>Ámbar</h3>
+            <p>Resinas dulces, benjuí y una calidez envolvente.</p>
+            <span class="go">Explorar <span class="arrow">&#8594;</span></span>
+          </a>
+          <a class="collection reveal" style="--delay:.24s" href="tienda.html?coleccion=especiados">
+            <div class="collection-img"><img src="img/p5.jpg" alt="Vela vino con tapa dorada de la colección Especiados" loading="lazy" width="900" height="1100"></div>
+            <span class="index-num">IV</span>
+            <h3>Especiados</h3>
+            <p>Clavo, pimienta rosa y fruta oscura macerada.</p>
+            <span class="go">Explorar <span class="arrow">&#8594;</span></span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= POR QUÉ / TESTIMONIOS ================= -->
+    <section class="section why">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <div>
+            <span class="index-num">03 — Por qué Emberwood</span>
+            <h2 class="display-l" style="margin-top:0.75rem">Sin atajos</h2>
+          </div>
+          <p class="lead" style="max-width:38ch">Tres decisiones que encarecen la producción y que no pensamos cambiar.</p>
+        </div>
+
+        <div class="why-grid">
+          <div class="why-item reveal">
+            <span class="index-num">01</span>
+            <h3>Cera de soya pura</h3>
+            <p>Sin parafina ni mezclas. Combustión limpia, sin hollín y hasta un 40% más duradera que una vela convencional del mismo peso.</p>
+          </div>
+          <div class="why-item reveal" style="--delay:.1s">
+            <span class="index-num">02</span>
+            <h3>Perfumería de grado fino</h3>
+            <p>Formulamos con un perfumista de Grasse. Concentración del 10-12%, sin ftalatos y con difusión real en habitaciones grandes.</p>
+          </div>
+          <div class="why-item reveal" style="--delay:.2s">
+            <span class="index-num">03</span>
+            <h3>Recipientes que se quedan</h3>
+            <p>Vidrio y cerámica fabricados en la península, pensados para una segunda vida. Ofrecemos recargas de todos los formatos.</p>
+          </div>
+        </div>
+
+        <div class="quotes reveal">
+          <figure class="quote">
+            <div class="stars" aria-hidden="true">★★★★★</div>
+            <blockquote>“Ceniza de Cedro llenó todo el piso en veinte minutos y siguió ahí a la mañana siguiente. No he vuelto a comprar otra marca.”</blockquote>
+            <cite>Marta L. — Madrid</cite>
+          </figure>
+          <figure class="quote">
+            <div class="stars" aria-hidden="true">★★★★★</div>
+            <blockquote>“El packaging es de una sobriedad rarísima hoy. Parece un objeto de estudio, no un producto de tienda.”</blockquote>
+            <cite>Julien R. — Lyon</cite>
+          </figure>
+          <figure class="quote">
+            <div class="stars" aria-hidden="true">★★★★★</div>
+            <blockquote>“Compré el trío de viaje como regalo y acabé quedándomelo. Musgo Nocturno es adictivo.”</blockquote>
+            <cite>Ana P. — Ciudad de México</cite>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= NEWSLETTER ================= -->
+    <section class="section newsletter">
+      <div class="wrap reveal">
+        <span class="index-num">04 — Boletín</span>
+        <h2 class="display-l" style="margin-block:1rem 1rem">Las ediciones limitadas<br><span class="italic amber">se agotan en horas</span></h2>
+        <p class="lead" style="margin-inline:auto">Avisamos por correo antes de cada lanzamiento. Sin ruido: cuatro o cinco correos al año.</p>
+        <form id="newsletter-form" novalidate>
+          <label class="skip-link" for="nl-email">Correo electrónico</label>
+          <input id="nl-email" type="email" name="email" placeholder="tu@correo.com" autocomplete="email" maxlength="255">
+          <button class="btn" type="submit">Suscribirme</button>
+        </form>
+        <p class="form-note" role="status"></p>
+      </div>
+    </section>
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="footer-grid">
+        <div>
+          <p class="footer-brand">Emberwood</p>
+          <p>Velas de cera de soya y fragancias de hogar elaboradas a mano en Barcelona desde 2019.</p>
+        </div>
+        <div>
+          <h4>Tienda</h4>
+          <ul>
+            <li><a href="tienda.html?coleccion=amaderados">Amaderados</a></li>
+            <li><a href="tienda.html?coleccion=verdes">Verdes</a></li>
+            <li><a href="tienda.html?coleccion=ambar">Ámbar</a></li>
+            <li><a href="tienda.html?coleccion=especiados">Especiados</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Casa</h4>
+          <ul>
+            <li><a href="index.html#historia">Filosofía</a></li>
+            <li><a href="contacto.html">Contacto</a></li>
+            <li><a href="contacto.html#faq">Preguntas frecuentes</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Contacto</h4>
+          <ul>
+            <li><a href="mailto:hola@emberwood.studio">hola@emberwood.studio</a></li>
+            <li><a href="tel:+34930000000">+34 930 000 000</a></li>
+            <li><a href="contacto.html">Carrer de Verdi 42, Barcelona</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© <span data-year>2026</span> Emberwood Studio</span>
+        <span>Hecho a mano · Envíos a toda Europa</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ================= CARRITO ================= -->
+  <div class="cart-overlay" id="cart-overlay"></div>
+  <aside class="cart-drawer" id="cart-drawer" aria-hidden="true" aria-label="Carrito de compras">
+    <div class="cart-head">
+      <h2>Tu carrito</h2>
+      <button class="icon-btn" type="button" data-cart-close aria-label="Cerrar carrito">
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M6 6l12 12M18 6 6 18"/></svg>
+      </button>
+    </div>
+    <div class="cart-body" id="cart-body"></div>
+    <div class="cart-foot" id="cart-foot" hidden></div>
+  </aside>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="js/cart.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

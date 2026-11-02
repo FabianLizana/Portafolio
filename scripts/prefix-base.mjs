@@ -48,7 +48,9 @@ function processFile(file) {
       });
       return `${attrName}=${q1}${rewritten}${q2}`;
     })
-    .replace(CSS_URL, rewriteCssUrl);
+    .replace(CSS_URL, rewriteCssUrl)
+    .replace(/&quot;(\/(?:demo-pagina-sushi1\/)?(?:_astro|fontawesome|images|favicon\.)[^&"'\s]*)/g, (_m, path) => `&quot;${rewritePath(path)}`)
+    .replace(/(`)(\/(?:demo-pagina-sushi1\/)?(?:_astro|fontawesome|images|favicon\.)[^`\s${}]*)(`)/g, (_m, q1, path, q2) => `${q1}${rewritePath(path)}${q2}`);
   if (out !== text) {
     writeFileSync(file, out, 'utf8');
   }

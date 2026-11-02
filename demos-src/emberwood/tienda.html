@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tienda — Velas y fragancias de hogar | EMBERWOOD</title>
+  <meta name="description" content="Catálogo Emberwood: velas de cera de soya, difusores, brumas de sala e incienso. Elige aroma y tamaño y recíbelo en 48 h.">
+  <link rel="canonical" href="https://emberwood.example/tienda.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Tienda — Velas y fragancias de hogar | EMBERWOOD">
+  <meta property="og:description" content="Diez piezas en catálogo: velas de cera de soya, difusores, brumas e incienso, con variantes de aroma y tamaño.">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Saltar al contenido</a>
+
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="index.html">Ember<span>wood</span></a>
+      <nav class="nav-desktop" aria-label="Principal">
+        <a class="nav-link" href="index.html">Inicio</a>
+        <a class="nav-link is-active" href="tienda.html">Tienda</a>
+        <a class="nav-link" href="index.html#colecciones">Colecciones</a>
+        <a class="nav-link" href="contacto.html">Contacto</a>
+      </nav>
+      <div class="header-actions">
+        <button class="cart-button" type="button" data-cart-open aria-label="Abrir carrito de compras">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true">
+            <path d="M6 8h12l-1 12H7L6 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/>
+          </svg>
+          <span class="cart-word">Carrito</span>
+          <span class="cart-count" data-cart-count>0</span>
+        </button>
+        <button class="burger" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="nav-mobile">
+          <span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="nav-mobile" id="nav-mobile">
+    <nav aria-label="Menú móvil">
+      <a class="m-link" href="index.html">Inicio</a>
+      <a class="m-link" href="tienda.html">Tienda</a>
+      <a class="m-link" href="contacto.html">Contacto</a>
+    </nav>
+    <p class="label">Hecho a mano en pequeños lotes · Barcelona</p>
+  </div>
+
+  <main id="main">
+    <section class="wrap page-head">
+      <span class="index-num">Catálogo</span>
+      <h1 class="display-l">La colección<br><span class="italic amber">completa</span></h1>
+      <p class="lead">Diez piezas en producción. Cada fragancia se formula en Grasse y se vierte a mano en nuestro taller de Gràcia.</p>
+    </section>
+
+    <div class="wrap">
+      <!-- Filtros generados por JS -->
+      <div class="filters" id="filter-bar" role="group" aria-label="Filtrar por colección"></div>
+      <!-- Grid de productos generado por JS -->
+      <div class="products" id="product-grid"></div>
+    </div>
+
+    <section class="section why" style="padding-block:clamp(3rem,6vw,5rem)">
+      <div class="wrap why-grid" style="margin-bottom:0">
+        <div class="why-item reveal">
+          <span class="index-num">Envío</span>
+          <h3>48 horas</h3>
+          <p>Envío gratuito a partir de 60 €. Preparamos los pedidos el mismo día si compras antes de las 14:00.</p>
+        </div>
+        <div class="why-item reveal" style="--delay:.1s">
+          <span class="index-num">Devoluciones</span>
+          <h3>30 días</h3>
+          <p>Si la fragancia no es para ti, la recogemos en tu casa sin coste y te devolvemos el importe íntegro.</p>
+        </div>
+        <div class="why-item reveal" style="--delay:.2s">
+          <span class="index-num">Recargas</span>
+          <h3>–25%</h3>
+          <p>Devuelve tu recipiente vacío en la tienda y obtén un descuento permanente en cada recarga.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="footer-grid">
+        <div>
+          <p class="footer-brand">Emberwood</p>
+          <p>Velas de cera de soya y fragancias de hogar elaboradas a mano en Barcelona desde 2019.</p>
+        </div>
+        <div>
+          <h4>Tienda</h4>
+          <ul>
+            <li><a href="tienda.html?coleccion=amaderados">Amaderados</a></li>
+            <li><a href="tienda.html?coleccion=verdes">Verdes</a></li>
+            <li><a href="tienda.html?coleccion=ambar">Ámbar</a></li>
+            <li><a href="tienda.html?coleccion=especiados">Especiados</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Casa</h4>
+          <ul>
+            <li><a href="index.html#historia">Filosofía</a></li>
+            <li><a href="contacto.html">Contacto</a></li>
+            <li><a href="contacto.html#faq">Preguntas frecuentes</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Contacto</h4>
+          <ul>
+            <li><a href="mailto:hola@emberwood.studio">hola@emberwood.studio</a></li>
+            <li><a href="tel:+34930000000">+34 930 000 000</a></li>
+            <li><a href="contacto.html">Carrer de Verdi 42, Barcelona</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© <span data-year>2026</span> Emberwood Studio</span>
+        <span>Hecho a mano · Envíos a toda Europa</span>
+      </div>
+    </div>
+  </footer>
+
+  <div class="cart-overlay" id="cart-overlay"></div>
+  <aside class="cart-drawer" id="cart-drawer" aria-hidden="true" aria-label="Carrito de compras">
+    <div class="cart-head">
+      <h2>Tu carrito</h2>
+      <button class="icon-btn" type="button" data-cart-close aria-label="Cerrar carrito">
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M6 6l12 12M18 6 6 18"/></svg>
+      </button>
+    </div>
+    <div class="cart-body" id="cart-body"></div>
+    <div class="cart-foot" id="cart-foot" hidden></div>
+  </aside>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="js/cart.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

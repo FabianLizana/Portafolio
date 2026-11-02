@@ -1,0 +1,64 @@
+---
+import {
+  Bug,
+  MessageCircle,
+  Microscope,
+  Scissors,
+  Siren,
+  Smile,
+  Sparkles,
+  Stethoscope,
+  Syringe,
+} from "@lucide/astro";
+import SectionHead from "./SectionHead.astro";
+import { SERVICES } from "@/config/content";
+import { waLink } from "@/config/clinic";
+
+const icons = {
+  stethoscope: Stethoscope,
+  syringe: Syringe,
+  microscope: Microscope,
+  scissors: Scissors,
+  smile: Smile,
+  sparkles: Sparkles,
+  bug: Bug,
+  siren: Siren,
+};
+---
+
+<section id="servicios" class="bg-card py-24">
+  <div class="mx-auto max-w-7xl px-5">
+    <SectionHead
+      eyebrow="Servicios"
+      title="Cuidado completo, en un solo lugar"
+      text="Desde controles preventivos hasta procedimientos, acompañamos cada etapa de la vida de tu mascota."
+    />
+    <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+      {
+        SERVICES.map((s, i) => {
+          const Icon = icons[s.icon];
+          return (
+            <article
+              class="reveal group flex flex-col rounded-3xl border border-border bg-background p-7 transition-all duration-300 hover:-translate-y-1 hover:border-sage hover:shadow-soft"
+              style={`transition-delay: ${(i % 4) * 60}ms`}
+            >
+              <span class="mb-5 grid size-14 place-items-center rounded-2xl bg-sage-soft text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
+                <Icon class="size-6" aria-hidden="true" />
+              </span>
+              <h3 class="text-xl font-medium text-primary">{s.name}</h3>
+              <p class="mt-2 flex-1 text-sm text-muted-foreground">{s.desc}</p>
+              <a
+                href={waLink(`Hola, quisiera conocer más sobre el servicio de ${s.name.toLowerCase()}`)}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:text-sage"
+              >
+                Consultar servicio <MessageCircle class="size-4" aria-hidden="true" />
+              </a>
+            </article>
+          );
+        })
+      }
+    </div>
+  </div>
+</section>

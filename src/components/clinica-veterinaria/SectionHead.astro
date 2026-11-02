@@ -1,0 +1,22 @@
+---
+import { PawPrint } from "@lucide/astro";
+
+interface Props {
+  eyebrow: string;
+  title: string;
+  text?: string;
+}
+
+const { eyebrow, title, text } = Astro.props;
+---
+
+<div class="reveal mx-auto mb-14 max-w-2xl text-center">
+  <p
+    class="mb-3 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-sage"
+  >
+    <PawPrint class="size-3.5" aria-hidden="true" />
+    {eyebrow}
+  </p>
+  <h2 class="text-4xl font-medium text-primary md:text-5xl">{title}</h2>
+  {text && <p class="mt-4 text-lg text-muted-foreground">{text}</p>}
+</div>

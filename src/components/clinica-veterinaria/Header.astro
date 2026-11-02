@@ -1,0 +1,87 @@
+---
+import { CalendarCheck, Menu, X } from "@lucide/astro";
+import Logo from "./Logo.astro";
+import Btn from "./Btn.astro";
+import { NAV } from "@/config/content";
+---
+
+<header id="site-header" class="site-header fixed inset-x-0 top-0 z-50">
+  <nav class="mx-auto flex max-w-7xl items-center justify-between px-5 py-4" aria-label="Principal">
+    <Logo />
+    <ul class="hidden items-center gap-8 lg:flex">
+      {
+        NAV.map((n) => (
+          <li>
+            <a
+              href={`#${n.id}`}
+              class="text-sm font-medium text-foreground/80 transition-colors hover:text-primary"
+            >
+              {n.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+    <div class="hidden lg:block">
+      <Btn href="#agendar"><CalendarCheck class="size-4" aria-hidden="true" />Agendar una hora</Btn>
+    </div>
+    <button
+      id="menu-toggle"
+      type="button"
+      class="rounded-xl p-2 text-primary lg:hidden"
+      aria-expanded="false"
+      aria-label="Abrir menú"
+      aria-controls="mobile-menu"
+    >
+      <Menu class="icon-menu" aria-hidden="true" />
+      <X class="icon-close" aria-hidden="true" />
+    </button>
+  </nav>
+  <div id="mobile-menu" class="mobile-panel border-t border-border px-5 pb-6">
+    <ul class="flex flex-col py-2">
+      {
+        NAV.map((n) => (
+          <li>
+            <a href={`#${n.id}`} class="block py-3 text-base font-medium text-foreground">
+              {n.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+    <Btn href="#agendar" class="w-full"
+      ><CalendarCheck class="size-4" aria-hidden="true" />Agendar una hora</Btn
+    >
+  </div>
+</header>
+
+<script>
+  const header = document.getElementById("site-header");
+  const toggle = document.getElementById("menu-toggle");
+
+  if (header && toggle) {
+    const updateScroll = () => {
+      header.classList.toggle("is-scrolled", window.scrollY > 20);
+    };
+
+    const closeMenu = () => {
+      header.classList.remove("is-open");
+      toggle.setAttribute("aria-expanded", "false");
+      toggle.setAttribute("aria-label", "Abrir menú");
+    };
+
+    updateScroll();
+    window.addEventListener("scroll", updateScroll, { passive: true });
+
+    toggle.addEventListener("click", () => {
+      const open = !header.classList.contains("is-open");
+      header.classList.toggle("is-open", open);
+      toggle.setAttribute("aria-expanded", String(open));
+      toggle.setAttribute("aria-label", open ? "Cerrar menú" : "Abrir menú");
+    });
+
+    document.querySelectorAll("#mobile-menu a").forEach((link) => {
+      link.addEventListener("click", closeMenu);
+    });
+  }
+</script>

@@ -1,6 +1,6 @@
-export interface Proyecto {
+﻿export interface Proyecto {
   title: string;
-  category: 'Web' | 'Automatización' | 'Social media';
+  category: 'Web' | 'Automatización' | 'Social media' | 'Multimedia';
   resultado: string;
   metrica: string;
   href: string;
@@ -23,7 +23,7 @@ export const proyectos: Proyecto[] = [
     resultado: 'Landing page con carta interactiva',
     metrica: 'Carga en 1.2s · SEO local optimizado',
     href: '/demo-pagina-sushi2/index.html',
-    image: '/proyectos/saber-de-sabor-demo2.jpg',
+    image: '/proyectos/saber-de-sabor-demo2.webp',
   },
   {
     title: 'Landing Page Premium',
@@ -31,7 +31,7 @@ export const proyectos: Proyecto[] = [
     resultado: 'Marca + tienda online completa',
     metrica: 'Catálogo + carrito · Diseño oscuro premium · 3 páginas',
     href: '/emberwood/index.html',
-    image: '/emberwood/img/hero-card.webp',
+    image: '/proyectos/emberwood-card.webp',
   },
   {
     title: 'Chatbot Inteligente',
@@ -48,5 +48,21 @@ export const proyectos: Proyecto[] = [
     metrica: 'Próximamente',
     href: '#',
     image: '/proyectos/gestion-redes-card.svg',
+  },
+  {
+    title: 'Clínica Veterinaria',
+    category: 'Web',
+    resultado: 'Página web institucional para clínica',
+    metrica: 'Próximamente',
+    href: '/clinica-veterinaria',
+    image: '/proyectos/vet-clinic-card.webp',
+  },
+  {
+    title: 'Restaurante Video',
+    category: 'Web',
+    resultado: 'Portal con videos y galería',
+    metrica: 'Próximamente',
+    href: '/restaurante-video',
+    image: '/img/1web.webp',
   },
 ];

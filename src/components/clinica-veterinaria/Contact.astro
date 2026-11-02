@@ -1,0 +1,74 @@
+---
+import { Clock, Mail, MapPin, MessageCircle, Navigation, Phone } from "@lucide/astro";
+import SectionHead from "./SectionHead.astro";
+import Btn from "./Btn.astro";
+import { CLINIC, mapsLink, waLink } from "@/config/clinic";
+
+const details = [
+  { icon: MapPin, label: "Dirección", value: CLINIC.address },
+  { icon: Phone, label: "Teléfono", value: CLINIC.phoneDisplay },
+  { icon: Mail, label: "Correo", value: CLINIC.email },
+];
+---
+
+<section id="contacto" class="py-24">
+  <div class="mx-auto max-w-7xl px-5">
+    <SectionHead eyebrow="Ubicación y contacto" title="Visítanos en Peñaflor" />
+    <div class="grid gap-8 lg:grid-cols-[1fr_1.3fr]">
+      <div class="reveal space-y-4 rounded-[2rem] bg-secondary p-8">
+        {
+          details.map(({ icon: Icon, label, value }) => (
+            <div class="flex gap-4">
+              <span class="grid size-11 shrink-0 place-items-center rounded-xl bg-card text-primary">
+                <Icon class="size-5" aria-hidden="true" />
+              </span>
+              <div>
+                <p class="text-xs text-muted-foreground">{label}</p>
+                <p class="font-medium">{value}</p>
+              </div>
+            </div>
+          ))
+        }
+        <div class="flex gap-4">
+          <span class="grid size-11 shrink-0 place-items-center rounded-xl bg-card text-primary">
+            <Clock class="size-5" aria-hidden="true" />
+          </span>
+          <div class="text-sm">
+            {
+              CLINIC.hours.map((h) => (
+                <p>
+                  <span class="text-muted-foreground">{h.days}:</span>{" "}
+                  <span class="font-medium">{h.time}</span>
+                </p>
+              ))
+            }
+          </div>
+        </div>
+        <div class="flex flex-wrap gap-3 pt-3">
+          <Btn href={`tel:${CLINIC.phoneTel}`}><Phone class="size-4" aria-hidden="true" />Llamar</Btn>
+          <Btn
+            href={waLink("Hola, quisiera consultar por la disponibilidad de atención veterinaria")}
+            variant="whatsapp"
+            external
+          >
+            <MessageCircle class="size-4" aria-hidden="true" />WhatsApp
+          </Btn>
+          <Btn href={mapsLink} variant="outline" external>
+            <Navigation class="size-4" aria-hidden="true" />Cómo llegar
+          </Btn>
+        </div>
+        <p class="text-xs text-muted-foreground">
+          Datos de ejemplo: dirección, teléfono y correo son marcadores editables.
+        </p>
+      </div>
+      <div class="reveal min-h-[360px] overflow-hidden rounded-[2rem] border border-border">
+        <iframe
+          title="Mapa de ubicación de VetVida en Peñaflor"
+          src={`https://www.google.com/maps?q=${encodeURIComponent(CLINIC.mapsQuery)}&output=embed`}
+          loading="lazy"
+          class="size-full min-h-[360px]"
+          referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+    </div>
+  </div>
+</section>

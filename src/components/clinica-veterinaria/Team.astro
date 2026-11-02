@@ -1,0 +1,47 @@
+---
+import SectionHead from "./SectionHead.astro";
+import { TEAM } from "@/config/content";
+import vetCamila from "@/assets/vet-camila.jpg";
+import vetSebastian from "@/assets/vet-sebastian.jpg";
+import vetValentina from "@/assets/vet-valentina.jpg";
+
+const images = {
+  "vet-camila": vetCamila,
+  "vet-sebastian": vetSebastian,
+  "vet-valentina": vetValentina,
+};
+---
+
+<section id="equipo" class="py-24">
+  <div class="mx-auto max-w-7xl px-5">
+    <SectionHead
+      eyebrow="Nuestro equipo"
+      title="Conoce a quienes cuidarán de tu mascota"
+      text="Profesionales cercanos que tratan a cada paciente como parte de su familia."
+    />
+    <div class="grid gap-8 md:grid-cols-3">
+      {
+        TEAM.map((t) => (
+          <article class="reveal group">
+            <div class="overflow-hidden rounded-[2rem]">
+              <img
+                src={images[t.img].src}
+                alt={`${t.name}, ${t.role}`}
+                width={800}
+                height={1008}
+                loading="lazy"
+                class="aspect-[4/4.6] w-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
+              />
+            </div>
+            <h3 class="mt-6 text-2xl font-medium text-primary">{t.name}</h3>
+            <p class="text-sm font-semibold text-sage">{t.role}</p>
+            <p class="mt-3 text-muted-foreground">{t.bio}</p>
+          </article>
+        ))
+      }
+    </div>
+    <p class="mt-10 text-center text-xs text-muted-foreground">
+      Perfiles demostrativos. Reemplázalos por el equipo real de la clínica.
+    </p>
+  </div>
+</section>

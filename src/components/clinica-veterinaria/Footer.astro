@@ -1,0 +1,64 @@
+---
+import { MessageCircle } from "@lucide/astro";
+import Logo from "./Logo.astro";
+import Btn from "./Btn.astro";
+import { NAV, SERVICES } from "@/config/content";
+import { CLINIC, waLink } from "@/config/clinic";
+
+const year = new Date().getFullYear();
+---
+
+<footer class="bg-forest pt-16 pb-8 text-forest-foreground">
+  <div class="mx-auto grid max-w-7xl gap-10 px-5 md:grid-cols-2 lg:grid-cols-4">
+    <div>
+      <Logo light />
+      <p class="mt-4 text-sm text-forest-foreground/70">
+        Atención veterinaria integral, cercana y profesional en Peñaflor.
+      </p>
+      <Btn href={waLink()} variant="whatsapp" external class="mt-5">
+        <MessageCircle class="size-4" aria-hidden="true" />Escríbenos
+      </Btn>
+    </div>
+    <div>
+      <h3 class="mb-4 font-sans text-sm font-semibold uppercase tracking-wider">Navegación</h3>
+      <ul class="space-y-2 text-sm text-forest-foreground/70">
+        {
+          NAV.map((n) => (
+            <li>
+              <a href={`#${n.id}`} class="hover:text-forest-foreground">{n.label}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+    <div>
+      <h3 class="mb-4 font-sans text-sm font-semibold uppercase tracking-wider">Servicios</h3>
+      <ul class="space-y-2 text-sm text-forest-foreground/70">
+        {SERVICES.slice(0, 5).map((s) => <li>{s.name}</li>)}
+      </ul>
+    </div>
+    <div>
+      <h3 class="mb-4 font-sans text-sm font-semibold uppercase tracking-wider">
+        Horarios y contacto
+      </h3>
+      <ul class="space-y-2 text-sm text-forest-foreground/70">
+        {CLINIC.hours.map((h) => <li>{h.days}: {h.time}</li>)}
+        <li>
+          <a href={`tel:${CLINIC.phoneTel}`} class="hover:text-forest-foreground">
+            {CLINIC.phoneDisplay}
+          </a>
+        </li>
+        <li>
+          <a href={`mailto:${CLINIC.email}`} class="hover:text-forest-foreground">
+            {CLINIC.email}
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div
+    class="mx-auto mt-12 max-w-7xl border-t border-forest-foreground/15 px-5 pt-6 text-xs text-forest-foreground/60"
+  >
+    © {year} VetVida. Sitio de demostración: todos los datos, perfiles y testimonios son ficticios.
+  </div>
+</footer>
