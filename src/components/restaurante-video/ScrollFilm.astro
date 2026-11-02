@@ -22,52 +22,17 @@
  */
 ---
 
-<noscript>
-  <style>
-    .film { height: auto; }
-    .film__stage {
-      position: relative;
-      height: auto;
-      display: flex;
-      flex-direction: column;
-    }
-    .film__video { position: relative; height: 56vh; }
-    .film__scrim { display: none; }
-    .film__scenes {
-      position: relative;
-      inset: auto;
-      display: flex;
-      flex-direction: column;
-    }
-    .film__scene {
-      position: relative;
-      inset: auto;
-      opacity: 1 !important;
-      visibility: visible !important;
-      transform: none !important;
-      padding-block: 2.5rem;
-      border-top: 1px solid rgb(201 162 39 / 0.25);
-    }
-    .film__progress { display: none; }
-  </style>
-</noscript>
-
 <section id="recorrido" class="film relative h-[450vh]" aria-label="Recorrido en vídeo por el restaurante">
   <div class="film__stage sticky top-0 h-[100svh] w-full overflow-hidden bg-ink">
     <video
       class="film__video absolute inset-0 h-full w-full object-cover"
-      poster="/video/poster.jpg"
+      poster="/video/poster.webp"
       muted
       playsinline
-      preload="auto"
+      preload="none"
+      disablepictureinpicture
       aria-hidden="true"
-    >
-      <!-- WebM/VP9 (principal) + MP4/H.264 (respaldo para navegadores sin VP9) -->
-      <source src="/video/timeline.webm" type="video/webm" media="(min-width: 768px)" />
-      <source src="/video/timeline-720.webm" type="video/webm" />
-      <source src="/video/timeline.mp4" type="video/mp4" media="(min-width: 768px)" />
-      <source src="/video/timeline-720.mp4" type="video/mp4" />
-    </video>
+    ></video>
 
     <!-- Scrim inferior: garantiza contraste AA del texto sobre cualquier frame -->
     <div class="film__scrim absolute inset-0 bg-gradient-to-t from-ink/85 via-transparent to-ink/35"></div>
@@ -184,6 +149,25 @@
   const scenes = Array.from(document.querySelectorAll<HTMLElement>('.film__scene'));
 
   if (film && video && !reducedMotion.matches) {
+    // El vídeo no se descarga al cargar: solo cuando el film se acerca al
+    // viewport. Se elige 720p en móvil/ahorro de datos y WebM/VP9 si el
+    // navegador lo soporta (con MP4/H.264 como respaldo).
+    const BASE = import.meta.env.BASE_URL;
+    const canVp9 = video.canPlayType('video/webm; codecs="vp9"') !== '';
+    const connection = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
+    let loaded = false;
+    let visible = false;
+    let looping = false;
+
+    function loadVideo() {
+      if (loaded) return;
+      loaded = true;
+      const small = window.matchMedia('(max-width: 767px)').matches || connection?.saveData === true;
+      const name = small ? 'timeline-720' : 'timeline';
+      video!.src = `${BASE}video/${name}.${canVp9 ? 'webm' : 'mp4'}`;
+      video!.load();
+    }
+
     // Cortes reales del vídeo: 6.0 s y 10.0 s sobre 16 s → 0.375 / 0.625.
     const SCENE_RANGES = [
       { start: 0.0, end: 0.375 },
@@ -318,6 +302,15 @@
       });
       if (progressEl) progressEl.style.width = `${(p * 100).toFixed(2)}%`;
 
+      // Fuera del viewport no se anima: ahorra CPU/batería.
+      if (visible) requestAnimationFrame(loop);
+      else looping = false;
+    }
+
+    function kick() {
+      if (looping || !visible) return;
+      looping = true;
+      lastFrame = performance.now();
       requestAnimationFrame(loop);
     }
 
@@ -325,13 +318,28 @@
       if (started) return;
       started = true;
       duration = video!.duration || 0;
-      lastFrame = performance.now();
       // Seek inicial al primer frame para pintar algo antes del primer scroll.
       video!.currentTime = 0.001;
-      requestAnimationFrame(loop);
+      kick();
     }
 
-    if (video!.readyState >= 1) start();
-    else video!.addEventListener('loadedmetadata', start, { once: true });
+    video!.addEventListener('loadedmetadata', start, { once: true });
+
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver(
+        (entries) => {
+          visible = entries[0]?.isIntersecting ?? false;
+          if (visible) {
+            loadVideo();
+            kick();
+          }
+        },
+        { rootMargin: '600px 0px' },
+      );
+      io.observe(film);
+    } else {
+      visible = true;
+      loadVideo();
+    }
   }
 </script>

@@ -67,7 +67,9 @@ const details = [
           src={`https://www.google.com/maps?q=${encodeURIComponent(CLINIC.mapsQuery)}&output=embed`}
           loading="lazy"
           class="size-full min-h-[360px]"
-          referrerpolicy="no-referrer-when-downgrade"></iframe>
+          referrerpolicy="no-referrer-when-downgrade"
+          sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"
+          allowfullscreen></iframe>
       </div>
     </div>
   </div>

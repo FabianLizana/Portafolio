@@ -23,7 +23,7 @@
       collection: "amaderados",
       collectionLabel: "Amaderados",
       notes: "Cedro del Atlas · Vetiver · Humo seco",
-      image: "img/p1.jpg",
+      image: "img/p1.webp",
       tag: "Icónico",
       basePrice: 46,
       sizes: [
@@ -38,7 +38,7 @@
       collection: "verdes",
       collectionLabel: "Verdes",
       notes: "Musgo de roble · Higuera · Tierra húmeda",
-      image: "img/p2.jpg",
+      image: "img/p2.webp",
       basePrice: 44,
       sizes: [
         { label: "220 g", delta: 0 },
@@ -52,7 +52,7 @@
       collection: "ambar",
       collectionLabel: "Ámbar",
       notes: "Ámbar gris · Benjuí · Haba tonka",
-      image: "img/p3.jpg",
+      image: "img/p3.webp",
       tag: "Difusor",
       basePrice: 58,
       sizes: [
@@ -67,7 +67,7 @@
       collection: "ambar",
       collectionLabel: "Ámbar",
       notes: "Bergamota negra · Incienso · Cuero suave",
-      image: "img/p4.jpg",
+      image: "img/p4.webp",
       basePrice: 39,
       sizes: [{ label: "100 ml", delta: 0 }],
       scents: ["Cálido", "Cítrico"],
@@ -78,7 +78,7 @@
       collection: "especiados",
       collectionLabel: "Especiados",
       notes: "Ciruela negra · Clavo · Madera de brandy",
-      image: "img/p5.jpg",
+      image: "img/p5.webp",
       tag: "Edición",
       basePrice: 52,
       sizes: [
@@ -93,7 +93,7 @@
       collection: "amaderados",
       collectionLabel: "Amaderados",
       notes: "Tres miniaturas · 3 × 70 g",
-      image: "img/p6.jpg",
+      image: "img/p6.webp",
       tag: "Set",
       basePrice: 42,
       sizes: [{ label: "3 × 70 g", delta: 0 }],
@@ -105,7 +105,7 @@
       collection: "especiados",
       collectionLabel: "Especiados",
       notes: "Sándalo · Mirra · Pimienta rosa",
-      image: "img/p7.jpg",
+      image: "img/p7.webp",
       basePrice: 28,
       sizes: [
         { label: "30 varillas", delta: 0 },
@@ -119,7 +119,7 @@
       collection: "verdes",
       collectionLabel: "Verdes",
       notes: "Aceite concentrado · Eucalipto · Salvia",
-      image: "img/p8.jpg",
+      image: "img/p8.webp",
       tag: "Refill",
       basePrice: 32,
       sizes: [
@@ -134,7 +134,7 @@
       collection: "amaderados",
       collectionLabel: "Amaderados",
       notes: "Abedul quemado · Papiro · Vainilla negra",
-      image: "img/p1.jpg",
+      image: "img/p1.webp",
       basePrice: 48,
       sizes: [
         { label: "220 g", delta: 0 },
@@ -148,7 +148,7 @@
       collection: "ambar",
       collectionLabel: "Ámbar",
       notes: "Labdanum · Mirra dulce · Castaña",
-      image: "img/p5.jpg",
+      image: "img/p5.webp",
       basePrice: 50,
       sizes: [
         { label: "220 g", delta: 0 },
@@ -266,7 +266,7 @@
       '" data-collection="' + p.collection + '">' +
       '<div class="product-media">' +
       (p.tag ? '<span class="product-tag">' + p.tag + "</span>" : "") +
-      '<img src="' + p.image + '" alt="' + p.name + ' — vela artesanal Emberwood" loading="lazy" width="900" height="1100">' +
+      '<img src="' + p.image + '" alt="' + p.name + ' — vela artesanal Emberwood" loading="lazy" decoding="async" width="900" height="1100">' +
       "</div>" +
       '<div class="product-top"><h3>' + p.name + '</h3>' +
       '<span class="product-price" data-price>' + window.EmberCart.formatPrice(priceOf(p, 0)) + "</span></div>" +

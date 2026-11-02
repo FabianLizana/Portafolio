@@ -1,12 +1,13 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import BrandIcon from '../components/BrandIcon.astro';
 ---
 
 <Layout title="Saber De Sabor — Sushi Bar Casual en Peñaflor" description="Sushi bar casual en Peñaflor, RM. Rolls frescos, promos para uno o para compartir. Pide por WhatsApp." current="inicio">
   <!-- HERO -->
   <section class="relative min-h-[92vh] flex items-center overflow-hidden">
     <div class="absolute inset-0">
-      <img src="/images/local-noche.jpg" alt="Saber De Sabor sushi bar de noche" class="w-full h-full object-cover" />
+      <img src="/images/local-noche.webp" alt="Saber De Sabor sushi bar de noche" class="w-full h-full object-cover" width="900" height="1482" fetchpriority="high" decoding="async" />
       <div class="absolute inset-0 bg-gradient-to-r from-bg1 via-bg1/85 to-bg1/30"></div>
       <div class="absolute inset-0 bg-gradient-to-t from-bg1 via-transparent to-bg1/40"></div>
     </div>
@@ -30,7 +31,7 @@ import Layout from '../layouts/Layout.astro';
             Ver menú <i class="fa-solid fa-arrow-right"></i>
           </a>
           <a href="https://wa.me/56973341304" target="_blank" class="btn-wsp px-8 py-4 rounded-full font-display font-600 text-base flex items-center justify-center gap-2.5">
-            <i class="fa-brands fa-whatsapp text-xl"></i> Pedir por WhatsApp
+            <BrandIcon name="whatsapp" class="text-xl" /> Pedir por WhatsApp
           </a>
         </div>
 
@@ -102,7 +103,7 @@ import Layout from '../layouts/Layout.astro';
 
         <div data-reveal data-reveal-delay="2" class="relative">
           <div class="relative rounded-3xl overflow-hidden">
-            <img src="/images/local-dia.jpg" alt="Fachada del local Saber De Sabor" class="w-full h-[480px] object-cover" />
+            <img src="/images/local-dia.webp" alt="Fachada del local Saber De Sabor" class="w-full h-[480px] object-cover" width="900" height="727" loading="lazy" decoding="async" />
             <div class="absolute inset-0 bg-gradient-to-t from-bg1/80 via-transparent to-transparent"></div>
           </div>
           <div class="absolute -bottom-6 -left-4 md:-left-8 bg-bg2 border border-white/10 rounded-2xl p-5 shadow-2xl max-w-[230px]">
@@ -146,7 +147,7 @@ import Layout from '../layouts/Layout.astro';
         <!-- Promo 1 -->
         <article data-reveal class="promo-card">
           <div class="promo-img-wrap relative h-56">
-            <img src="/images/promo-1.jpg" alt="Promo 1 - 20 piezas" class="w-full h-full object-cover" />
+            <img src="/images/promo-1.webp" alt="Promo 1 - 20 piezas" class="w-full h-full object-cover" width="1200" height="630" loading="lazy" decoding="async" />
             <div class="absolute top-4 left-4 badge badge-coral">Promo 1</div>
             <div class="absolute inset-0 bg-gradient-to-t from-bg2 via-transparent to-transparent"></div>
           </div>
@@ -169,7 +170,7 @@ import Layout from '../layouts/Layout.astro';
         <!-- Promo 4 -->
         <article data-reveal data-reveal-delay="1" class="promo-card">
           <div class="promo-img-wrap relative h-56">
-            <img src="/images/promo-4.jpg" alt="Promo 4 - 40 piezas" class="w-full h-full object-cover" />
+            <img src="/images/promo-4.webp" alt="Promo 4 - 40 piezas" class="w-full h-full object-cover" width="1200" height="630" loading="lazy" decoding="async" />
             <div class="absolute top-4 left-4 badge badge-lime">Más vendido</div>
             <div class="absolute inset-0 bg-gradient-to-t from-bg2 via-transparent to-transparent"></div>
           </div>
@@ -192,7 +193,7 @@ import Layout from '../layouts/Layout.astro';
         <!-- Promo 6 -->
         <article data-reveal data-reveal-delay="2" class="promo-card">
           <div class="promo-img-wrap relative h-56">
-            <img src="/images/promo-6.jpg" alt="Promo 6 - 60 piezas" class="w-full h-full object-cover" />
+            <img src="/images/promo-6.webp" alt="Promo 6 - 60 piezas" class="w-full h-full object-cover" width="1200" height="630" loading="lazy" decoding="async" />
             <div class="absolute top-4 left-4 badge badge-salmon">Para compartir</div>
             <div class="absolute inset-0 bg-gradient-to-t from-bg2 via-transparent to-transparent"></div>
           </div>
@@ -241,7 +242,7 @@ import Layout from '../layouts/Layout.astro';
           <p class="text-neutral-500 text-sm">Pide por WhatsApp y pasa a buscarlo cuando esté listo.</p>
         </div>
         <div data-reveal data-reveal-delay="2" class="service-card text-center relative overflow-hidden">
-          <img src="/images/Delivery.gif" alt="Delivery" style="width: 110px; height: 110px; margin: 0 auto -10px; object-fit: contain;" />
+          <img src="/images/Delivery.webp" alt="Delivery" style="width: 110px; height: 110px; margin: 0 auto -10px; object-fit: contain;" width="150" height="150" loading="lazy" decoding="async" />
           <h3 class="font-display font-600 text-lg mb-2 mt-1">Entrega a domicilio</h3>
           <p class="text-neutral-500 text-sm">Despacho sin cargo en Peñaflor y Malloco (excepto propinas).</p>
         </div>
@@ -273,7 +274,7 @@ import Layout from '../layouts/Layout.astro';
           <h3 class="font-display font-600 text-lg mb-2">Contáctanos</h3>
           <p class="text-neutral-400 text-sm mb-3">+56 9 7334 1304</p>
           <a href="https://wa.me/56973341304" target="_blank" class="btn-wsp inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-display font-600">
-            <i class="fa-brands fa-whatsapp"></i> Escríbenos
+            <BrandIcon name="whatsapp" /> Escríbenos
           </a>
         </div>
       </div>

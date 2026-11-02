@@ -4,7 +4,7 @@ export const site = {
   description: 'Portfolio de Fabian Lizana Leyton. Desarrollo web, automatización, chatbots e inteligencia artificial para negocios en Chile y LATAM.',
   email: 'fabianlizana1870@gmail.com',
   whatsapp: '+56961325421',
-  url: 'https://portfolio.fabianlizana.dev',
+  url: 'https://fabianlizana.github.io/Portafolio',
   social: {
     linkedin: 'https://www.linkedin.com/in/fabian-andres-lizana-leyton-307119247/',
   },

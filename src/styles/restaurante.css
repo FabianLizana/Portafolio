@@ -58,7 +58,7 @@ article[id] {
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
+@media (prefers-reduced-motion: reduce), (scripting: none) {
   html {
     scroll-behavior: auto;
   }

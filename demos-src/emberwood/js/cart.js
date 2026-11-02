@@ -28,7 +28,25 @@
   }
 
   function isValidItem(it) {
-    return it && typeof it.id === "string" && typeof it.price === "number" && it.qty > 0;
+    return (
+      !!it &&
+      typeof it.id === "string" &&
+      /^[a-z0-9-]+(?:::[a-z0-9-]+)?$/i.test(it.id) &&
+      typeof it.name === "string" &&
+      it.name.length > 0 &&
+      it.name.length <= 120 &&
+      typeof it.price === "number" &&
+      Number.isFinite(it.price) &&
+      it.price >= 0 &&
+      it.price < 100000 &&
+      Number.isInteger(it.qty) &&
+      it.qty > 0 &&
+      it.qty <= 99 &&
+      (it.variant === undefined ||
+        (typeof it.variant === "string" && it.variant.length <= 80)) &&
+      (it.image === undefined ||
+        (typeof it.image === "string" && /^[a-z0-9./_-]+$/i.test(it.image)))
+    );
   }
 
   function save() {
@@ -113,19 +131,19 @@
   function itemMarkup(it, index) {
     return (
       '<article class="cart-item" style="animation-delay:' + index * 0.04 + 's">' +
-      '<img src="' + escapeHtml(it.image) + '" alt="' + escapeHtml(it.name) + '" loading="lazy" width="78" height="98">' +
+      '<img src="' + escapeHtml(it.image) + '" alt="' + escapeHtml(it.name) + '" loading="lazy" decoding="async" width="78" height="98">' +
       "<div>" +
       "<h4>" + escapeHtml(it.name) + "</h4>" +
       '<p class="ci-variant">' + escapeHtml(it.variant || "Estándar") + "</p>" +
       '<div class="ci-foot">' +
       '<div class="qty">' +
-      '<button type="button" data-cart-dec="' + it.id + '" aria-label="Quitar una unidad de ' + escapeHtml(it.name) + '">&minus;</button>' +
+      '<button type="button" data-cart-dec="' + escapeHtml(it.id) + '" aria-label="Quitar una unidad de ' + escapeHtml(it.name) + '">&minus;</button>' +
       "<span>" + it.qty + "</span>" +
-      '<button type="button" data-cart-inc="' + it.id + '" aria-label="Añadir una unidad de ' + escapeHtml(it.name) + '">+</button>' +
+      '<button type="button" data-cart-inc="' + escapeHtml(it.id) + '" aria-label="Añadir una unidad de ' + escapeHtml(it.name) + '">+</button>' +
       "</div>" +
       '<span class="ci-price">' + formatPrice(it.price * it.qty) + "</span>" +
       "</div>" +
-      '<button type="button" class="ci-remove" data-cart-remove="' + it.id + '">Eliminar</button>' +
+      '<button type="button" class="ci-remove" data-cart-remove="' + escapeHtml(it.id) + '">Eliminar</button>' +
       "</div></article>"
     );
   }
@@ -186,7 +204,7 @@
   function changeQty(id, delta) {
     items = items
       .map(function (it) {
-        if (it.id === id) it.qty += delta;
+        if (it.id === id) it.qty = Math.min(99, it.qty + delta);
         return it;
       })
       .filter(function (it) {

@@ -6,13 +6,22 @@
 ---
 
 <section id="inicio" class="relative flex h-[100svh] items-center justify-center overflow-hidden" aria-label="Portada">
-  <img
-    src="/img/1web.webp"
-    alt="Fachada iluminada del restaurante NOBU en la noche"
-    class="absolute inset-0 h-full w-full object-cover"
-    fetchpriority="high"
-    decoding="async"
-  />
+  <picture>
+    <source
+      srcset="/img/1web-640.webp 640w, /img/1web-1280.webp 1280w, /img/1web.webp 1920w"
+      sizes="100vw"
+      type="image/webp"
+    />
+    <img
+      src="/img/1web-1280.webp"
+      alt="Fachada iluminada del restaurante NOBU en la noche"
+      class="absolute inset-0 h-full w-full object-cover"
+      width="1920"
+      height="994"
+      fetchpriority="high"
+      decoding="async"
+    />
+  </picture>
   <!-- Scrim para legibilidad del texto (contraste AA sobre imagen cálida) -->
   <div class="absolute inset-0 bg-gradient-to-b from-ink/70 via-ink/30 to-ink/85"></div>
 

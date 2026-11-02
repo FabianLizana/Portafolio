@@ -1,4 +1,5 @@
 ---
+import "@/styles/fonts-restaurante.css";
 import "@/styles/restaurante.css";
 import SiteNav from "@/components/restaurante-video/SiteNav.astro";
 
@@ -9,7 +10,7 @@ interface Props {
 
 const { title, description } = Astro.props;
 const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site) : undefined;
-const ogImage = Astro.site ? new URL("/video/poster.jpg", Astro.site) : undefined;
+const ogImage = Astro.site ? new URL("/video/og.jpg", Astro.site) : undefined;
 ---
 
 <!doctype html>
@@ -30,8 +31,8 @@ const ogImage = Astro.site ? new URL("/video/poster.jpg", Astro.site) : undefine
     {canonical && <link rel="canonical" href={canonical} />}
     {canonical && <meta property="og:url" content={canonical} />}
     {ogImage && <meta property="og:image" content={ogImage} />}
-    {ogImage && <meta property="og:image:width" content="1920" />}
-    {ogImage && <meta property="og:image:height" content="1080" />}
+    {ogImage && <meta property="og:image:width" content="1200" />}
+    {ogImage && <meta property="og:image:height" content="630" />}
     <meta property="og:image:alt" content="Fachada iluminada del restaurante NOBU en la noche" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
@@ -39,11 +40,14 @@ const ogImage = Astro.site ? new URL("/video/poster.jpg", Astro.site) : undefine
     {ogImage && <meta name="twitter:image" content={ogImage} />}
     <link rel="icon" href="/favicon.ico" sizes="32x32" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Marcellus&family=Zen+Kaku+Gothic+New:wght@300;400;500;700&display=swap"
-      rel="stylesheet"
+      rel="preload"
+      href="/img/1web-1280.webp"
+      as="image"
+      imagesrcset="/img/1web-640.webp 640w, /img/1web-1280.webp 1280w, /img/1web.webp 1920w"
+      imagesizes="100vw"
+      fetchpriority="high"
+      type="image/webp"
     />
     <title>{title}</title>
   </head>

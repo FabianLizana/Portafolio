@@ -8,13 +8,22 @@
 <section id="comedor" class="relative overflow-hidden bg-coal py-20 md:py-28" aria-label="El comedor">
   <div class="mx-auto grid max-w-7xl items-center gap-10 px-6 md:grid-cols-12 md:gap-14 md:px-12">
     <figure class="md:col-span-7">
-      <img
-        src="/img/5web.webp"
-        alt="Comedor principal con barra de sushi iluminada y lámparas de papel"
-        class="h-[46vh] w-full rounded-sm object-cover md:h-[64vh]"
-        loading="lazy"
-        decoding="async"
-      />
+      <picture>
+        <source
+          srcset="/img/5web-640.webp 640w, /img/5web-1280.webp 1280w, /img/5web.webp 1800w"
+          sizes="(min-width: 768px) 58vw, 100vw"
+          type="image/webp"
+        />
+        <img
+          src="/img/5web-1280.webp"
+          alt="Comedor principal con barra de sushi iluminada y lámparas de papel"
+          class="h-[46vh] w-full rounded-sm object-cover md:h-[64vh]"
+          width="1800"
+          height="1200"
+          loading="lazy"
+          decoding="async"
+        />
+      </picture>
     </figure>
 
     <div class="md:col-span-5">

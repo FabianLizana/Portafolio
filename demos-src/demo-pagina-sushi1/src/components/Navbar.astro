@@ -1,5 +1,6 @@
 ---
 import SushiLogo from './SushiLogo.astro';
+import BrandIcon from './BrandIcon.astro';
 
 interface Props {
   current?: 'inicio' | 'menu' | 'contacto';
@@ -36,7 +37,7 @@ const links = [
         target="_blank"
         class="btn-coral px-5 py-2.5 rounded-full text-sm font-display font-600 flex items-center gap-2"
       >
-        <i class="fa-brands fa-whatsapp text-base"></i> Pedir ahora
+        <BrandIcon name="whatsapp" class="text-base" /> Pedir ahora
       </a>
     </div>
 
@@ -57,7 +58,7 @@ const links = [
         target="_blank"
         class="btn-wsp px-5 py-3 rounded-full text-center font-display font-600 flex items-center justify-center gap-2 mt-2"
       >
-        <i class="fa-brands fa-whatsapp text-lg"></i> Pedir por WhatsApp
+        <BrandIcon name="whatsapp" class="text-lg" /> Pedir por WhatsApp
       </a>
     </div>
   </div>

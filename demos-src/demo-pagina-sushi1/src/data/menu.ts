@@ -22,14 +22,14 @@ export const menuData: MenuCategory[] = [
     title: 'Carta',
     subtitle: 'Nuestros rolls clásicos',
     items: [
-      { name: 'Promo 1 (20 pz)', desc: 'Especial palta (camarón, queso crema) y Frito (pollo, queso crema, cebollín)', price: '$6.500', featured: true, img: '/images/promo-1.jpg' },
-      { name: 'Promo 2 (20 pz)', desc: '2 tipos de fritos: Camarón, queso crema, cebollín y Pollo, queso crema, cebollín', price: '$6.000', featured: true, img: '/images/promo-2.jpg' },
-      { name: 'Promo 3 (30 pz)', desc: 'Especial palta, California y Frito', price: '$9.000', featured: true, img: '/images/promo-3.jpg' },
-      { name: 'Promo 4 (40 pz)', desc: 'Tempura, Pollo, Camarón, Panko, Kanikama y Palmito (con queso crema y cebollín)', price: '$12.000', featured: true, img: '/images/promo-4.jpg' },
-      { name: 'Promo 5 (50 pz)', desc: 'Especial palta, Camarón, queso crema y más variedades', price: '$14.500', featured: true, img: '/images/promo-5.jpg' },
-      { name: 'Promo 6 (60 pz)', desc: 'Especial palta, Salmón, queso crema, cebollín y más', price: '$18.900', featured: true, img: '/images/promo-6.jpg' },
-      { name: 'Ceviche Mixto', desc: 'Salmón, reineta, baqueta y camarón', price: '$4.500', featured: true, img: '/images/ceviche.jpg' },
-      { name: 'Volcán Peñaflor', desc: 'Salmón flambeado, queso crema, cebollín crocante, salsa acevichada', price: '$8.500', featured: true, img: '/images/volcan.jpg' },
+      { name: 'Promo 1 (20 pz)', desc: 'Especial palta (camarón, queso crema) y Frito (pollo, queso crema, cebollín)', price: '$6.500', featured: true, img: '/images/promo-1.webp' },
+      { name: 'Promo 2 (20 pz)', desc: '2 tipos de fritos: Camarón, queso crema, cebollín y Pollo, queso crema, cebollín', price: '$6.000', featured: true, img: '/images/promo-2.webp' },
+      { name: 'Promo 3 (30 pz)', desc: 'Especial palta, California y Frito', price: '$9.000', featured: true, img: '/images/promo-3.webp' },
+      { name: 'Promo 4 (40 pz)', desc: 'Tempura, Pollo, Camarón, Panko, Kanikama y Palmito (con queso crema y cebollín)', price: '$12.000', featured: true, img: '/images/promo-4.webp' },
+      { name: 'Promo 5 (50 pz)', desc: 'Especial palta, Camarón, queso crema y más variedades', price: '$14.500', featured: true, img: '/images/promo-5.webp' },
+      { name: 'Promo 6 (60 pz)', desc: 'Especial palta, Salmón, queso crema, cebollín y más', price: '$18.900', featured: true, img: '/images/promo-6.webp' },
+      { name: 'Ceviche Mixto', desc: 'Salmón, reineta, baqueta y camarón', price: '$4.500', featured: true, img: '/images/ceviche.webp' },
+      { name: 'Volcán Peñaflor', desc: 'Salmón flambeado, queso crema, cebollín crocante, salsa acevichada', price: '$8.500', featured: true, img: '/images/volcan.webp' },
     ],
   },
   {
@@ -100,4 +100,4 @@ export const menuData: MenuCategory[] = [
 ];
 
 // Imágenes locales de repuesto para items sin imagen propia
-export const menuImages = ['/images/02.jpg', '/images/03.jpg', '/images/04.jpg'];
+export const menuImages = ['/images/02.webp', '/images/03.webp', '/images/04.webp'];

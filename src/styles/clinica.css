@@ -1,10 +1,9 @@
-@import './fonts.css';
 @import 'tailwindcss';
 @config '../../tailwind.config.mjs';
 
 @theme {
-  --font-display: 'Fraunces', ui-serif, Georgia, serif;
-  --font-sans: 'Figtree', 'Manrope Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Fraunces Variable', ui-serif, Georgia, serif;
+  --font-sans: 'Figtree Variable', ui-sans-serif, system-ui, sans-serif;
 
   --color-background: #f7f4ec;
   --color-foreground: #23352b;
@@ -211,5 +210,14 @@ a {
   .reveal {
     opacity: 1;
     transform: none;
+  }
+}
+
+/* Sin JavaScript: muestra todo el contenido sin animaciones de entrada. */
+@media (scripting: none) {
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
   }
 }

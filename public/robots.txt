@@ -12,3 +12,5 @@ Allow: /
 
 User-agent: *
 Allow: /
+
+Sitemap: https://fabianlizana.github.io/Portafolio/sitemap-index.xml

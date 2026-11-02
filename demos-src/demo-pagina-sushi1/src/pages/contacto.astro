@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import BrandIcon from '../components/BrandIcon.astro';
 ---
 
 <Layout title="Contacto — Saber De Sabor" description="Visítanos en Peñaflor, RM. Malloquito 1985, Local B. Horario: Lun–Mar, Jue–Dom 6–11 PM. Pide por WhatsApp." current="contacto">
@@ -75,7 +76,7 @@ import Layout from '../layouts/Layout.astro';
           <div data-reveal data-reveal-delay="3" class="info-card bg-gradient-to-br from-[#0d3a1f] to-[#082213] border-lime2/30">
             <div class="flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
               <div class="w-16 h-16 rounded-2xl bg-lime2/20 flex items-center justify-center flex-shrink-0">
-                <i class="fa-brands fa-whatsapp text-3xl text-lime2"></i>
+                <BrandIcon name="whatsapp" class="text-3xl text-lime2" />
               </div>
               <div class="flex-1">
                 <h3 class="font-display font-600 text-xl mb-1">Pide por WhatsApp</h3>
@@ -106,7 +107,7 @@ import Layout from '../layouts/Layout.astro';
                 <textarea name="message" required rows="4" class="form-input resize-none" placeholder="Cuéntanos qué necesitas..."></textarea>
               </div>
               <button type="submit" class="btn-coral w-full px-6 py-4 rounded-full font-display font-600 flex items-center justify-center gap-2">
-                <i class="fa-brands fa-whatsapp text-xl"></i> Enviar por WhatsApp
+                <BrandIcon name="whatsapp" class="text-xl" /> Enviar por WhatsApp
               </button>
             </form>
           </div>

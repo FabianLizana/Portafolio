@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import BrandIcon from '../components/BrandIcon.astro';
 import { menuData } from '../data/menu';
 
 const current = 'menu';
@@ -61,7 +62,7 @@ const current = 'menu';
       <div data-reveal class="mt-12 text-center">
         <p class="text-neutral-400 mb-5">¿Ya sabes qué vas a pedir?</p>
         <a href="https://wa.me/56973341304?text=Hola!%20Quiero%20hacer%20un%20pedido" target="_blank" class="btn-wsp inline-flex items-center gap-3 px-8 py-4 rounded-full font-display font-600 text-base">
-          <i class="fa-brands fa-whatsapp text-xl"></i> Pedir por WhatsApp
+          <BrandIcon name="whatsapp" class="text-xl" /> Pedir por WhatsApp
         </a>
       </div>
     </div>
@@ -79,7 +80,7 @@ const current = 'menu';
     let menuData = [];
     let currentCategory = 'carta';
     let imgCounter = 0;
-    const menuImages = ['/images/02.jpg', '/images/03.jpg', '/images/04.jpg'];
+    const menuImages = ['/images/02.webp', '/images/03.webp', '/images/04.webp'];
 
     function nextImage() {
       const url = menuImages[imgCounter % menuImages.length];
@@ -105,7 +106,7 @@ const current = 'menu';
         grid.innerHTML = cat.items.map((item, i) => `
           <article class="menu-item" data-reveal data-reveal-delay="${(i % 3) + 1}">
             <div class="menu-item-img">
-              <img src="${item.img || nextImage()}" alt="${esc(item.name)}" loading="lazy" />
+              <img src="${item.img || nextImage()}" alt="${esc(item.name)}" loading="lazy" decoding="async" width="900" height="600" />
             </div>
             <div class="flex-1 min-w-0">
               <div class="flex items-start justify-between gap-2">

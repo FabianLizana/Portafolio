@@ -560,16 +560,16 @@ const proximos = proyectos.filter((p) => p.href === '#');
 
 <script>
   import gsap from 'gsap';
-  import { DotLottie } from '@lottiefiles/dotlottie-web';
 
   type Side = 'left' | 'right';
 
-  function mountLottie(el: HTMLElement, reduced: boolean) {
+  async function mountLottie(el: HTMLElement, reduced: boolean) {
     const src = el.dataset.lottie;
     if (!src || el.dataset.lottieReady) return;
     el.dataset.lottieReady = '1';
     const canvas = document.createElement('canvas');
     el.appendChild(canvas);
+    const { DotLottie } = await import('@lottiefiles/dotlottie-web');
     new DotLottie({
       canvas,
       src,

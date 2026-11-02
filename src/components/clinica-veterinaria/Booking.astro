@@ -19,7 +19,7 @@ const times = ["Mañana (09:00 – 12:00)", "Mediodía (12:00 – 15:00)", "Tard
     <div class="reveal rounded-[2rem] bg-card p-6 shadow-soft md:p-10">
       <form id="booking-form" novalidate class="grid gap-5 md:grid-cols-2">
         <Field k="tutor" label="Nombre del tutor *">
-          <input id="tutor" class={field} autocomplete="name" />
+          <input id="tutor" class={field} autocomplete="name" maxlength="100" />
         </Field>
         <Field k="phone" label="Teléfono de contacto *">
           <input
@@ -28,10 +28,12 @@ const times = ["Mañana (09:00 – 12:00)", "Mediodía (12:00 – 15:00)", "Tard
             class={field}
             placeholder="+56 9 ..."
             autocomplete="tel"
+            inputmode="tel"
+            maxlength="25"
           />
         </Field>
         <Field k="pet" label="Nombre de la mascota *">
-          <input id="pet" class={field} />
+          <input id="pet" class={field} maxlength="60" />
         </Field>
         <Field k="type" label="Tipo de mascota *">
           <select id="type" class={field}>
@@ -58,7 +60,7 @@ const times = ["Mañana (09:00 – 12:00)", "Mediodía (12:00 – 15:00)", "Tard
         </Field>
         <div class="md:col-span-2">
           <Field k="notes" label="Motivo de la consulta o comentarios">
-            <textarea id="notes" rows={4} class={field}></textarea>
+            <textarea id="notes" rows={4} maxlength="500" class={field}></textarea>
           </Field>
         </div>
         <div
@@ -146,6 +148,9 @@ const times = ["Mañana (09:00 – 12:00)", "Mediodía (12:00 – 15:00)", "Tard
   const newRequest = document.getElementById("new-request");
   const fields = ["tutor", "phone", "pet", "type", "service", "date", "time", "notes"] as const;
 
+  const dateInput = document.getElementById("date") as HTMLInputElement | null;
+  if (dateInput) dateInput.min = new Date().toISOString().slice(0, 10);
+
   const value = (id: string) =>
     (document.getElementById(id) as HTMLInputElement | HTMLSelectElement | null)?.value ?? "";
 
@@ -188,13 +193,15 @@ const times = ["Mañana (09:00 – 12:00)", "Mediodía (12:00 – 15:00)", "Tard
       const errors: Record<string, string> = {};
 
       if (data.tutor.trim().length < 2) errors.tutor = "Ingresa tu nombre.";
-      if (!/^[+\d\s()-]{8,}$/.test(data.phone.trim()))
+      if (data.tutor.length > 100) errors.tutor = "Máximo 100 caracteres.";
+      if (!/^[+\d\s()-]{8,}$/.test(data.phone.trim()) || data.phone.length > 25)
         errors.phone = "Ingresa un teléfono válido (ej. +56 9 1234 5678).";
-      if (!data.pet.trim()) errors.pet = "Ingresa el nombre de tu mascota.";
+      if (!data.pet.trim() || data.pet.length > 60) errors.pet = "Ingresa el nombre de tu mascota.";
       if (!data.type) errors.type = "Selecciona el tipo de mascota.";
       if (!data.service) errors.service = "Selecciona un servicio.";
       if (!data.date) errors.date = "Elige una fecha preferida.";
       if (!data.time) errors.time = "Elige un horario preferido.";
+      if (data.notes.length > 500) errors.notes = "Máximo 500 caracteres.";
 
       fields.forEach((key) => showError(key, errors[key] ?? ""));
 
