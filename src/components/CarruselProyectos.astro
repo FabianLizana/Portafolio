@@ -562,8 +562,10 @@ const proximos = proyectos.filter((p) => p.href === '#');
     .fan-layout {
       display: flex;
       flex-direction: row;
+      height: auto;
       overflow-x: auto;
-      scroll-snap-type: x mandatory;
+      scroll-snap-type: x proximity;
+      scroll-padding-inline: 1rem;
       justify-content: flex-start;
       padding-inline: 1rem;
       scrollbar-width: none;
@@ -704,7 +706,7 @@ const proximos = proyectos.filter((p) => p.href === '#');
     if (!allCards.length) return;
 
     const prefersReduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const isMobile = window.innerWidth < 768;
+    let isMobile = window.innerWidth < 768;
 
     let activeFilter = 'all';
     let cards = [...allCards];
@@ -746,24 +748,37 @@ const proximos = proyectos.filter((p) => p.href === '#');
 
     function refreshDots() {
       const dots = dotsEl.querySelectorAll<HTMLButtonElement>('.fan-dot');
-      dots.forEach((d) => d.classList.toggle('is-active', Number(d.dataset.index) === centerIndex));
+      const active = isMobile
+        ? Math.max(0, Math.min(Math.round(layoutEl.scrollLeft / getMobileStep()), totalCards - 1))
+        : centerIndex;
+      dots.forEach((d) => d.classList.toggle('is-active', Number(d.dataset.index) === active));
     }
 
     function refreshPagination() {
-      controlsEl.classList.toggle('is-enabled', needsPagination);
-      controlsEl.toggleAttribute('inert', !needsPagination);
+      const paginate = isMobile ? totalCards > 1 : needsPagination;
+      controlsEl.classList.toggle('is-enabled', paginate);
+      controlsEl.toggleAttribute('inert', !paginate);
       arrows.forEach((a) => {
-        const btn = a;
-        (btn as HTMLButtonElement).disabled = !needsPagination;
+        (a as HTMLButtonElement).disabled = !paginate;
       });
       buildDots();
       refreshDots();
     }
 
+    function getMobileStep() {
+      const first = cards[0];
+      if (!first) return layoutEl.clientWidth * 0.85;
+      return first.offsetWidth + 8; // ancho tarjeta + gap (.5rem)
+    }
+
     function cycle(dir: Side) {
       if (isMobile) {
-        const scrollBy = dir === 'right' ? layoutEl.clientWidth * 0.85 : -layoutEl.clientWidth * 0.85;
-        layoutEl.scrollBy({ left: scrollBy, behavior: 'smooth' });
+        const step = getMobileStep();
+        const maxScroll = layoutEl.scrollWidth - layoutEl.clientWidth;
+        const target = dir === 'right'
+          ? Math.min(layoutEl.scrollLeft + step, maxScroll)
+          : Math.max(layoutEl.scrollLeft - step, 0);
+        layoutEl.scrollTo({ left: target, behavior: 'smooth' });
         return;
       }
       if (isAnimating || !needsPagination) return;
@@ -1021,14 +1036,27 @@ const proximos = proyectos.filter((p) => p.href === '#');
 
     arrows.forEach((a) => a.addEventListener('click', () => cycle(a.dataset.cycle as Side)));
 
+    layoutEl.addEventListener('scroll', () => {
+      if (isMobile) refreshDots();
+    }, { passive: true });
+
     let resizeTimer: number | null = null;
     window.addEventListener('resize', () => {
       if (resizeTimer) clearTimeout(resizeTimer);
       resizeTimer = window.setTimeout(() => {
         if (!isAnimating) {
+          const wasMobile = isMobile;
+          isMobile = window.innerWidth < 768;
           totalCards = cards.length;
           needsPagination = totalCards > MAX_VISIBLE;
+          if (wasMobile !== isMobile) {
+            gsap.set(allCards, { clearProps: 'all' });
+            prevVisible = new Set();
+            hasEntered = false;
+            refreshPagination();
+          }
           update();
+          if (isMobile) refreshDots();
         }
       }, 150);
     });
@@ -1053,7 +1081,7 @@ const proximos = proyectos.filter((p) => p.href === '#');
     }, { threshold: 0.25 });
     io.observe(layoutEl);
 
-    if (prefersReduced) {
+    if (prefersReduced && !isMobile) {
       gsap.set(allCards, { opacity: 0 });
     }
   }
