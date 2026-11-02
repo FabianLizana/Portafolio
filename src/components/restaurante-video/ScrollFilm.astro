@@ -139,6 +139,17 @@
   .film__scene:first-child {
     opacity: 1;
   }
+
+  @media (max-width: 767px) {
+    #recorrido {
+      height: auto;
+      min-height: 100svh;
+    }
+    .film__stage {
+      position: static;
+      height: auto;
+    }
+  }
 </style>
 
 <script>
@@ -155,9 +166,11 @@
     const BASE = import.meta.env.BASE_URL;
     const canVp9 = video.canPlayType('video/webm; codecs="vp9"') !== '';
     const connection = (navigator as Navigator & { connection?: { saveData?: boolean; downlink?: number } }).connection;
+    const isMobile = window.matchMedia('(max-width: 767px)').matches || connection?.saveData === true;
     let loaded = false;
     let visible = false;
     let looping = false;
+    let videoEnded = false;
 
     function loadVideo() {
       if (loaded) return;
@@ -262,6 +275,20 @@
       const dt = Math.min(0.06, (now - lastFrame) / 1000);
       lastFrame = now;
 
+      // Móvil: sin scrubbing por scroll. Solo play/pause por visibilidad;
+      // el vídeo no se reinicia solo al terminar (videoEnded) ni hace bucle.
+      if (isMobile) {
+        if (visible && !videoEnded && video!.paused && video!.readyState >= 1) {
+          video!.play();
+        }
+        if (!visible && !video!.paused) {
+          video!.pause();
+        }
+        if (visible) requestAnimationFrame(loop);
+        else looping = false;
+        return;
+      }
+
       // Armar: 450 ms sin actividad, film en pantalla y corte pendiente por delante.
       if (mode === 'idle' && duration > 0 && filmEngaged() && now - lastActivity >= ARM_DELAY) {
         const p = current / duration;
@@ -328,6 +355,29 @@
     }
 
     video!.addEventListener('loadedmetadata', start, { once: true });
+
+    // Móvil: al terminar, no se reinicia solo; se requiere tocar la sección.
+    video!.addEventListener(
+      'ended',
+      () => {
+        videoEnded = true;
+      },
+      { passive: true },
+    );
+
+    // Móvil: tap en la sección para (re)iniciar el vídeo.
+    film!.addEventListener(
+      'click',
+      () => {
+        if (!isMobile) return;
+        if (videoEnded || video!.paused) {
+          videoEnded = false;
+          video!.currentTime = 0;
+          video!.play();
+        }
+      },
+      { passive: true },
+    );
 
     if ('IntersectionObserver' in window) {
       const io = new IntersectionObserver(
