@@ -160,240 +160,226 @@
   const scenes = Array.from(document.querySelectorAll<HTMLElement>('.film__scene'));
 
   if (film && video && !reducedMotion.matches) {
-    // El vídeo no se descarga al cargar: solo cuando el film se acerca al
-    // viewport. Se elige 720p en móvil/ahorro de datos y WebM/VP9 si el
-    // navegador lo soporta (con MP4/H.264 como respaldo).
     const BASE = import.meta.env.BASE_URL;
     const canVp9 = video.canPlayType('video/webm; codecs="vp9"') !== '';
     const connection = (navigator as Navigator & { connection?: { saveData?: boolean; downlink?: number } }).connection;
     const isMobile = window.matchMedia('(max-width: 767px)').matches || connection?.saveData === true;
     let loaded = false;
-    let visible = false;
-    let looping = false;
-    let videoEnded = false;
+
+    // Segmentos de video por escena (segundos del timeline de 16 s).
+    const SCENE_SEGMENTS = [
+      { start: 0, end: 6 },
+      { start: 6, end: 10 },
+      { start: 10, end: 16 },
+    ];
 
     function loadVideo() {
       if (loaded) return;
       loaded = true;
-      // Móvil / ahorro de datos: variante 480p H.264 (decod. por hardware en
-      // casi todo teléfono) en lugar de 720p/1080p VP9. Escritorio: VP9/WebM
-      // si el navegador lo soporta, MP4 como respaldo.
-      const isMobile = window.matchMedia('(max-width: 767px)').matches || connection?.saveData === true;
       const name = isMobile ? 'timeline-480' : 'timeline';
       const useVp9 = !isMobile && canVp9;
       video!.src = `${BASE}video/${name}.${useVp9 ? 'webm' : 'mp4'}`;
       video!.load();
     }
 
-    // Cortes reales del vídeo: 6.0 s y 10.0 s sobre 16 s → 0.375 / 0.625.
-    const SCENE_RANGES = [
-      { start: 0.0, end: 0.375 },
-      { start: 0.375, end: 0.625 },
-      { start: 0.625, end: 1.0 },
-    ];
-    const EDGE = 0.02; // ventana de cruce de texto entre escenas (≈0.3 s de vídeo)
-    const LERP = 0.18;
-    const ARM_DELAY = 450; // ms de inactividad antes de autoavanzar (soltar ⇒ continúa la sección)
-
-    let duration = 0;
-    let current = 0;
-    let started = false;
-
-    // Autoavance: idle (armado) → auto (1×) → stopped (clavado en el corte).
-    // Cualquier gesto vuelve a idle (rearmado), también desde stopped: cada
-    // sección dejada a media viaje se completa sola hasta su corte.
-    type Mode = 'idle' | 'auto' | 'stopped';
-    let mode: Mode = 'idle';
-    let lastActivity = performance.now();
-    let autoScrollUntil = 0;
-    let stopTime = 0;
-    let lastFrame = performance.now();
-
     const clamp01 = (v: number) => Math.min(1, Math.max(0, v));
 
-    /** Progreso 0–1 del scroll dentro de la sección film. */
-    function scrollProgress(): number {
-      const rect = film!.getBoundingClientRect();
-      const total = film!.offsetHeight - window.innerHeight;
-      if (total <= 0) return 0;
-      return clamp01(-rect.top / total);
-    }
+    /* ───── ESCRITORIO: scrubbing por scroll (sin cambios) ───── */
+    if (!isMobile) {
+      const SCENE_RANGES = [
+        { start: 0.0, end: 0.375 },
+        { start: 0.375, end: 0.625 },
+        { start: 0.625, end: 1.0 },
+      ];
+      const EDGE = 0.02;
+      const LERP = 0.18;
+      const ARM_DELAY = 450;
 
-    /** El stage sticky está anclado: el film ocupa toda la ventana. */
-    function filmEngaged(): boolean {
-      const rect = film!.getBoundingClientRect();
-      return rect.top <= 0 && rect.bottom >= window.innerHeight;
-    }
+      let duration = 0;
+      let current = 0;
+      let started = false;
 
-    /** Fin del tramo de vídeo de la escena actual (tope: 1).
-     *  Un p clavado en un corte cuenta como fin de la escena anterior:
-     *  el autoavance no arranca la sección siguiente por su cuenta. */
-    function sceneStop(p: number): number {
-      let end = SCENE_RANGES[0].end;
-      for (const range of SCENE_RANGES) if (p > range.start + 1e-4) end = range.end;
-      return end;
-    }
+      type Mode = 'idle' | 'auto' | 'stopped';
+      let mode: Mode = 'idle';
+      let lastActivity = performance.now();
+      let autoScrollUntil = 0;
+      let stopTime = 0;
+      let lastFrame = performance.now();
 
-    /** Opacidad de una escena: funde al entrar en su rango y permanece
-     *  legible hasta que la siguiente cruza en su corte (ventana EDGE).
-     *  La escena 1 (start 0) nace visible: al entrar en la sección ya se lee.
-     *  La última nunca se apaga: su texto acompaña hasta el final del film. */
-    function sceneOpacity(p: number, i: number): number {
-      const range = SCENE_RANGES[i];
-      const next = SCENE_RANGES[i + 1];
-      if (p < range.start) return 0;
-      if (next && p >= next.start + EDGE) return 0;
-      const fadeIn = range.start === 0 ? 1 : clamp01((p - range.start) / EDGE);
-      const fadeOut = next ? clamp01((next.start + EDGE - p) / EDGE) : 1;
-      return Math.min(fadeIn, fadeOut);
-    }
-
-    // Gestos del usuario: cancelan el autoavance al instante y reprograman el armado.
-    const IGNORED_KEYS = ['Tab', 'Shift', 'Control', 'Alt', 'Meta', 'CapsLock', 'Dead'];
-    function onGesture(event: Event) {
-      if (event.type === 'keydown' && IGNORED_KEYS.includes((event as KeyboardEvent).key)) return;
-      lastActivity = performance.now();
-      mode = 'idle'; // cancela el autoavance en curso y rearma desde cualquier modo
-    }
-    (['wheel', 'touchstart', 'keydown', 'pointerdown'] as const).forEach((type) =>
-      window.addEventListener(type, onGesture, { passive: true }),
-    );
-
-    // Scroll que no proviene del autoavance = nuevo gesto de scroll del usuario.
-    window.addEventListener(
-      'scroll',
-      () => {
-        if (performance.now() < autoScrollUntil) return;
-        lastActivity = performance.now();
-        mode = 'idle'; // scroll real del usuario: rearma también tras una parada
-      },
-      { passive: true },
-    );
-
-    function loop() {
-      const now = performance.now();
-      const dt = Math.min(0.06, (now - lastFrame) / 1000);
-      lastFrame = now;
-
-      // Móvil: sin scrubbing por scroll. Solo play/pause por visibilidad;
-      // el vídeo no se reinicia solo al terminar (videoEnded) ni hace bucle.
-      if (isMobile) {
-        if (visible && !videoEnded && video!.paused && video!.readyState >= 1) {
-          video!.play();
-        }
-        if (!visible && !video!.paused) {
-          video!.pause();
-        }
-        if (visible) requestAnimationFrame(loop);
-        else looping = false;
-        return;
-      }
-
-      // Armar: 450 ms sin actividad, film en pantalla y corte pendiente por delante.
-      if (mode === 'idle' && duration > 0 && filmEngaged() && now - lastActivity >= ARM_DELAY) {
-        const p = current / duration;
-        const stop = sceneStop(p);
-        if (stop - p > 0.006) {
-          stopTime = stop * duration;
-          mode = 'auto';
-        } else {
-          mode = 'stopped'; // ya en el corte: exige un nuevo scroll para rearmarse
-        }
-      }
-
-      if (mode === 'auto') {
-        // Autoavance a 1×: el vídeo scrubbea y la página le sigue (mapeo inverso).
-        current = Math.min(stopTime, current + dt);
+      function scrollProgress(): number {
         const rect = film!.getBoundingClientRect();
         const total = film!.offsetHeight - window.innerHeight;
-        const top = rect.top + window.scrollY + (current / duration) * total;
-        autoScrollUntil = now + 200;
-        window.scrollTo({ top, behavior: 'instant' });
-        if (current >= stopTime - 1e-4) mode = 'stopped';
-      } else {
-        const target = scrollProgress() * duration;
-        current += (target - current) * LERP;
-        if (Math.abs(target - current) < 0.004) current = target;
+        if (total <= 0) return 0;
+        return clamp01(-rect.top / total);
       }
 
-      if (duration > 0 && video!.readyState >= 1) {
-        const t = Math.min(duration - 0.04, Math.max(0, current));
-        // Busca solo si el cambio equivale a ~1 frame visible (≈24-30 fps) y no
-        // hay un seek en curso: evita saturar el decoder con 60 seeks/seg (el
-        // "pegado" que obligaba a mover el scroll un poco para que siguiera).
-        if (!video!.seeking && Math.abs(video!.currentTime - t) > 0.04) video!.currentTime = t;
+      function filmEngaged(): boolean {
+        const rect = film!.getBoundingClientRect();
+        return rect.top <= 0 && rect.bottom >= window.innerHeight;
       }
 
-      const p = duration > 0 ? current / duration : 0;
-      scenes.forEach((el, i) => {
-        const o = sceneOpacity(p, i);
-        el.style.opacity = String(o);
-        el.style.visibility = o < 0.02 ? 'hidden' : 'visible';
-        el.style.transform = `translateY(${(1 - o) * 28}px)`;
-      });
-      if (progressEl) progressEl.style.width = `${(p * 100).toFixed(2)}%`;
+      function sceneStop(p: number): number {
+        let end = SCENE_RANGES[0].end;
+        for (const range of SCENE_RANGES) if (p > range.start + 1e-4) end = range.end;
+        return end;
+      }
 
-      // Fuera del viewport no se anima: ahorra CPU/batería.
-      if (visible) requestAnimationFrame(loop);
-      else looping = false;
-    }
+      function sceneOpacity(p: number, i: number): number {
+        const range = SCENE_RANGES[i];
+        const next = SCENE_RANGES[i + 1];
+        if (p < range.start) return 0;
+        if (next && p >= next.start + EDGE) return 0;
+        const fadeIn = range.start === 0 ? 1 : clamp01((p - range.start) / EDGE);
+        const fadeOut = next ? clamp01((next.start + EDGE - p) / EDGE) : 1;
+        return Math.min(fadeIn, fadeOut);
+      }
 
-    function kick() {
-      if (looping || !visible) return;
-      looping = true;
-      lastFrame = performance.now();
-      requestAnimationFrame(loop);
-    }
-
-    function start() {
-      if (started) return;
-      started = true;
-      duration = video!.duration || 0;
-      // Seek inicial al primer frame para pintar algo antes del primer scroll.
-      video!.currentTime = 0.001;
-      kick();
-    }
-
-    video!.addEventListener('loadedmetadata', start, { once: true });
-
-    // Móvil: al terminar, no se reinicia solo; se requiere tocar la sección.
-    video!.addEventListener(
-      'ended',
-      () => {
-        videoEnded = true;
-      },
-      { passive: true },
-    );
-
-    // Móvil: tap en la sección para (re)iniciar el vídeo.
-    film!.addEventListener(
-      'click',
-      () => {
-        if (!isMobile) return;
-        if (videoEnded || video!.paused) {
-          videoEnded = false;
-          video!.currentTime = 0;
-          video!.play();
-        }
-      },
-      { passive: true },
-    );
-
-    if ('IntersectionObserver' in window) {
-      const io = new IntersectionObserver(
-        (entries) => {
-          visible = entries[0]?.isIntersecting ?? false;
-          if (visible) {
-            loadVideo();
-            kick();
-          }
-        },
-        { rootMargin: '600px 0px' },
+      const IGNORED_KEYS = ['Tab', 'Shift', 'Control', 'Alt', 'Meta', 'CapsLock', 'Dead'];
+      function onGesture(event: Event) {
+        if (event.type === 'keydown' && IGNORED_KEYS.includes((event as KeyboardEvent).key)) return;
+        lastActivity = performance.now();
+        mode = 'idle';
+      }
+      (['wheel', 'touchstart', 'keydown', 'pointerdown'] as const).forEach((type) =>
+        window.addEventListener(type, onGesture, { passive: true }),
       );
-      io.observe(film);
-    } else {
-      visible = true;
+
+      window.addEventListener(
+        'scroll',
+        () => {
+          if (performance.now() < autoScrollUntil) return;
+          lastActivity = performance.now();
+          mode = 'idle';
+        },
+        { passive: true },
+      );
+
+      function loop() {
+        const now = performance.now();
+        const dt = Math.min(0.06, (now - lastFrame) / 1000);
+        lastFrame = now;
+
+        if (mode === 'idle' && duration > 0 && filmEngaged() && now - lastActivity >= ARM_DELAY) {
+          const p = current / duration;
+          const stop = sceneStop(p);
+          if (stop - p > 0.006) {
+            stopTime = stop * duration;
+            mode = 'auto';
+          } else {
+            mode = 'stopped';
+          }
+        }
+
+        if (mode === 'auto') {
+          current = Math.min(stopTime, current + dt);
+          const rect = film!.getBoundingClientRect();
+          const total = film!.offsetHeight - window.innerHeight;
+          const top = rect.top + window.scrollY + (current / duration) * total;
+          autoScrollUntil = now + 200;
+          window.scrollTo({ top, behavior: 'instant' });
+          if (current >= stopTime - 1e-4) mode = 'stopped';
+        } else {
+          const target = scrollProgress() * duration;
+          current += (target - current) * LERP;
+          if (Math.abs(target - current) < 0.004) current = target;
+        }
+
+        if (duration > 0 && video!.readyState >= 1) {
+          const t = Math.min(duration - 0.04, Math.max(0, current));
+          if (!video!.seeking && Math.abs(video!.currentTime - t) > 0.04) video!.currentTime = t;
+        }
+
+        const p = duration > 0 ? current / duration : 0;
+        scenes.forEach((el, i) => {
+          const o = sceneOpacity(p, i);
+          el.style.opacity = String(o);
+          el.style.visibility = o < 0.02 ? 'hidden' : 'visible';
+          el.style.transform = `translateY(${(1 - o) * 28}px)`;
+        });
+        if (progressEl) progressEl.style.width = `${(p * 100).toFixed(2)}%`;
+
+        if (visible) requestAnimationFrame(loop);
+        else looping = false;
+      }
+
+      function kick() {
+        if (looping || !visible) return;
+        looping = true;
+        lastFrame = performance.now();
+        requestAnimationFrame(loop);
+      }
+
+      function start() {
+        if (started) return;
+        started = true;
+        duration = video!.duration || 0;
+        video!.currentTime = 0.001;
+        kick();
+      }
+
+      let visible = false;
+      let looping = false;
+
+      video!.addEventListener('loadedmetadata', start, { once: true });
+
+      if ('IntersectionObserver' in window) {
+        const io = new IntersectionObserver(
+          (entries) => {
+            visible = entries[0]?.isIntersecting ?? false;
+            if (visible) {
+              loadVideo();
+              kick();
+            }
+          },
+          { rootMargin: '600px 0px' },
+        );
+        io.observe(film);
+      } else {
+        visible = true;
+        loadVideo();
+      }
+    }
+
+    /* ───── MÓVIL: cada sección reproduce su segmento al entrar ───── */
+    else {
+      let lastSceneIndex = -1;
+
+      function activeSceneIndex(): number {
+        const rect = film!.getBoundingClientRect();
+        const total = film!.offsetHeight - window.innerHeight;
+        if (total <= 0) return 0;
+        const p = clamp01(-rect.top / total);
+        if (p >= 0.625) return 2;
+        if (p >= 0.375) return 1;
+        return 0;
+      }
+
+      function playScene(index: number) {
+        const seg = SCENE_SEGMENTS[index];
+        video!.currentTime = seg.start;
+        video!.play();
+      }
+
+      function updateMobileScene() {
+        const index = activeSceneIndex();
+        if (index !== lastSceneIndex) {
+          lastSceneIndex = index;
+          playScene(index);
+        }
+        // Si llegamos al final del segmento de la escena actual, pausar y dejar quieto.
+        if (video!.readyState >= 1) {
+          const seg = SCENE_SEGMENTS[index];
+          if (video!.currentTime >= seg.end - 0.15) {
+            video!.pause();
+            video!.currentTime = seg.end - 0.15;
+          }
+        }
+      }
+
+      // Cargar video y arrancar listener de scroll.
       loadVideo();
+      window.addEventListener('scroll', updateMobileScene, { passive: true });
+      updateMobileScene();
     }
   }
 </script>
