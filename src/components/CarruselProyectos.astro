@@ -562,9 +562,11 @@ const proximos = proyectos.filter((p) => p.href === '#');
     .fan-layout {
       display: flex;
       flex-direction: row;
+      gap: 0.5rem;
       height: auto;
       overflow-x: auto;
-      scroll-snap-type: x proximity;
+      overscroll-behavior-x: contain;
+      scroll-snap-type: x mandatory;
       scroll-padding-inline: 1rem;
       justify-content: flex-start;
       padding-inline: 1rem;
@@ -573,14 +575,15 @@ const proximos = proyectos.filter((p) => p.href === '#');
     }
     .fan-layout::-webkit-scrollbar { display: none; }
     .fan-card {
+      flex: 0 0 auto;
       position: relative;
       width: min(94vw, 340px);
+      min-width: min(94vw, 340px);
       aspect-ratio: 0.72;
       transform: none;
       opacity: 1;
       z-index: auto;
       scroll-snap-align: center;
-      margin-right: 0.5rem;
       margin-bottom: 0;
     }
     .fan-card-inner { transform: none; transition: none; }
